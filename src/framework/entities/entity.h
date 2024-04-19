@@ -24,8 +24,8 @@ public:
 
 	// Methods that should be overwritten
 	// by derived classes 
-	virtual void render(Camera* camera);
-	virtual void update(float delta_time);
+	virtual void render(Camera* camera) override;
+	virtual void update(float delta_time) override;
 
 	// Some useful methods
 	Matrix44 getGlobalMatrix();

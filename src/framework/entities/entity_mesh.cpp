@@ -23,4 +23,9 @@ void EntityMesh::render() {
 
 	// Disable shader after finishing rendering
 	shader->disable();
+
+
+	
 };
+
+//a l'update fer igual que al render i cridar la funció del parse scene (aula global)

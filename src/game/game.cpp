@@ -179,3 +179,5 @@ void Game::onResize(int width, int height)
 	window_height = height;
 }
 
+
+//afegir el codi per carregar les meshes
