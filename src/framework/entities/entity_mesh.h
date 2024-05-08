@@ -4,7 +4,6 @@
 #include "framework/animation.h"
 #include "graphics/material.h"
 
-
 class EntityMesh : public Entity {
 
 public:
@@ -17,7 +16,13 @@ public:
 	
 	Material material;
 
+	//Instancing
+	bool isInstanced = false;
+	std::vector<Matrix44> models;
+
 	// Methods overwritten from base class
 	void render(Camera* camera) ;
-	void update(float elapsed_time);
+	void update(float delta_time);
+
+	void addInstance(const Matrix44& model);
 };

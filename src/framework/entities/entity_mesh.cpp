@@ -6,26 +6,66 @@
 
 
 
-void EntityMesh::render() {
+EntityMesh::EntityMesh(Mesh* mesh, const Material& material, const std::string& name)
+{
+	this->mesh = mesh;
+	this->name = name;
+	this->material = material;
+}
 
-	// Get the last camera that was activated 
-	Camera* camera = Camera::current;
+EntityMesh::~EntityMesh()
+{
+}
 
-	// Enable shader and pass uniforms 
-	shader->enable();
-	shader->setUniform("u_model", model);
-	shader->setUniform("u_viewproj", camera->viewprojection_matrix);
-	shader->setTexture("u_texture", texture, 0); //0 ja que només tenim un slot de moment
+void EntityMesh::render(Camera* camera) {
 
+	if (!mesh) return;
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+	if (!material.shader) {
+		material.shader = Shader::Get(isInstanced ? "data/shaders/instanced.vs" : "data/shaders/basic.vs", "data/shaders/texture.fs");
+	}
+
+	//Enable shader
+	material.shader->enable();
+
+	//Upload uniforms 
+	material.shader->setUniform("u_color", material.color);
+	material.shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+	//shader->setTexture("u_texture", texture, 0); //0 ja que només tenim un slot de moment
+
+	if (material.diffuse) {
+		material.shader->setUniform("u_texture", material.diffuse, 0);
+	}
+
+	if (!isInstanced) {
+		material.shader->setUniform("u_model", getGlobalMatrix());
+	}
+
+	if (isInstanced) {
+		mesh->renderInstanced(GL_TRIANGLES, models.data(), models.size());
+	} else{
+		mesh->render(GL_TRIANGLES);
+	}
 
 	// Render the mesh using the shader
-	mesh->render(GL_TRIANGLES);
+	//mesh->render(GL_TRIANGLES);
 
 	// Disable shader after finishing rendering
-	shader->disable();
+	material.shader->disable();
 
-
-	
+	Entity::render(camera);
 };
 
 //a l'update fer igual que al render i cridar la funció del parse scene (aula global)
+void EntityMesh::update(float delta_time) {
+	Entity::update(delta_time);
+}
+
+void EntityMesh::addInstance(const Matrix44& model)
+{
+	models.push_back(model);
+}
+
