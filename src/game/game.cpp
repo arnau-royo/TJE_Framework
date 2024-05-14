@@ -6,6 +6,7 @@
 #include "graphics/shader.h"
 #include "framework/input.h"
 #include "framework/entities/entity.h"
+#include "framework/entities/entity_mesh.h"
 #include "graphics/material.h"
 
 #include <fstream>
