@@ -15,6 +15,7 @@ EntityMesh::EntityMesh(Mesh* mesh, const Material& material, const std::string& 
 
 EntityMesh::~EntityMesh()
 {
+
 }
 
 void EntityMesh::render(Camera* camera) {

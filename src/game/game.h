@@ -37,7 +37,7 @@ public:
 	float camera_pitch = 0.f;
 
 	Entity* root = nullptr;
-
+	
 	std::map<std::string, sRenderData> meshes_to_load;
 
 	Game( int window_width, int window_height, SDL_Window* window );

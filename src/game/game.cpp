@@ -7,6 +7,7 @@
 #include "framework/input.h"
 #include "framework/entities/entity.h"
 #include "framework/entities/entity_mesh.h"
+#include "entities/entity_player.h"
 #include "graphics/material.h"
 
 #include <fstream>
@@ -35,6 +36,9 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	elapsed_time = 0.0f;
 	mouse_locked = false;
 
+	StageManger::get_instance()->goTo("playStage");
+
+	/*
 	// OpenGL flags
 	glEnable( GL_CULL_FACE ); //render both sides of every triangle
 	glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
@@ -66,6 +70,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 
 	// Hide the cursor
 	SDL_ShowCursor(!mouse_locked); //hide or show the mouse
+	*/
 }
 
 //what to do when the image has to be draw
@@ -77,6 +82,10 @@ void Game::render(void)
 	// Clear the window and the depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//Let the stage manager draw something
+	StageManager::get_instance()->render;
+
+	/*
 	// Set the camera as default
 	camera->enable();
 
@@ -109,7 +118,7 @@ void Game::render(void)
 	}
 
 	// Draw the floor grid
-	drawGrid();
+	drawGrid();*/
 
 	// Render the FPS, Draw Calls, etc
 	drawText(2, 2, getGPUStats(), Vector3(1, 1, 1), 2);
