@@ -15,6 +15,7 @@
 #include "framework/utils.h"
 #include "framework/input.h"
 #include "game/game.h"
+#include "game/world.h"
 
 #include <iostream> //to output
 

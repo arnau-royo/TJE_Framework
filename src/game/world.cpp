@@ -7,6 +7,8 @@
 #include "game/game.h"
 #include "stages/stage.h"
 #include "entities/entity_player.h"
+#include "graphics/material.h"
+
 
 #include <algorithm>
 #include <fstream>
@@ -28,7 +30,7 @@ World::World()
 
 	//player = new EntityPlayer(Mesh::Get("data/scene/ambulance.002.obj"), player_material, "player"); //TODO: canviar el player
 
-	Mesh* map_mesh = Mesh::Get("data/meshes/box.ASE"); //TODO: canviar la mesh 
+	Mesh* map_mesh = Mesh::Get("data/meshes/"); //TODO: canviar la mesh 
 	Material map_mat;
 	map_mat.diffuse = Texture::Get("data/textures/texture.tga"); //TODO: canviar la textura per la adecuada
 
@@ -106,6 +108,31 @@ void World::update(float seconds_elapsed)
 		//Restrict pitch angle
 		camera_pitch = clamp(camera_pitch, -M_PI * 0.5f, M_PI * 0.5f);
 
+		Matrix44 mYaw;
+		mYaw.setRotation(camera_yaw, Vector3(0, 1, 0));
+
+		Matrix44 mPitch;
+		mPitch.setRotation(camera_pitch, Vector3(-1, 0, 0));
+
+		Matrix44 final_rotation = (mPitch * mYaw);
+		Vector3 front = final_rotation.frontVector().normalize();
+		Vector3 eye;
+		Vector3 center;
+
+		bool use_first_person = false;
+
+		if (use_first_person) {
+			eye = player->model.getTranslation() + Vector3(0.f, 0.1f, 0.0f) + front + 0.1f;
+			center = eye + front;
+		}
+		else {
+			float orbit_d = 0.6f;
+			eye = player->model.getTranslation() - front * orbit_d;
+			center = player->model.getTranslation() + Vector3(0.f, 0.1f, 0.0f);
+
+		}
+		camera->lookAt(eye, center, Vector3(0, 1, 0));
+
 		//Update our scene
 		root.update(seconds_elapsed);
 
@@ -132,6 +159,8 @@ bool World::parseScene(const char* filename, Entity* root)
 		std::cerr << "Scene [ERROR]" << " File not found!" << std::endl;
 		return false;
 	}
+
+	std::map < std::string, sRenderData> meshes_to_load;
 
 	std::string scene_info, mesh_name, model_data;
 	file >> scene_info; file >> scene_info;

@@ -26,7 +26,7 @@ void EntityMesh::render(Camera* camera) {
 	glEnable(GL_DEPTH_TEST);
 
 	if (!material.shader) {
-		material.shader = Shader::Get(isInstanced ? "data/shaders/instanced.vs" : "data/shaders/basic.vs", "data/shaders/flat.fs");
+		material.shader = Shader::Get(isInstanced ? "data/shaders/instanced.vs" : "data/shaders/basic.vs", "data/shaders/texture.fs");
 	}
 
 	//Enable shader

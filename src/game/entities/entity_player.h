@@ -3,15 +3,18 @@
 #include "framework/entities/entity_mesh.h"
 #include "framework/animation.h"
 #include "graphics/material.h"
+#include "game/world.h"
+#include "framework/input.h"
 
 class EntityPlayer : public EntityMesh {
 
 public:
 	EntityPlayer();
+	EntityPlayer(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityPlayer() {};
 
 	// Vel in move the player
-	Vector3 velocity;
+	Vector3 velocity; //al video l'inicialitza amb Vector3(0.0f)
 
 	float walk_speed = 2.f;
 

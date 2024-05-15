@@ -7,6 +7,7 @@ class Camera;
 class EntityPlayer;
 
 class World {
+
 	static World* instance;
 
 	public:
@@ -38,8 +39,6 @@ class World {
 		void update(float seconds_elapsed);
 
 		//Scene
-
-		std::map<std::string, sRenderData> meshes_to_load;
 
 		std::vector<Entity*> entities_to_destroy;
 

@@ -1,15 +1,16 @@
 #include "stage.h"
-//#include "game/game.h"
-//#include "graphics/shader.h"
-//#include "framework/input.h"
-//#include "framework/camera.h"
-//#include "graphics/texture.h"
-//#include "framework/utils.h"
-//#include "game/entities/entity_player.h"
+#include "game/game.h"
+#include "graphics/shader.h"
+#include "framework/input.h"
+#include "framework/camera.h"
+#include "graphics/texture.h"
+#include "framework/utils.h"
+#include "game/entities/entity_player.h"
+#include "game/world.h"
 
-//#include <iomanip>
-//#include <sstream>
-
+#include <iomanip>
+#include <sstream>
+/*
 StageManager* StageManager::instance = nullptr;
 
 //PLAY STAGE
@@ -62,4 +63,4 @@ void PlayStage::onKeyDown(SDL_KeyboardEvent event)
 void PlayStage::onResize(int width, int height)
 {
 	World::get_instance()->camera->aspect = width / (float)height;
-}
+}*/
