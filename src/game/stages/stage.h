@@ -45,8 +45,6 @@ public:
 	void render();
 	void update(float delta_time);
 
-	void renderSky();
-
 	void onEnter(Stage* previousStage);
 	void onKeyDown(SDL_KeyboardEvent event);
 	void onResize(int width, int height);
