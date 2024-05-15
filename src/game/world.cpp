@@ -26,19 +26,44 @@ World::World()
 	Material player_material;
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 
-	player = new EntityPlayer(Mesh::Get("data/meshes/box.ASE"), player_material, "player");
+	//player = new EntityPlayer(Mesh::Get("data/scene/ambulance.002.obj"), player_material, "player"); //TODO: canviar el player
 
 	Mesh* map_mesh = Mesh::Get("data/meshes/box.ASE"); //TODO: canviar la mesh 
 	Material map_mat;
-	map_mat.diffuse = Texture::Get("data/textures/texture.tga") //TODO: canviar la textura per la adecuada
-
-	EntityMesh* map = new EntityMesh();
+	map_mat.diffuse = Texture::Get("data/textures/texture.tga"); //TODO: canviar la textura per la adecuada
 
 
+	EntityMesh* map = new EntityMesh(map_mesh, map_mat);
+
+	root.addChild(map);
 
 	//parseScene("data/myscene.scene", &root);
 }
 
 void World::render() {
 	//Set the camera as default
+	camera->enable();
+
+	// Set the camera as default
+	camera->enable();
+
+	// Set flags
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+
+	if (!free_camera) {
+		Matrix44 mYaw;
+		mYaw.setRotation(camera_yaw, Vector3(0, 1, 0));
+
+		Matrix44 mPitch;
+		mPitch.setRotation(camera_pitch, Vector3(-1, 0, 0));
+
+		Vector3 front = (mPitch * mYaw).frontVector();
+		Vector3 eye;
+		Vector3 center;
+		 
+	}
+
+
 }

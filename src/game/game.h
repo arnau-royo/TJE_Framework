@@ -8,8 +8,9 @@
 #include "framework/camera.h"
 #include "framework/utils.h"
 #include "framework/entities/entity.h"
+#include "graphics/material.h"
 
-
+#include <map>
 
 class Game
 {

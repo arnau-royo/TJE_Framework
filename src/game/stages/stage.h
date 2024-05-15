@@ -23,18 +23,16 @@ public:
 	virtual void update(float seconds_elapsed) {};
 };
 
-class MenuStage : public Stage {
-
-public:
-	MenuStage();
-
-	Vector2 buttonSize = Vector2(200.0f, 60.0f);
-
-	// Methods overwritten from base class
-	void render();
-
-	void onEnter(Stage* previousStage);
-};
+//class MenuStage : public Stage {
+//
+//public:
+//	MenuStage();
+//
+//	// Methods overwritten from base class
+//	void render();
+//
+//	void onEnter(Stage* previousStage);
+//};
 
 class PlayStage : public Stage {
 
@@ -54,18 +52,18 @@ public:
 	void onResize(int width, int height);
 };
 
-class WinStage : public Stage {
-
-public:
-	WinStage();
-
-	Vector2 buttonSize = Vector2(200.0f, 60.0f);
-
-	// Methods overwritten from base class
-	void render();
-
-	void onEnter(Stage* previousStage);
-};
+//class WinStage : public Stage {
+//
+//public:
+//	WinStage();
+//
+//	Vector2 buttonSize = Vector2(200.0f, 60.0f);
+//
+//	// Methods overwritten from base class
+//	void render();
+//
+//	void onEnter(Stage* previousStage);
+//};
 
 class StageManager : public Stage {
 
@@ -83,7 +81,7 @@ public:
 	Stage* current = nullptr;
 	std::map<std::string, Stage*> stages;
 
-	StageManager();
+	StageManager() {};
 
 	void goTo(const std::string& stageName)
 	{
