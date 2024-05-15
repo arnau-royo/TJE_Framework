@@ -23,46 +23,6 @@ public:
 	virtual void update(float seconds_elapsed) {};
 };
 
-//class MenuStage : public Stage {
-//
-//public:
-//	MenuStage();
-//
-//	// Methods overwritten from base class
-//	void render();
-//
-//	void onEnter(Stage* previousStage);
-//};
-
-class PlayStage : public Stage {
-
-	float win_countdown = 60.0f; // seconds
-
-public:
-	PlayStage();
-
-	// Methods overwritten from base class
-	void render();
-	void update(float delta_time);
-
-	void onEnter(Stage* previousStage);
-	void onKeyDown(SDL_KeyboardEvent event);
-	void onResize(int width, int height);
-};
-
-//class WinStage : public Stage {
-//
-//public:
-//	WinStage();
-//
-//	Vector2 buttonSize = Vector2(200.0f, 60.0f);
-//
-//	// Methods overwritten from base class
-//	void render();
-//
-//	void onEnter(Stage* previousStage);
-//};
-
 class StageManager : public Stage {
 
 	static StageManager* instance;
@@ -106,3 +66,20 @@ public:
 	void onMouseButtonUp(SDL_MouseButtonEvent event) { if (current) current->onMouseButtonUp(event); }
 	void onResize(int width, int height) { if (current) current->onResize(width, height); }
 };
+
+class PlayStage : public Stage {
+
+	float win_countdown = 60.0f; // seconds
+
+public:
+	PlayStage();
+
+	// Methods overwritten from base class
+	void render();
+	void update(float delta_time);
+
+	void onEnter(Stage* previousStage);
+	void onKeyDown(SDL_KeyboardEvent event);
+	void onResize(int width, int height);
+};
+

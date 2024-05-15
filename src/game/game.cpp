@@ -37,9 +37,9 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	elapsed_time = 0.0f;
 	mouse_locked = false;
 
-	//StageManager::get_instance()->goTo("playStage");
+	StageManager::get_instance()->goTo("playStage");
 
-	
+	/*
 	// OpenGL flags
 	glEnable( GL_CULL_FACE ); //render both sides of every triangle
 	glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
@@ -49,7 +49,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	camera->lookAt(Vector3(0.f,100.f, 100.f),Vector3(0.f,0.f,0.f), Vector3(0.f,1.f,0.f)); //position the camera and point to 0,0,0
 	camera->setPerspective(70.f,window_width/(float)window_height,0.1f,10000.f); //set the projection, we want to be perspective
 
-	root = new Entity();
+	root = new Entity();*/
 
 	// Load one texture using the Texture Manager
 	/*texture = Texture::Get("data/textures/texture.tga");
@@ -67,10 +67,11 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	EntityPlayer* player = new EntityPlayer(mesh, player_material, "player");
 	root->addChild(player);*/
 
-	parseScene("data/myscene.scene");
+	//parseScene("data/myscene.scene");
+	
 
 	// Hide the cursor
-	SDL_ShowCursor(!mouse_locked); //hide or show the mouse
+	//SDL_ShowCursor(!mouse_locked); //hide or show the mouse
 	
 }
 
@@ -87,7 +88,7 @@ void Game::render(void)
 	
 	//StageManager::get_instance()->render; //TODO
 
-
+	/*
 	// Set the camera as default
 	camera->enable();
 
@@ -95,7 +96,8 @@ void Game::render(void)
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-   
+   */
+
 	// Create model matrix for cube
 		/*Matrix44 m;
 	m.rotate(angle*DEG2RAD, Vector3(0.0f, 1.0f, 0.0f));
@@ -133,6 +135,7 @@ void Game::render(void)
 
 void Game::update(double seconds_elapsed)
 {
+	
 	float speed = seconds_elapsed * mouse_speed; //the speed is defined by the seconds_elapsed so it goes constant
 
 	// Example

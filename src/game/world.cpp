@@ -37,7 +37,7 @@ World::World()
 
 	root.addChild(map);
 
-	//parseScene("data/myscene.scene", &root);
+	parseScene("data/myscene.scene", &root);
 }
 
 void World::render() {

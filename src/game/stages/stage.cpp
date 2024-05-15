@@ -12,31 +12,7 @@
 
 StageManager* StageManager::instance = nullptr;
 
-/*
-	MenuStage
-*/
-
-//MenuStage::MenuStage()
-//{
-//
-//}
-//
-//void MenuStage::render()
-//{
-//
-//}
-//
-//void MenuStage::onEnter(Stage* previousStage)
-//{
-//
-//}
-
-
-
-/*
-	PlayStage
-*/
-
+//PLAY STAGE
 PlayStage::PlayStage()
 {
 
@@ -87,21 +63,3 @@ void PlayStage::onResize(int width, int height)
 {
 	World::get_instance()->camera->aspect = width / (float)height;
 }
-
-/*
-	WinStage
-*/
-//MenuStage::MenuStage()
-//{
-//
-//}
-//
-//void MenuStage::render()
-//{
-//
-//}
-//
-//void MenuStage::onEnter(Stage* previousStage)
-//{
-//
-//}
