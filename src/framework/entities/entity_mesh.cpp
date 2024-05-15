@@ -61,8 +61,8 @@ void EntityMesh::render(Camera* camera) {
 };
 
 //a l'update fer igual que al render i cridar la funció del parse scene (aula global)
-void EntityMesh::update(float delta_time) {
-	Entity::update(delta_time);
+void EntityMesh::update(float seconds_elapsed) {
+	Entity::update(seconds_elapsed);
 }
 
 void EntityMesh::addInstance(const Matrix44& model)

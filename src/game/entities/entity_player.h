@@ -1,10 +1,10 @@
 #pragma once
 
-#include "framework/entities/entity.h"
+#include "framework/entities/entity_mesh.h"
 #include "framework/animation.h"
 #include "graphics/material.h"
 
-class EntityPlayer : public Entity {
+class EntityPlayer : public EntityMesh {
 
 public:
 	EntityPlayer();
@@ -17,5 +17,5 @@ public:
 
 	// Methods overwritten from base class
 	void render(Camera* camera);
-	void update(float delta_time);
+	void update(float seconds_elapsed);
 };

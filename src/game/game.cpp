@@ -268,6 +268,9 @@ bool Game::parseScene(const char* filename)
 		}
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());
+
+
+
 			new_entity = new EntityMesh(mesh, mat);
 		}
 
