@@ -10,8 +10,9 @@
 
 #include <iomanip>
 #include <sstream>
-/*
+
 StageManager* StageManager::instance = nullptr;
+
 
 //PLAY STAGE
 PlayStage::PlayStage()
@@ -33,9 +34,9 @@ void PlayStage::render()
 
 	Camera* camera = world->camera;
 
-	Vector4 bgColor = world->bgColor;
+	/*Vector4 bgColor = world->backgroundColor;
 	glClearColor(bgColor.x, bgColor.y, bgColor.z, bgColor.w);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);*/
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
@@ -53,14 +54,14 @@ void PlayStage::update(float delta_time)
 
 void PlayStage::onKeyDown(SDL_KeyboardEvent event)
 {
-	std::cout << "window resized: " << width << "," << height << std::endl;
-	glViewport(0, 0, width, height);
-	camera->aspect = width / (float)height;
-	window_width = width;
-	window_height = height;
+	
 }
 
 void PlayStage::onResize(int width, int height)
 {
 	World::get_instance()->camera->aspect = width / (float)height;
-}*/
+	std::cout << "window resized: " << width << "," << height << std::endl;
+	glViewport(0, 0, width, height);
+	Game::instance->window_width = width;
+	Game::instance->window_height = height;
+}

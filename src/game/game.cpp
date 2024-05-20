@@ -37,7 +37,7 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	elapsed_time = 0.0f;
 	mouse_locked = false;
 
-	//StageManager::get_instance()->goTo("playStage");
+	StageManager::get_instance()->goTo("playStage");
 
 	
 	// OpenGL flags
@@ -47,6 +47,10 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	camera = new Camera();
 	camera->lookAt(Vector3(0.f, 100.f, 100.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)); //position the camera and point to 0,0,0
 	camera->setPerspective(70.f, window_width / (float)window_height, 0.1f, 10000.f); //set the projection, we want to be perspective
+
+
+
+	
 	/*
 	// Create our camera
 	camera = new Camera();
@@ -198,12 +202,8 @@ void Game::onMouseWheel(SDL_MouseWheelEvent event)
 
 void Game::onGamepadButtonDown(SDL_JoyButtonEvent event)
 {
-
 }
-
-void Game::onGamepadButtonUp(SDL_JoyButtonEvent event)
-{
-
+void Game::onGamepadButtonUp(SDL_JoyButtonEvent event) {
 }
 
 void Game::onResize(int width, int height)
@@ -217,7 +217,7 @@ void Game::onResize(int width, int height)
 
 
 //afegir el codi per carregar les meshes
-bool Game::parseScene(const char* filename)
+/*bool Game::parseScene(const char* filename)
 {
 	std::cout << " + Scene loading: " << filename << "..." << std::endl;
 
@@ -304,4 +304,4 @@ bool Game::parseScene(const char* filename)
 
 	std::cout << "Scene [OK]" << " Meshes added: " << mesh_count << std::endl;
 	return true;
-}
+}*/

@@ -69,7 +69,7 @@ public:
 
 class PlayStage : public Stage {
 
-	float win_countdown = 60.0f; // seconds
+	//float win_countdown = 60.0f; // seconds
 
 public:
 	PlayStage();

@@ -47,7 +47,7 @@ public:
 	void render( void );
 	void update( double dt );
 
-	bool parseScene(const char* filename);
+	//bool parseScene(const char* filename);
 
 	//events
 	void onKeyDown( SDL_KeyboardEvent event );
