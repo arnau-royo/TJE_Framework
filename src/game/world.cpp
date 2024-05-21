@@ -91,12 +91,18 @@ void World::update(float seconds_elapsed)
 	}
 	else
 	{
+		//Update our scene
+		root.update(seconds_elapsed);
+
+		//and the player
+		player->update(seconds_elapsed);
+
 		//Get mouse deltas
 		camera_yaw -= Input::mouse_delta.x * seconds_elapsed * mouse_speed;
 		camera_pitch -= Input::mouse_delta.y * seconds_elapsed * mouse_speed;
 
 		//Restrict pitch angle
-		camera_pitch = clamp(camera_pitch, -M_PI * 0.5f, M_PI * 0.5f);
+		camera_pitch = clamp(camera_pitch, -M_PI * 0.4f, M_PI * 0.4f);
 
 		Matrix44 mYaw;
 		mYaw.setRotation(camera_yaw, Vector3(0, 1, 0));
@@ -104,31 +110,29 @@ void World::update(float seconds_elapsed)
 		Matrix44 mPitch;
 		mPitch.setRotation(camera_pitch, Vector3(-1, 0, 0));
 
-		Matrix44 final_rotation = (mPitch * mYaw);
-		Vector3 front = final_rotation.frontVector().normalize();
+		Vector3 front = (mPitch * mYaw).frontVector().normalize();
 		Vector3 eye;
 		Vector3 center;
 
-		bool use_first_person = false;
+		bool use_first_person = true;
 
 		if (use_first_person) {
 			eye = player->model.getTranslation() + Vector3(0.f, 0.1f, 0.0f) + front + 0.1f;
 			center = eye + front;
 		}
 		else {
-			float orbit_d = 0.6f;
-			eye = player->model.getTranslation() - front * orbit_d;
+			float orbit_dist = 0.6f;
+			eye = player->model.getTranslation() - front * orbit_dist;
 			center = player->model.getTranslation() + Vector3(0.f, 0.1f, 0.0f);
 
 		}
 		camera->lookAt(eye, center, Vector3(0, 1, 0));
-
-		//Update our scene
-		root.update(seconds_elapsed);
-
-		//and the player
-		player->update(seconds_elapsed);
 	}
+
+	//TODO: Descomentar amb l'skybox aplicada
+	//Move skybox to camera position
+	//
+
 
 	//Delete pending entities
 	for (auto e : entities_to_destroy) {
