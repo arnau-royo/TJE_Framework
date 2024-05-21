@@ -1,23 +1,13 @@
 #include "game.h"
 #include "framework/utils.h"
-#include "graphics/mesh.h"
-#include "graphics/texture.h"
-#include "graphics/fbo.h"
 #include "graphics/shader.h"
 #include "framework/input.h"
-#include "framework/entities/entity.h"
-#include "framework/entities/entity_mesh.h"
-#include "entities/entity_player.h"
-#include "graphics/material.h"
+
 #include "stages/stage.h"
 
 #include <fstream>
 #include <cmath>
 
-//some globals
-Mesh* mesh = NULL;
-Texture* texture = NULL;
-Shader* shader = NULL;
 float angle = 0;
 float mouse_speed = 100.0f;
 
@@ -45,43 +35,10 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 
 	StageManager::get_instance()->goTo("playStage");
 
-	
+	//TODO: no sé si això s'havia de treure (els enable)
 	// OpenGL flags
-	glEnable( GL_CULL_FACE ); //render both sides of every triangle
-	glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
-
-	
-	/*
-	// Create our camera
-	camera = new Camera();
-	camera->lookAt(Vector3(0.f,100.f, 100.f),Vector3(0.f,0.f,0.f), Vector3(0.f,1.f,0.f)); //position the camera and point to 0,0,0
-	camera->setPerspective(70.f,window_width/(float)window_height,0.1f,10000.f); //set the projection, we want to be perspective
-
-	root = new Entity();
-	
-
-	// Load one texture using the Texture Manager
-	texture = Texture::Get("data/textures/texture.tga");
-
-	// Example of loading Mesh from Mesh Manager
-	mesh = Mesh::Get("data/meshes/box.ASE");
-
-	// Example of shader loading using the shaders manager
-	shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
-
-	Material player_material;
-	player_material.diffuse = Texture::Get("data/textures/missing.tga");
-	player_material.shader = shader;
-
-	EntityPlayer* player = new EntityPlayer(mesh, player_material, "player");
-	root->addChild(player);*/
-
-	//parseScene("data/myscene.scene");
-	
-
-	// Hide the cursor
-	//SDL_ShowCursor(!mouse_locked); //hide or show the mouse
-	
+	//glEnable( GL_CULL_FACE ); //render both sides of every triangle
+	//glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
 }
 
 //what to do when the image has to be draw
@@ -94,46 +51,7 @@ void Game::render(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Let the stage manager draw something
-	
-	StageManager::get_instance()->render(); //TODO
-
-	/*
-	// Set the camera as default
-	camera->enable();
-
-	// Set flags
-	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-   */
-
-	// Create model matrix for cube
-		/*Matrix44 m;
-	m.rotate(angle*DEG2RAD, Vector3(0.0f, 1.0f, 0.0f));
-
-	if(shader)
-	{
-		// Enable shader
-		shader->enable();
-
-		// Upload uniforms
-		shader->setUniform("u_color", Vector4(1,1,1,1));
-		shader->setUniform("u_viewprojection", camera->viewprojection_matrix );
-		shader->setUniform("u_texture", texture, 0);
-		shader->setUniform("u_model", m);
-		shader->setUniform("u_time", time);
-
-		// Do the draw call
-		mesh->render( GL_TRIANGLES );
-
-		// Disable shader
-		shader->disable();
-	}*/
-
-	// Draw the floor grid
-	//drawGrid();
-
-	//root->render(camera);
+	StageManager::get_instance()->render();
 
 	// Render the FPS, Draw Calls, etc
 	drawText(2, 2, getGPUStats(), Vector3(1, 1, 1), 2);

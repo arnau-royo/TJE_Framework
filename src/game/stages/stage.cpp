@@ -21,18 +21,19 @@ void StageManager::render() {
 //PLAY STAGE
 PlayStage::PlayStage()
 {
-
+	int width = Game::instance->window_width;
+	int height = Game::instance->window_height;
 }
 
 void PlayStage::onEnter(Stage* previousStage)
 {
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	//SDL_SetRelativeMouseMode(SDL_TRUE);
 	Game::instance->mouse_locked = true;
 }
 
 void PlayStage::render()
 {
-	World* world = World::get_instance();
+	/*World* world = World::get_instance();
 	float camera_yaw = world->camera_yaw;
 	float camera_pitch = world->camera_pitch;
 
@@ -44,12 +45,16 @@ void PlayStage::render()
 	camera->enable();
 
 	world->render();
+	*/
+
+	World::get_instance()->render();
+
+	//ui
 }
 
-void PlayStage::update(float delta_time)
+void PlayStage::update(float seconds_elapsed)
 {
-	World* world = World::get_instance();
-	world->update(delta_time);
+	World::get_instance()->update(seconds_elapsed);
 }
 
 void PlayStage::onKeyDown(SDL_KeyboardEvent event)

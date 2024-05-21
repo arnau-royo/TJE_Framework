@@ -69,7 +69,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	velocity.y *= 0.5f;
 
 	model.setTranslation(position);
-	model.rotate(camera_yaw, Vector3(0, 1, 0));
+	model.rotate(camera_yaw, Vector3(0, 1, 0)); //S'ha de provar per veure que fa
 
 	EntityMesh::update(seconds_elapsed);
 }
