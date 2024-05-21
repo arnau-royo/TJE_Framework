@@ -32,7 +32,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	mYaw.setRotation(camera_yaw, Vector3(0, 1, 0));
 
 	Vector3 front = mYaw.frontVector(); //Vector3(0, 0, -1);
-	Vector3 right = mYaw.rightVector(); //Vector3(1, 0, 0);
+	Vector3 left = mYaw.rightVector(); //Vector3(1, 0, 0);
 
 	Vector3 position = model.getTranslation();
 
@@ -48,9 +48,9 @@ void EntityPlayer::update(float seconds_elapsed)
 	//moviement esquerra/dreta
 
 	if (Input::isKeyPressed(SDL_SCANCODE_D) || Input::isKeyPressed(SDL_SCANCODE_RIGHT))
-		move_dir += right;
+		move_dir -= left;
 	if (Input::isKeyPressed(SDL_SCANCODE_A) || Input::isKeyPressed(SDL_SCANCODE_LEFT))
-		move_dir -= right;
+		move_dir += left;
 
 	float speed_mult = walk_speed;
 	if (Input::isKeyPressed(SDL_SCANCODE_LSHIFT))
@@ -69,8 +69,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	velocity.y *= 0.5f;
 
 	model.setTranslation(position);
-
-	//model.rotate(camera.yaw, Vector3(0, 1, 0)) //S'ha de provar per veure què fa
+	model.rotate(camera_yaw, Vector3(0, 1, 0));
 
 	EntityMesh::update(seconds_elapsed);
 }
