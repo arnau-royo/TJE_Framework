@@ -28,7 +28,7 @@ World::World()
 	Material player_material;
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 
-	//player = new EntityPlayer(Mesh::Get("data/scene/ambulance.002.obj"), player_material, "player"); //TODO: canviar el player
+	player = new EntityPlayer(Mesh::Get("data/scene/ambulance.002.obj"), player_material, "player"); //TODO: canviar el player
 
 	Mesh* map_mesh = Mesh::Get("data/meshes/"); //TODO: canviar la mesh 
 	Material map_mat;

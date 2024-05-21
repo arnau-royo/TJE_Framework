@@ -59,10 +59,10 @@ void EntityPlayer::update(float seconds_elapsed)
 	move_dir.normalize();
 	move_dir *= speed_mult;
 
-	velocity += move_dir;
+	velocity += move_dir * seconds_elapsed;
 
 	//Update player's position
-	position += velocity * seconds_elapsed;
+	position += velocity;
 
 	//Decreasing velocity when not moving
 	velocity.x *= 0.5f;

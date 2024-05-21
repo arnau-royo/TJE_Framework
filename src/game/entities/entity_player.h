@@ -16,7 +16,7 @@ public:
 	// Vel in move the player
 	Vector3 velocity; //al video l'inicialitza amb Vector3(0.0f)
 
-	float walk_speed = 2.f;
+	float walk_speed = 0.2f;
 
 	// Methods overwritten from base class
 	void render(Camera* camera);
