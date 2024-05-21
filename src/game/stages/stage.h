@@ -57,7 +57,7 @@ public:
 		current = nextStage;
 	}
 
-	void render() { if (current) current->render(); }
+	void render();
 	void update(float seconds_elapsed) { if (current) current->update(seconds_elapsed); }
 
 	void onKeyDown(SDL_KeyboardEvent event) { if (current) current->onKeyDown(event); }

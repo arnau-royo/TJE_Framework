@@ -13,6 +13,10 @@
 
 StageManager* StageManager::instance = nullptr;
 
+void StageManager::render() { 
+	if (current) 
+		current->render(); 
+}
 
 //PLAY STAGE
 PlayStage::PlayStage()
@@ -33,10 +37,6 @@ void PlayStage::render()
 	float camera_pitch = world->camera_pitch;
 
 	Camera* camera = world->camera;
-
-	/*Vector4 bgColor = world->backgroundColor;
-	glClearColor(bgColor.x, bgColor.y, bgColor.z, bgColor.w);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);*/
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);

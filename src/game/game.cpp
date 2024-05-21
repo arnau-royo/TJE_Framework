@@ -44,12 +44,6 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	glEnable( GL_CULL_FACE ); //render both sides of every triangle
 	glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
 
-	camera = new Camera();
-	camera->lookAt(Vector3(0.f, 100.f, 100.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)); //position the camera and point to 0,0,0
-	camera->setPerspective(70.f, window_width / (float)window_height, 0.1f, 10000.f); //set the projection, we want to be perspective
-
-
-
 	
 	/*
 	// Create our camera
@@ -95,7 +89,7 @@ void Game::render(void)
 
 	//Let the stage manager draw something
 	
-	//StageManager::get_instance()->render; //TODO
+	StageManager::get_instance()->render(); //TODO
 
 	/*
 	// Set the camera as default
@@ -131,9 +125,9 @@ void Game::render(void)
 	}*/
 
 	// Draw the floor grid
-	drawGrid();
+	//drawGrid();
 
-	root->render(camera);
+	//root->render(camera);
 
 	// Render the FPS, Draw Calls, etc
 	drawText(2, 2, getGPUStats(), Vector3(1, 1, 1), 2);
