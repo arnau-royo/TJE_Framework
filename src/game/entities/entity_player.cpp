@@ -22,6 +22,8 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 
 void EntityPlayer::render(Camera* camera)
 {
+	//Render mesh
+	EntityMesh::render(camera);
 }
 
 void EntityPlayer::update(float seconds_elapsed)
