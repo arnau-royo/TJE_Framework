@@ -732,6 +732,11 @@ bool Mesh::interleaveBuffers()
 	return true;
 }
 
+bool Mesh::isTextured() const
+{
+	return materialInfo.Kd_texture != nullptr;
+}
+
 struct sMeshInfo
 {
 	int version = 0;

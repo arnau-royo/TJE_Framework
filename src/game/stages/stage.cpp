@@ -27,7 +27,9 @@ PlayStage::PlayStage()
 
 void PlayStage::onEnter(Stage* previousStage)
 {
-	//SDL_SetRelativeMouseMode(SDL_TRUE);
+	// lock mouse
+	SDL_ShowCursor(false);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	Game::instance->mouse_locked = true;
 }
 
