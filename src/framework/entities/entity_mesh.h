@@ -13,7 +13,7 @@ public:
 
 	// Attributes of the derived class 
 	Mesh* mesh = nullptr;
-	
+
 	Material material;
 
 	//Instancing

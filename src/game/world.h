@@ -26,6 +26,8 @@ class World {
 
 		EntityPlayer* player = nullptr;
 
+		EntityMesh* skybox = nullptr;
+
 		Camera* camera = nullptr;
 
 		float camera_yaw = 0.f;

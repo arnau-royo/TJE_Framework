@@ -44,8 +44,18 @@ World::World()
 	player = new EntityPlayer(Mesh::Get("data/scene/ambulance.002.obj"), player_material, "player"); //TODO: canviar el player
 
 	//TODO: SKYBOX (dia 2)
-	//Podem implementar una skybox per ficar estrelles o algo així
+	Material landscape_cubemap;
+	landscape_cubemap.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/cubemap.fs");
+	landscape_cubemap.diffuse = new Texture();
+	landscape_cubemap.diffuse->loadCubemap("landscape", {
+		"data/textures/skybox/nx.png",
+		"data/textures/skybox/ny.png" ,
+		"data/textures/skybox/nz.png" ,
+		"data/textures/skybox/px.png" ,
+		"data/textures/skybox/py.png" ,
+		"data/textures/skybox/pz.png" });
 
+	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
 
 	parseScene("data/myscene.scene", &root);
 }
@@ -61,6 +71,9 @@ void World::render() {
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
+
+	//Render skybox
+	skybox->render(camera);
 
 	//Render entity player
 	player->render(camera);
@@ -198,7 +211,7 @@ bool World::parseScene(const char* filename, Entity* root)
 
 			mesh->isTextured(); //Crear el metode istextured i mirar si el material té Kd_texture
 
-			mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
+			//mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
 
 			new_entity = new EntityMesh(mesh, mat);
 		}
