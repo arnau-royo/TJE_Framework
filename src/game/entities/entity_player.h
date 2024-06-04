@@ -14,9 +14,9 @@ public:
 	~EntityPlayer() {};
 
 	// Vel in move the player
-	Vector3 velocity; //al video l'inicialitza amb Vector3(0.0f)
+	Vector3 velocity;
 
-	float walk_speed = 0.2f;
+	float walk_speed = 0.5f;
 
 	// Methods overwritten from base class
 	void render(Camera* camera);

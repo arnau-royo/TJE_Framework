@@ -35,23 +35,7 @@ void PlayStage::onEnter(Stage* previousStage)
 
 void PlayStage::render()
 {
-	/*World* world = World::get_instance();
-	float camera_yaw = world->camera_yaw;
-	float camera_pitch = world->camera_pitch;
-
-	Camera* camera = world->camera;
-
-	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
-
-	camera->enable();
-
-	world->render();
-	*/
-
 	World::get_instance()->render();
-
-	//ui
 }
 
 void PlayStage::update(float seconds_elapsed)

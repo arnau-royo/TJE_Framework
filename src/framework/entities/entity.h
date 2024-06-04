@@ -5,6 +5,22 @@
 
 class Camera;
 
+enum eCollisionFilter {
+	NONE = 0,
+	FLOOR = 1 << 0,
+	WALL = 1 << 1,
+	PLAYER = 1 << 2,
+	ENEMY = 1 << 3,
+	SCENARIO = FLOOR | WALL,
+	ALL = 0xFF
+};
+
+struct sCollisionData {
+	Vector3 colPoint;
+	Vector3 colNormal;
+	float distance = 0.f;
+};
+
 class Entity {
 
 public:

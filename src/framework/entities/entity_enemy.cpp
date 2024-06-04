@@ -26,8 +26,10 @@ void EntityEnemy::render(Camera* camera)
 	//Render mesh
 	EntityMesh::render(camera);
 }
+
 void EntityEnemy::update(float seconds_elapsed) {
-	switch (state){
+	/*
+	switch (state) {
 		case SPAWN:
 			render(camera);
 			healthbar = 100.0;
@@ -45,7 +47,7 @@ void EntityEnemy::update(float seconds_elapsed) {
 		case DANCE:
 			dance();
 		}
-		
+		*/
 }
 
 void EntityEnemy::dif_mod(int difficulty)

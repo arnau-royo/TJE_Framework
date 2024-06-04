@@ -128,7 +128,7 @@ void World::update(float seconds_elapsed)
 		Vector3 eye;
 		Vector3 center;
 
-		eye = player->model.getTranslation() + Vector3(0.f, 0.1f, 0.0f) + front + 0.1f;
+		eye = player->model.getTranslation() + Vector3(0.f, 0.2f, 0.0f) + front + 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçaddda al eye del player
 		center = eye + front;
 
 		camera->lookAt(eye, center, Vector3(0, 1, 0));
@@ -210,7 +210,7 @@ bool World::parseScene(const char* filename, Entity* root)
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());
 
-			mesh->isTextured(); //Crear el metode istextured i mirar si el material té Kd_texture
+			//mesh->isTextured(); //Crear el metode istextured i mirar si el material té Kd_texture
 
 			//mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
 

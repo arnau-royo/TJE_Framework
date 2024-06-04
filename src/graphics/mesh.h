@@ -147,7 +147,7 @@ public:
 	bool interleaveBuffers();
 
 	// Method to check if the mesh has a texture
-	bool isTextured() const;
+	//bool isTextured() const;
 
 private:
 	bool loadASE(const char* filename);
