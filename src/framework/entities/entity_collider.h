@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include "entity_mesh.h"
@@ -21,3 +22,4 @@ public:
 	int getLayer() { return layer; }
 	void setLayer(int new_layer) { layer = new_layer; }
 };
+*/

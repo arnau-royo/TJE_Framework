@@ -1,26 +1,9 @@
+/*
 #include "entity_collider.h"
 
 #include "game/world.h"
 
 //TODO: AIXÒ HO ACABA FENT ALS VIDEOS AL FINAL
-void EntityCollider::getCollisionsWithModel(const Matrix44& m, const Vector3& center, std::vector<sCollisionData>& collisions)
-{
-	
-	Vector3 collision_point;
-	Vector3 collision_normal;
-	/*
-	Vector3 character_center = center + Vector3(0.f, sphere_ground_radius, 0.f);
-	if (mesh->testSphereCollision(m, character_center, sphereRadius, colPoint, colNormal)) {
-		collisions.push_back({ collision_point, colNormal.normalize(), character_center.distance(colPoint) });
-	}
-
-	// Check if grounded
-	if (mesh->testRayCollision(m, character_center, Vector3(0, -1, 0), colPoint, colNormal, playerHeight + 0.15f)) {
-		ground_collisions.push_back({ collision_point, colNormal.normalize(), character_center.distance(colPoint) });
-	}
-	*/
-}
-
 void EntityCollider::getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter) {
 
 	Vector3 collision_point;
@@ -69,3 +52,4 @@ void EntityCollider::getCollisions(const Vector3& target_position, std::vector<s
 		}
 	}
 }
+*/
