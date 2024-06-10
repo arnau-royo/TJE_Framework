@@ -3,6 +3,7 @@
 #include "framework/camera.h"
 #include "framework/input.h"
 #include "framework/entities/entity_mesh.h"
+#include "framework/entities/entity_collider.h"
 
 #include "graphics/texture.h"
 #include "graphics/shader.h"
@@ -11,7 +12,7 @@
 #include "stages/stage.h"
 
 #include "entities/entity_player.h"
-//#include "entities/entity_enemy.h"
+#include "framework/entities/entity_enemy.h"
 
 #include <algorithm>
 #include <fstream>
@@ -28,23 +29,15 @@ World::World()
 	camera->lookAt(Vector3(0.f, 20.f, -20.f), Vector3(0.f, 0.f, 0.f), Vector3::UP); //position the camera and point to 0,0,0
 	camera->setPerspective(70.f, window_width / (float)window_height, 0.01f, 1000.f); //set the projection, we want to be perspective
 
-	
-	//TODO: Es pot borrar:
-	/*Mesh* map_mesh = Mesh::Get("data/meshes/"); //TODO: canviar la mesh 
-	Material map_mat;
-	map_mat.diffuse = Texture::Get("data/textures/texture.tga"); //TODO: canviar la textura per la adecuada
-
-
-	EntityMesh* map = new EntityMesh(map_mesh, map_mat);
-
-	root.addChild(map);*/
-
+	//Creating the player
 	Material player_material;
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+	player_material.diffuse = new Texture();
+	player_material.diffuse->load("data/textures/player.png");
+	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
 
-	player = new EntityPlayer(Mesh::Get("data/scene/ambulance.002.obj"), player_material, "player"); //TODO: canviar el player
 
-	//TODO: SKYBOX (dia 2)
+	//Skybox
 	Material landscape_cubemap;
 	landscape_cubemap.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/cubemap.fs");
 	landscape_cubemap.diffuse = new Texture();
@@ -68,13 +61,15 @@ void World::render() {
 	// Draw the floor grid
 	drawGrid();
 
+	//Render skybox
+	glDisable(GL_DEPTH_TEST);
+	skybox->render(camera);
+	glEnable(GL_DEPTH_TEST);
+
 	// Set flags
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-
-	//Render skybox
-	skybox->render(camera);
 
 	//Render entity player
 	player->render(camera);
@@ -128,15 +123,22 @@ void World::update(float seconds_elapsed)
 		Vector3 eye;
 		Vector3 center;
 
-		eye = player->model.getTranslation() + Vector3(0.f, 0.2f, 0.0f) + front + 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçaddda al eye del player
+		eye = player->model.getTranslation() + Vector3(0.f, 0.2f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçaddda al eye del player
 		center = eye + front;
 
-		camera->lookAt(eye, center, Vector3(0, 1, 0));
-	}
+		//Ray-mesh intersection to move the camera up to the collision point
 
-	//TODO: Descomentar amb l'skybox aplicada
-	//Move skybox to camera position
-	//
+		Vector3 dir = eye - center;
+
+		sCollisionData data = World::get_instance()->raycast(center, dir, eCollisionFilter::ALL, dir.length());
+
+		if (data.collided) {
+			eye = data.colPoint;
+		}
+
+		camera->lookAt(eye, center, Vector3(0, 1, 0));
+
+	}
 
 
 	//Delete pending entities
@@ -249,4 +251,47 @@ void World::addEntity(Entity* entity)
 void World::removeEntity(Entity* entity)
 {
 	entities_to_destroy.push_back(entity);
+}
+
+void World::getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter)
+{
+	for (auto e : root.children)
+	{
+		EntityCollider* ec = dynamic_cast<EntityCollider*>(e);
+		if (ec == nullptr) {
+			continue;
+		}
+		ec->getCollisions(target_position, collisions, ground_collisions);
+	}
+}
+
+sCollisionData World::raycast(const Vector3& origin, const Vector3& direction, int layer, float max_ray_dist) {
+	sCollisionData data;
+
+	for (auto e : root.children) {
+		EntityCollider* ec = dynamic_cast<EntityCollider*>(e);
+		if (ec == nullptr || !(ec->getLayer() & layer)) {
+			continue;
+		}
+
+
+		Vector3 col_point;
+		Vector3 col_normal;
+
+		if (!ec->mesh->testRayCollision(ec->model, origin, direction, col_point, col_normal, max_ray_dist)); {
+			continue;
+		}
+
+		data.collided = true;
+
+		//There are collisions? Update if nearest
+
+		float non_distance = (col_point - origin).length();
+		if (non_distance < data.distance) {
+			data.colPoint = col_point;
+			data.colNormal = col_normal;
+			data.distance = non_distance;
+			data.collider = ec;
+		}
+	}
 }

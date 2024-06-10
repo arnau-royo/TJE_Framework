@@ -15,7 +15,7 @@ public:
 
 	// Vel in move the player
 	Vector3 velocity;
-
+	float healthbar = 100.0;
 	float walk_speed = 0.5f;
 
 	// Methods overwritten from base class

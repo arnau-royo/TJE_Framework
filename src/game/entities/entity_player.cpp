@@ -5,6 +5,7 @@
 
 #include "framework/camera.h"
 #include "framework/input.h"
+#include "framework/entities/entity_collider.h"
 
 #include "game/game.h"
 #include "game/world.h"
@@ -24,6 +25,43 @@ void EntityPlayer::render(Camera* camera)
 {
 	//Render mesh
 	EntityMesh::render(camera);
+	/*float sphere_radius = World::get_instance()->sphere_radius;
+	float sphere_ground_radius = World::get_instance()->sphere_ground_radius;
+	float player_height = World::get_instance()->player_height;
+
+	Shader* sphere_shader = Shader::Get("data/shaders/basic.vs", "data/shaders/flat.vs");
+	Mesh* sphere_mesh = Mesh::Get("data/meshes/sphere.obj");
+	Matrix44 sphere_m = model;
+
+	sphere_shader->enable();
+
+	//first sphere
+	{
+		sphere_m.translate(0.0f, sphere_ground_radius, 0.0f);
+		sphere_m.scale(sphere_ground_radius, sphere_ground_radius, sphere_ground_radius);
+
+		sphere_shader->setUniform("u_color", Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		sphere_shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+		sphere_shader->setUniform("u_model", sphere_m);
+
+		sphere_mesh->render(GL_LINES);
+	}
+
+	//second Sphere
+	{
+		Matrix44 sphere_m = model;
+		sphere_m.translate(0.0f, player_height, 0.0f);
+		sphere_m.scale(sphere_radius, sphere_radius, sphere_radius);
+
+		sphere_shader->setUniform("u_color", Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		sphere_shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+		sphere_shader->setUniform("u_model", sphere_m);
+
+		sphere_mesh->render(GL_LINES);
+	}
+
+	sphere_shader->disable();*/
+	
 }
 
 void EntityPlayer::update(float seconds_elapsed)
@@ -62,6 +100,49 @@ void EntityPlayer::update(float seconds_elapsed)
 	move_dir *= speed_mult;
 
 	velocity += move_dir;
+
+	//Check collisions with world entities
+
+	std::vector<sCollisionData> collisions;
+	std::vector<sCollisionData> ground_collisions;
+
+	for (auto entity : World::get_instance()->root.children) {
+
+		EntityCollider* ec = dynamic_cast<EntityCollider*>(entity);
+		if (ec != nullptr)
+			ec->getCollisions(position + velocity * seconds_elapsed, collisions, ground_collisions, ec->getLayer());
+	}
+
+	//Enviornment collisions
+	for (const sCollisionData& collision : collisions) {
+		//Move along wall when colliding
+		Vector3 newDir = velocity.dot(collision.colNormal) * collision.colNormal;
+		velocity.x -= newDir.x;
+		velocity.y -= newDir.y;
+		velocity.z -= newDir.z;
+	}
+	
+	//Ground collisions
+	bool is_grounded = false;
+
+	for (const sCollisionData& collision : ground_collisions) {
+		//If normal is pointing upwards, it means it's a floor collision
+		float up_factor = fabsf(collision.colNormal.dot(Vector3::UP));
+		if (up_factor > 0.8) {
+			is_grounded = true;
+		}
+		if (collision.colPoint.y > (position.y * velocity.y * seconds_elapsed)) {
+			position.y = collision.colPoint.y;
+		}
+	}
+
+	//Gravity for falling
+	if (!is_grounded) {
+		velocity.y -= 0.9f * seconds_elapsed;
+	}
+	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+		velocity.y = 2.0f;
+	}
 
 	//Update player's position
 	position += velocity * seconds_elapsed;

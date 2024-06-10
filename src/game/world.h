@@ -30,6 +30,8 @@ class World {
 
 		Camera* camera = nullptr;
 
+		std::vector<Vector3> waypoints;
+
 		float camera_yaw = 0.f;
 		float camera_pitch = 0.f;
 		float camera_speed = 2.0f;
@@ -47,5 +49,9 @@ class World {
 		bool parseScene(const char* filename, Entity* root);
 		void addEntity(Entity* entity);
 		void removeEntity(Entity* entity);
+
+		void getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
+
+		sCollisionData raycast(const Vector3& origin, const Vector3& direction, int layer, float max_ray_dist);
 
 };

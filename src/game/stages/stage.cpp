@@ -7,6 +7,8 @@
 #include "framework/utils.h"
 #include "game/entities/entity_player.h"
 #include "game/world.h"
+#include "framework/entities/entity_collider.h"
+#include "framework/entities/entity_enemy.h"
 
 #include <iomanip>
 #include <sstream>
@@ -41,6 +43,43 @@ void PlayStage::render()
 void PlayStage::update(float seconds_elapsed)
 {
 	World::get_instance()->update(seconds_elapsed);
+
+	Camera* camera = World::get_instance()->camera;
+
+	//Get Ray direction
+
+	Vector2 mouse_pos = Input::mouse_position;
+	Vector3 ray_origin = camera->eye;
+
+	Vector3 ray_direction = camera->getRayDirection(mouse_pos.x, mouse_pos.y, Game::instance->window_width, Game::instance->window_height);
+
+	//Fill Collision vector
+
+	std::vector<Vector3> collisions;
+
+	for (Entity* e : World::get_instance()->root.children) {
+		EntityCollider* collider = dynamic_cast<EntityCollider*>(e);
+		if (!collider) {
+			continue;
+		}
+
+		Vector3 col_point;
+		Vector3 col_normal;
+
+		if (collider->mesh->testRayCollision(collider->model, ray_origin, ray_direction, col_point, col_normal)); {
+			collisions.push_back(col_point);
+		}
+	}
+
+	//Get entities
+
+	for (auto& col_point : collisions) {
+		Mesh* mesh = Mesh::Get("");
+		EntityMesh* new_entity = new EntityMesh(mesh, {});
+		new_entity->model.setTranslation(col_point);
+		World::get_instance()->addEntity(new_entity);
+	}
+		
 }
 
 void PlayStage::onKeyDown(SDL_KeyboardEvent event)
