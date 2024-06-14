@@ -1,16 +1,28 @@
 #pragma once
 
-#include "framework/entities/entity_mesh.h"
-#include "framework/animation.h"
+#include "graphics/mesh.h"
+#include "graphics/texture.h"
+#include "graphics/shader.h"
 #include "graphics/material.h"
-#include "game/world.h"
-#include "framework/input.h"
 
-class EntityPlayer : public EntityMesh {
+#include "framework/input.h"
+#include "framework/camera.h"
+#include "framework/input.h"
+#include "framework/entities/entity_enemy.h"
+#include "framework/entities/entity_collider.h"
+#include "framework/animation.h"
+
+#include "entity_player.h"
+
+#include "game/game.h"
+#include "game/world.h"
+
+
+class EntityPlayer : public EntityCollider {
 
 public:
 	EntityPlayer();
-	EntityPlayer(Mesh* mesh, const Material& material, const std::string& name = "");
+	EntityPlayer(Mesh* mesh, Material* material, const std::string& name = "");
 	~EntityPlayer() {};
 
 	// Vel in move the player

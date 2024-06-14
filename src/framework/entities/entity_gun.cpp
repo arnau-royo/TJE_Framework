@@ -1,14 +1,10 @@
 #pragma once
 
-
 #include "entity_gun.h"
 #include "framework/input.h"
 
-EntityGun::EntityGun() {
 
-}
-
-EntityGun::EntityGun(Mesh* mesh, const std::string& name = "") {
+EntityGun::EntityGun(Mesh* mesh, Material* mat, const std::string& name = "") {
 	
 	this->mesh = mesh;
 	this->name = name;
@@ -19,6 +15,7 @@ EntityGun::EntityGun(Mesh* mesh, const std::string& name = "") {
 	//blaster_mat.diffuse->load("data/meshes/blaster/blasterG.mtl");
 
 	this->material = blaster_mat;
+	EntityMesh(mesh, blaster_mat, name);
 }
 
 void EntityGun::fire(Vector3 origin, Vector3 direction)

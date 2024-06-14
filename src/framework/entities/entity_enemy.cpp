@@ -1,8 +1,9 @@
+#pragma once
+
 #include "entity_enemy.h"
 #include "graphics/mesh.h"
 #include "graphics/texture.h"
 #include "graphics/shader.h"
-#include "game/entities/entity_player.h"
 
 #include "framework/camera.h"
 #include "framework/input.h"
@@ -11,24 +12,19 @@
 #include "game/world.h"
 #include <memory>
 
-EntityEnemy::EntityEnemy()
-{
-}
 
 EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) //TODO com fer diferents tipus d'enemic
 {
-	this->mesh = mesh;
+	Material enemy_material;
 
 	if (name == "zombie_1") {
 
-		Material enemy_material;
 		enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie1.png");
 
-		this->material = enemy_material;
-		this->name = name;
 		this->healthbar = 100;
+
 	}
 	else {
 		Material enemy_material;
@@ -36,11 +32,10 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) //TODO com fer dif
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie2.png");
 
-		this->material = enemy_material;
-		this->name = name;
 		this->healthbar = 150;
 	}
 	
+	EntityMesh(mesh, &enemy_material, name);
 }
 
 void EntityEnemy::render(Camera* camera)
@@ -118,8 +113,7 @@ void EntityEnemy::attack(EntityPlayer player)
 void EntityEnemy::die(EntityEnemy enemy)
 {
 	//play animació
-	//World::get_instance()->entities_to_destroy.insert(enemy);
-	enemy.~EntityEnemy();
+	//World::get_instance()->entities_to_destroy.push_back(enemy);
 	spawn_drop();
 
 }

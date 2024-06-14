@@ -5,11 +5,9 @@
 #include "framework/extra/pathfinder/Dijkstra.h"
 #include "graphics/material.h"
 #include "game/world.h"
-#include "framework/input.h"
 #include "game/entities/entity_player.h"
 #include "graphics/texture.h"
 #include "graphics/shader.h"
-#include "framework/entities/entity_bullet.h"
 #include "entity.h"
 #include "entity_mesh.h"
 #include "framework/extra/coldet/coldet.h"
@@ -20,8 +18,8 @@ class EntityGun : public EntityMesh {
 	float max_range = 200.0;
 
 	EntityGun();
-	EntityGun(Mesh* mesh, const std::string& name = "");
-	~EntityGun() {};
+	EntityGun(Mesh* mesh, Material* mat, const std::string& name = "");
+	
 
 	void fire(Vector3 origin, Vector3 direction);
 };

@@ -1,13 +1,12 @@
 #pragma once
 
-#include "framework/entities/entity_mesh.h"
+#include "framework/entities/entity_collider.h"
 #include "framework/animation.h"
 #include "framework/extra/pathfinder/PathFinder.h"
 #include "framework/extra/pathfinder/Dijkstra.h"
 #include "graphics/material.h"
-#include "game/world.h"
 #include "framework/input.h"
-#include "game/entities/entity_player.h"
+//#include "game/entities/entity_player.h"
 
 
 struct WayPoint : public DijkstraNode
@@ -44,9 +43,8 @@ class EntityEnemy : public EntityCollider {
 	eActions state;
 
 public:
-	EntityEnemy();
+
 	EntityEnemy(Mesh* mesh, const std::string& name = "");
-	~EntityEnemy() {};
 
 	// Vel in move the enemy
 	Vector3 velocity;

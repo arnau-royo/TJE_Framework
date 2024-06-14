@@ -1,24 +1,14 @@
+#pragma once
 #include "entity_player.h"
-#include "graphics/mesh.h"
-#include "graphics/texture.h"
-#include "graphics/shader.h"
-
-#include "framework/camera.h"
-#include "framework/input.h"
-#include "framework/entities/entity_enemy.h"
-
-#include "game/game.h"
-#include "game/world.h"
 
 EntityPlayer::EntityPlayer()
 {
 }
 
-EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name)
+EntityPlayer::EntityPlayer(Mesh* mesh, Material* material, const std::string& name)
 {
-	this->mesh = mesh;
-	this->material = material;
-	this->name = name;
+	
+	EntityCollider(mesh, material, name);
 }
 
 void EntityPlayer::render(Camera* camera)
@@ -108,9 +98,9 @@ void EntityPlayer::update(float seconds_elapsed)
 
 	for (auto entity : World::get_instance()->root.children) {
 
-		EntityCollider* ec = dynamic_cast<EntityCollider*>(entity);
-		if (ec != nullptr)
-			ec->getCollisions(position + velocity * seconds_elapsed, collisions, ground_collisions, ec->getLayer());
+		//EntityCollider* ec = dynamic_cast<EntityCollider*>(entity);
+		//if (ec != nullptr)
+			//ec->getCollisions(position + velocity * seconds_elapsed, collisions, ground_collisions, ec->getLayer());
 	}
 
 	//Enviornment collisions

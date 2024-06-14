@@ -18,7 +18,7 @@
 class EntityBullet : public EntityCollider {
 
 
-	EntityBullet(Mesh* mesh, Material& mat, const std::string& name);
+	EntityBullet(Mesh* mesh, Material* mat, const std::string& name);
 
 	std::vector<EntityBullet> bullets;
 

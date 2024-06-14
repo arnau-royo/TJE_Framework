@@ -7,7 +7,6 @@
 #include "framework/utils.h"
 #include "game/entities/entity_player.h"
 #include "game/world.h"
-#include "framework/entities/entity_collider.h"
 #include "framework/entities/entity_enemy.h"
 
 #include <iomanip>
@@ -58,10 +57,13 @@ void PlayStage::update(float seconds_elapsed)
 	std::vector<Vector3> collisions;
 
 	for (Entity* e : World::get_instance()->root.children) {
-		EntityCollider* collider = dynamic_cast<EntityCollider*>(e);
+		
+		/*
+			EntityCollider* collider = dynamic_cast<EntityCollider*>(e);
 		if (!collider) {
 			continue;
 		}
+
 
 		Vector3 col_point;
 		Vector3 col_normal;
@@ -69,6 +71,7 @@ void PlayStage::update(float seconds_elapsed)
 		if (collider->mesh->testRayCollision(collider->model, ray_origin, ray_direction, col_point, col_normal)); {
 			collisions.push_back(col_point);
 		}
+		*/
 	}
 
 	//Get entities

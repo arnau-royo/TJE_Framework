@@ -1,8 +1,9 @@
 #pragma once
 
-#include "entity.h"
 #include "entity_mesh.h"
 #include "game/world.h"
+
+
 
 
 class EntityCollider : public EntityMesh {
@@ -16,8 +17,8 @@ class EntityCollider : public EntityMesh {
 public:
 	bool is_static = true;
 
-	EntityCollider() {};
-	EntityCollider(Mesh* mesh, const Material& material, const std::string& name = "") :
+	EntityCollider();
+	EntityCollider(Mesh* mesh, Material* material, const std::string& name = "") :
 		EntityMesh(mesh, material, name) {};
 	~EntityCollider() {};
 
@@ -27,3 +28,4 @@ public:
 	int getLayer() { return layer; }
 	void setLayer(int new_layer) { layer = new_layer; }
 };
+

@@ -3,6 +3,7 @@
 #include "framework/utils.h"
 #include "framework/entities/entity_mesh.h"
 #include "framework/entities/entity_enemy.h"
+#include "framework/entities/entity_collider.h"
 #include "entities/entity_player.h"
 #include "framework/camera.h"
 #include "framework/input.h"
@@ -19,6 +20,8 @@
 class Camera;
 
 class EntityPlayer;
+
+
 
 class World {
 

@@ -19,10 +19,10 @@ World::World()
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 	player_material.diffuse = new Texture();
 	player_material.diffuse->load("data/textures/player.png");
-	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
+	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), &player_material, "player");
 
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
-	enemy->setLayer(eCollisionFilter::ENEMY);
+	//enemy->setLayer(eCollisionFilter::ENEMY);
 
 
 	//Skybox
@@ -37,7 +37,7 @@ World::World()
 		"data/textures/skybox/py.png" ,
 		"data/textures/skybox/pz.png" });
 
-	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
+	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), &landscape_cubemap, "landscape");
 
 	parseScene("data/myscene.scene", &root);
 }
@@ -193,11 +193,11 @@ bool World::parseScene(const char* filename, Entity* root)
 		size_t tag = data.first.find("@enemy");
 
 		if (tag != std::string::npos) {
-			/*Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
+			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
 			// Create a different type of entity
 			new_entity = new EntityEnemy(mesh, "zombie_1");
 			assert(new_entity);
-			new_entity->model.setTranslation(render_data.models[0].getTranslation());*/
+			new_entity->model.setTranslation(render_data.models[0].getTranslation());
 		}
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());
@@ -206,7 +206,7 @@ bool World::parseScene(const char* filename, Entity* root)
 
 			//mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
 
-			new_entity = new EntityMesh(mesh, mat);
+			new_entity = new EntityMesh(mesh, &mat);
 		}
 
 		if (!new_entity) {
@@ -247,7 +247,7 @@ void World::getCollisions(const Vector3& target_position, std::vector<sCollision
 {
 	for (auto e : root.children)
 	{
-		EntityCollider* ec = dynamic_cast<EntityCollider*>(e);
+			EntityCollider* ec = dynamic_cast<EntityCollider*>(e);
 		if (ec == nullptr) {
 			continue;
 		}
@@ -267,10 +267,11 @@ sCollisionData World::raycast(const Vector3& origin, const Vector3& direction, i
 
 		Vector3 col_point;
 		Vector3 col_normal;
-
+		
 		if (!ec->mesh->testRayCollision(ec->model, origin, direction, col_point, col_normal, max_ray_dist)); {
 			continue;
 		}
+		
 
 		data.collided = true;
 
@@ -281,7 +282,8 @@ sCollisionData World::raycast(const Vector3& origin, const Vector3& direction, i
 			data.colPoint = col_point;
 			data.colNormal = col_normal;
 			data.distance = non_distance;
-			data.collider = ec;
+			//data.collider = ec;
 		}
 	}
+	return sCollisionData();
 }
