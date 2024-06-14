@@ -36,6 +36,9 @@ World::World()
 	player_material.diffuse->load("data/textures/player.png");
 	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
 
+	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
+	enemy->setLayer(eCollisionFilter::ENEMY);
+
 
 	//Skybox
 	Material landscape_cubemap;
@@ -202,12 +205,14 @@ bool World::parseScene(const char* filename, Entity* root)
 		Material mat = render_data.material;
 		EntityMesh* new_entity = nullptr;
 
-		size_t tag = data.first.find("@tag");
+		size_t tag = data.first.find("@enemy");
 
 		if (tag != std::string::npos) {
-			Mesh* mesh = Mesh::Get("...");
+			/*Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
 			// Create a different type of entity
-			// new_entity = new ...
+			new_entity = new EntityEnemy(mesh, "zombie_1");
+			assert(new_entity);
+			new_entity->model.setTranslation(render_data.models[0].getTranslation());*/
 		}
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());
@@ -261,7 +266,7 @@ void World::getCollisions(const Vector3& target_position, std::vector<sCollision
 		if (ec == nullptr) {
 			continue;
 		}
-		ec->getCollisions(target_position, collisions, ground_collisions);
+		ec->getCollisions(target_position, collisions, ground_collisions, eCollisionFilter::ALL);
 	}
 }
 

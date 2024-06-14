@@ -36,7 +36,7 @@ void EntityGun::fire(Vector3 origin, Vector3 direction)
 			 ammo -= 1;
 		 }
 		 else if (Input::wasButtonPressed(SDL_BUTTON_RIGHT)) {
-			 ammo -= 0;
+			 ammo -= 5;
 		 }
 	}	
 }

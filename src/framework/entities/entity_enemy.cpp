@@ -46,6 +46,23 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) //TODO com fer dif
 void EntityEnemy::render(Camera* camera)
 {
 	//Render mesh
+	Entity* target = (Entity*)World::get_instance()->player;
+
+	std::vector<Vector3> vertices;
+
+	Vector3 pos = model.getTranslation();
+	Vector3 front = model.frontVector();
+	Matrix44 m;
+
+	m.setRotation(fov * 0.5f * DEG2RAD, Vector3::UP);
+	vertices.push_back(pos);
+	vertices.push_back(pos + m.rotateVector(front));
+
+	m.setRotation(-fov * 0.5f * DEG2RAD, Vector3::UP);
+
+	vertices.push_back(pos);
+	vertices.push_back(pos * m.rotateVector(front));
+
 	EntityMesh::render(camera);
 }
 
@@ -57,7 +74,7 @@ void EntityEnemy::update(float seconds_elapsed) {
 			healthbar = 100.0;
 			state = CHASE;
 		case CHASE:
-			chase_pl();
+			chase();
 			if (distance(World::get_instance()->player) < ar)
 				state = ATTACK;
 		case ATTACK:
@@ -83,9 +100,13 @@ void EntityEnemy::dif_mod(int difficulty)
 	}
 }
 
-void EntityEnemy::chase(EntityPlayer player)
+void EntityEnemy::chase(float seconds_elapsed)
 {
+	Entity* target = (Entity*)World::get_instance()->player;
+	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
+	lookAtTarget(player_pos, seconds_elapsed);
 	//walk animation
+	followPath(seconds_elapsed);
 }
 
 void EntityEnemy::attack(EntityPlayer player)
@@ -99,6 +120,8 @@ void EntityEnemy::die(EntityEnemy enemy)
 	//play animació
 	//World::get_instance()->entities_to_destroy.insert(enemy);
 	enemy.~EntityEnemy();
+	spawn_drop();
+
 }
 
 bool EntityEnemy::isdead(EntityEnemy enemy) {
@@ -109,6 +132,36 @@ bool EntityEnemy::isdead(EntityEnemy enemy) {
 }
 void EntityEnemy::dance(EntityEnemy enemy)
 {
+}
+
+void EntityEnemy::choosedrop()
+{
+	/*if (lastdrop == health) {
+		drop = ammo;
+	}
+	else if (lastdrop == ammo) {
+		drop = health;
+	}*/
+}
+
+void EntityEnemy::spawn_drop()
+{
+	/*if (last_drop == "supply") {
+		EntityMesh* drop = new EntityMesh(heal_mesh, heal_mat, "heal");
+		last_drop = drop->name;
+	}
+	else if(last_drop == "heal") {
+		EntityMesh* drop = new EntityMesh(supply_mesh, supply_mat, "supply");
+		last_drop = drop->name;
+	}*/
+}
+
+void EntityEnemy::lookAtTarget(Vector3 target, float seconds_elapsed)
+{
+	float angle = model.getYawRotationToAimTo(target);
+	float rotation_speed = 4.0f * seconds_elapsed;
+	model.rotate(angle * rotation_speed, Vector3::UP);
+	//float angle_in_rad = acos(clamp(front.dot(target), -1.0f, 1.0f));
 }
 
 void EntityEnemy::followPath(float seconds_elapsed)

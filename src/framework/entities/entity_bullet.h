@@ -6,6 +6,7 @@
 #include "graphics/shader.h"
 #include "game/entities/entity_player.h"
 
+
 #include "framework/camera.h"
 #include "framework/input.h"
 
@@ -16,7 +17,7 @@
 class EntityBullet : public EntityCollider {
 
 
-	EntityBullet(Mesh* mesh, Material* mat, const std::string& name);
+	EntityBullet(Mesh* mesh, Material& mat, const std::string& name);
 
 	std::vector<EntityBullet> bullets;
 

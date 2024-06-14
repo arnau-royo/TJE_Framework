@@ -8,7 +8,7 @@ class EntityCollider : public EntityMesh {
 	void getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
 
 	
-	eCollisionFilter layer = eCollisionFilter::SCENARIO;
+	int layer = eCollisionFilter::ALL;
 
 public:
 	bool is_static = true;

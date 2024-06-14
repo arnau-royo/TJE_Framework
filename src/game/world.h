@@ -2,6 +2,7 @@
 #include "framework/entities/entity.h"
 #include "framework/utils.h"
 #include "framework/entities/entity_mesh.h"
+#include "framework/entities/entity_enemy.h"
 
 class Camera;
 class EntityPlayer;
@@ -26,6 +27,8 @@ class World {
 
 		EntityPlayer* player = nullptr;
 
+		EntityEnemy* enemy = nullptr;
+
 		EntityMesh* skybox = nullptr;
 
 		Camera* camera = nullptr;
@@ -41,6 +44,10 @@ class World {
 
 		void render();
 		void update(float seconds_elapsed);
+
+		float sphere_radius = 30.0f;
+		float sphere_ground_radius = 30.0f;
+		float player_height = 30.0f;
 
 		//Scene
 

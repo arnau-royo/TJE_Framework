@@ -59,11 +59,13 @@ public:
 
 	//Methods from class
 	void dif_mod(int difficulty);
-	void chase(EntityPlayer player);
+	void chase(float seconds_elapsed);
 	void attack(EntityPlayer player);
 	void die(EntityEnemy enemy);
 	bool isdead(EntityEnemy enemy);
 	void dance(EntityEnemy enemy);
+	void choosedrop();
+	void spawn_drop();
 	void lookAtTarget(Vector3 target, float seconds_elapsed);
 	void followPath(float seconds_elpased);
 };
