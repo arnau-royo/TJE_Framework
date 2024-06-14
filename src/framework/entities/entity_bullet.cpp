@@ -6,7 +6,7 @@
 EntityBullet::EntityBullet(Mesh* mesh, Material& mat, const std::string& name) {
 	
 	this->mesh = mesh;
-	this->material = mat;
+	this->material = dynamic_cast<Material*> (&mat);
 	this->name = name;
 
 }

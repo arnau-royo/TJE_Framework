@@ -5,7 +5,7 @@
 
 #include "framework/camera.h"
 #include "framework/input.h"
-#include "framework/entities/entity_collider.h"
+#include "framework/entities/entity_enemy.h"
 
 #include "game/game.h"
 #include "game/world.h"

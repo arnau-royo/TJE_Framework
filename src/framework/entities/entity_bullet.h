@@ -5,6 +5,7 @@
 #include "graphics/texture.h"
 #include "graphics/shader.h"
 #include "game/entities/entity_player.h"
+#include "framework/entities/entity_collider.h"
 
 
 #include "framework/camera.h"

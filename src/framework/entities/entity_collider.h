@@ -1,9 +1,12 @@
 #pragma once
 
+#include "entity.h"
 #include "entity_mesh.h"
-#include "framework/extra/coldet/coldet.h"
+#include "game/world.h"
+
 
 class EntityCollider : public EntityMesh {
+
 
 	void getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
 

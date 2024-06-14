@@ -3,8 +3,21 @@
 #include "framework/utils.h"
 #include "framework/entities/entity_mesh.h"
 #include "framework/entities/entity_enemy.h"
+#include "entities/entity_player.h"
+#include "framework/camera.h"
+#include "framework/input.h"
+
+#include "graphics/texture.h"
+#include "graphics/shader.h"
+
+#include "game/game.h"
+#include "stages/stage.h"
+
+#include <algorithm>
+#include <fstream>
 
 class Camera;
+
 class EntityPlayer;
 
 class World {

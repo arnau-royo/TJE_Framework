@@ -1,22 +1,7 @@
 #include "world.h"
 
-#include "framework/camera.h"
-#include "framework/input.h"
-#include "framework/entities/entity_mesh.h"
-#include "framework/entities/entity_collider.h"
 
-#include "graphics/texture.h"
-#include "graphics/shader.h"
-
-#include "game/game.h"
-#include "stages/stage.h"
-
-#include "entities/entity_player.h"
-#include "framework/entities/entity_enemy.h"
-
-#include <algorithm>
-#include <fstream>
-
+//Crating a world instance
 World* World::instance = nullptr;
 
 World::World()

@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include "entity.h"
 #include "framework/camera.h"
 

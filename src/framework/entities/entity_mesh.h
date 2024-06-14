@@ -23,8 +23,6 @@ public:
 
 	Mesh* mesh = nullptr;
 
-	Material material;
-
 	std::string last_drop = "heal";
 
 	//Instancing

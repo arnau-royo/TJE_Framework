@@ -1,7 +1,7 @@
 
 #include "entity_collider.h"
-#include "game/entities/entity_player.h"
-#include "game/world.h"
+
+
 
 //TODO: AIXÒ HO ACABA FENT ALS VIDEOS AL FINAL
 void EntityCollider::getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter) {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "framework/entities/entity_mesh.h"
 #include "framework/animation.h"
 #include "framework/extra/pathfinder/PathFinder.h"
 #include "framework/extra/pathfinder/Dijkstra.h"
@@ -11,6 +10,9 @@
 #include "graphics/texture.h"
 #include "graphics/shader.h"
 #include "framework/entities/entity_bullet.h"
+#include "entity.h"
+#include "entity_mesh.h"
+#include "framework/extra/coldet/coldet.h"
 
 class EntityGun : public EntityMesh {
 	
