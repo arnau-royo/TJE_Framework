@@ -9,11 +9,12 @@ EntityMesh::EntityMesh()
 {
 }
 
-EntityMesh::EntityMesh(Mesh* mesh, Material* material, const std::string& name)
+EntityMesh::EntityMesh(Mesh* mesh, const Material& material, const std::string& name)
 {
 	this->mesh = mesh;
-	this->name = name;
 	this->material = material;
+	this->name = name;
+	
 }
 
 EntityMesh::~EntityMesh()
@@ -29,24 +30,24 @@ void EntityMesh::render(Camera* camera) {
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 
-	if (!material->shader) {
-		material->shader = Shader::Get(isInstanced ? "data/shaders/instanced.vs" : "data/shaders/basic.vs", "data/shaders/texture.fs");
+	if (!material.shader) {
+		material.shader = Shader::Get(isInstanced ? "data/shaders/instanced.vs" : "data/shaders/basic.vs", "data/shaders/texture.fs");
 	}
 
 	//Enable shader
-	material->shader->enable();
+	material.shader->enable();
 
 	//Upload uniforms 
-	material->shader->setUniform("u_color", material->color);
-	material->shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+	material.shader->setUniform("u_color", material.color);
+	material.shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
 	//shader->setTexture("u_texture", texture, 0); //0 ja que només tenim un slot de moment
 
-	if (material->diffuse) {
-		material->shader->setUniform("u_texture", material->diffuse, 0);
+	if (material.diffuse) {
+		material.shader->setUniform("u_texture", material.diffuse, 0);
 	}
 
 	if (!isInstanced) {
-		material->shader->setUniform("u_model", getGlobalMatrix());
+		material.shader->setUniform("u_model", getGlobalMatrix());
 	}
 
 	if (isInstanced) {
@@ -59,7 +60,7 @@ void EntityMesh::render(Camera* camera) {
 	//mesh->render(GL_TRIANGLES);
 
 	// Disable shader after finishing rendering
-	material->shader->disable();
+	material.shader->disable();
 
 	Entity::render(camera);
 };

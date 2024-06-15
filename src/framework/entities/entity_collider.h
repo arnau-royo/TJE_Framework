@@ -1,31 +1,26 @@
-#pragma once
+#ifndef ENTITY_COLLIDER_H
+#define ENTITY_COLLIDER_H
 
 #include "entity_mesh.h"
 #include "game/world.h"
 
 
-
-
 class EntityCollider : public EntityMesh {
 
-
-	void getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
-
-	
-	int layer = eCollisionFilter::ALL;
-
 public:
-	bool is_static = true;
+    bool is_static = true;
 
-	EntityCollider();
-	EntityCollider(Mesh* mesh, Material* material, const std::string& name = "") :
-		EntityMesh(mesh, material, name) {};
-	~EntityCollider() {};
+    int layer = eCollisionFilter::ALL;
 
-	void getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
+    EntityCollider();
+    EntityCollider(Mesh* mesh, const Material& material, const std::string& name = "") :
+        EntityMesh(mesh, material, name) {};
+    ~EntityCollider() {};
 
+    void getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
+    void getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
 
-	int getLayer() { return layer; }
-	void setLayer(int new_layer) { layer = new_layer; }
+    int getLayer() const { return layer; }
+    void setLayer(int new_layer) { layer = new_layer; }
 };
-
+#endif //ENTITY_COLLIDER_H

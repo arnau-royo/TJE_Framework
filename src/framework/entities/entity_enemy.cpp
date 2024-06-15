@@ -35,7 +35,7 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) //TODO com fer dif
 		this->healthbar = 150;
 	}
 	
-	EntityMesh(mesh, &enemy_material, name);
+	EntityMesh(mesh, enemy_material, name);
 }
 
 void EntityEnemy::render(Camera* camera)
@@ -113,7 +113,7 @@ void EntityEnemy::attack(EntityPlayer player)
 void EntityEnemy::die(EntityEnemy enemy)
 {
 	//play animació
-	//World::get_instance()->entities_to_destroy.push_back(enemy);
+	World::get_instance()->removeEntity(World::get_instance()->enemy);
 	spawn_drop();
 
 }

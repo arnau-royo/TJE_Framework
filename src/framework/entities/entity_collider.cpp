@@ -1,9 +1,6 @@
 
 #include "entity_collider.h"
 
-
-
-//TODO: AIXÒ HO ACABA FENT ALS VIDEOS AL FINAL
 void EntityCollider::getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter) {
 
 	Vector3 collision_point;

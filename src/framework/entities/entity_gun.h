@@ -18,7 +18,7 @@ class EntityGun : public EntityMesh {
 	float max_range = 200.0;
 
 	EntityGun();
-	EntityGun(Mesh* mesh, Material* mat, const std::string& name = "");
+	EntityGun(Mesh* mesh, const std::string& name);
 	
 
 	void fire(Vector3 origin, Vector3 direction);

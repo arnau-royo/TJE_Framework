@@ -6,7 +6,7 @@
 #include "framework/extra/pathfinder/Dijkstra.h"
 #include "graphics/material.h"
 #include "framework/input.h"
-//#include "game/entities/entity_player.h"
+#include "game/entities/entity_player.h"
 
 
 struct WayPoint : public DijkstraNode
@@ -23,7 +23,7 @@ struct WayPoint : public DijkstraNode
 	
 };
 
-class EntityEnemy : public EntityCollider {
+class EntityEnemy : public EntityMesh {
 
 	enum eActions {SPAWN, CHASE, ATTACK, DIE, DANCE};
 

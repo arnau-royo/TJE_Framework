@@ -21,7 +21,9 @@ class Camera;
 
 class EntityPlayer;
 
+class EntityEnemy;
 
+class EntityCollider;
 
 class World {
 

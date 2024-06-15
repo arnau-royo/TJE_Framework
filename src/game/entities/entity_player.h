@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ENTITY_PLAYER_H
+#define ENTITY_PLAYER_H
 
 #include "graphics/mesh.h"
 #include "graphics/texture.h"
@@ -7,22 +8,16 @@
 
 #include "framework/input.h"
 #include "framework/camera.h"
-#include "framework/input.h"
 #include "framework/entities/entity_enemy.h"
-#include "framework/entities/entity_collider.h"
+#include "framework/entities/entity_mesh.h"
 #include "framework/animation.h"
 
-#include "entity_player.h"
 
-#include "game/game.h"
-#include "game/world.h"
-
-
-class EntityPlayer : public EntityCollider {
+class EntityPlayer : public EntityMesh {
 
 public:
 	EntityPlayer();
-	EntityPlayer(Mesh* mesh, Material* material, const std::string& name = "");
+	EntityPlayer(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityPlayer() {};
 
 	// Vel in move the player
@@ -34,3 +29,4 @@ public:
 	void render(Camera* camera);
 	void update(float seconds_elapsed);
 };
+#endif // !entity_player.h
