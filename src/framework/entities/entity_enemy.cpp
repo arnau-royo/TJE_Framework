@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/entities/entity_player.h"
 #include "entity_enemy.h"
 #include "graphics/mesh.h"
 #include "graphics/texture.h"
@@ -104,13 +105,11 @@ void EntityEnemy::chase(float seconds_elapsed)
 	followPath(seconds_elapsed);
 }
 
-/*
 void EntityEnemy::attack(EntityPlayer player)
 {
 	//play.animation
 	player.healthbar -= this->damage;
 }
-*/
 
 void EntityEnemy::die(EntityEnemy enemy)
 {

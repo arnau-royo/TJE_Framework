@@ -1,6 +1,5 @@
 #pragma once
 
-#include "game/entities/entity_player.h"
 #include "entity_collider.h"
 #include "framework/animation.h"
 #include "framework/extra/pathfinder/PathFinder.h"
@@ -8,6 +7,7 @@
 #include "graphics/material.h"
 #include "framework/input.h"
 
+class EntityPlayer; //Forward declaration of EntityPlayer
 
 struct WayPoint : public DijkstraNode
 {
@@ -58,7 +58,7 @@ public:
 	//Methods from class
 	void dif_mod(int difficulty);
 	void chase(float seconds_elapsed);
-	//void attack(EntityPlayer player);
+	void attack(EntityPlayer player);
 	void die(EntityEnemy enemy);
 	bool isdead(EntityEnemy enemy);
 	void dance(EntityEnemy enemy);
