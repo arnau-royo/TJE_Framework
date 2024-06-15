@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/entities/entity_collider.h"
+#include "entity_collider.h"
 #include "framework/animation.h"
 #include "framework/extra/pathfinder/PathFinder.h"
 #include "framework/extra/pathfinder/Dijkstra.h"

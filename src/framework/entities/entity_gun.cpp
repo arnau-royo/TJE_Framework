@@ -4,7 +4,7 @@
 #include "framework/input.h"
 
 
-EntityGun::EntityGun(Mesh* mesh, Material* mat, const std::string& name = "") {
+EntityGun::EntityGun() {
 	
 	this->mesh = mesh;
 	this->name = name;

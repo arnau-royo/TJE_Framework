@@ -1,5 +1,8 @@
 #pragma once
 
+#include "framework/entities/entity_collider.h"
+#include "framework/entities/entity_enemy.h"
+
 #include "graphics/mesh.h"
 #include "graphics/texture.h"
 #include "graphics/shader.h"
@@ -8,15 +11,10 @@
 #include "framework/input.h"
 #include "framework/camera.h"
 #include "framework/input.h"
-#include "framework/entities/entity_enemy.h"
-#include "framework/entities/entity_collider.h"
 #include "framework/animation.h"
-
-#include "entity_player.h"
 
 #include "game/game.h"
 #include "game/world.h"
-
 
 class EntityPlayer : public EntityCollider {
 

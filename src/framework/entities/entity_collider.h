@@ -1,17 +1,12 @@
 #pragma once
 
 #include "entity_mesh.h"
-#include "game/world.h"
-
-
-
 
 class EntityCollider : public EntityMesh {
 
 
 	void getCollisionsWithModel(const Matrix44 model, const Vector3& center, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
 
-	
 	int layer = eCollisionFilter::ALL;
 
 public:

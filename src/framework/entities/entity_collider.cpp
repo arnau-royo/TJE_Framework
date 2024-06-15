@@ -1,6 +1,6 @@
 
 #include "entity_collider.h"
-
+#include "game/world.h"
 
 
 //TODO: AIXÒ HO ACABA FENT ALS VIDEOS AL FINAL
