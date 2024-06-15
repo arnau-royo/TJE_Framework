@@ -1,5 +1,5 @@
 #include "world.h"
-
+#include "entities/entity_player.h"
 
 //Crating a world instance
 World* World::instance = nullptr;

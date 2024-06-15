@@ -1,10 +1,9 @@
 #pragma once
 #include "framework/entities/entity.h"
 #include "framework/utils.h"
-#include "framework/entities/entity_mesh.h"
-#include "framework/entities/entity_enemy.h"
+
 #include "framework/entities/entity_collider.h"
-#include "entities/entity_player.h"
+
 #include "framework/camera.h"
 #include "framework/input.h"
 
@@ -20,6 +19,8 @@
 class Camera;
 
 class EntityPlayer;
+
+class EntityEnemy;
 
 
 
@@ -73,6 +74,8 @@ class World {
 		void addEntity(Entity* entity);
 		void removeEntity(Entity* entity);
 
+
+		//collisions 
 		void getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
 
 		sCollisionData raycast(const Vector3& origin, const Vector3& direction, int layer, float max_ray_dist);
