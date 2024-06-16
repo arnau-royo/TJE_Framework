@@ -6,16 +6,16 @@
 
 enum eStages {
 
-	MENU,
+	MENU_STAGE,
 	INTRO_STAGE,
 	PLAY_STAGE,
-	GAME_OVER,
+	LOSS_STAGE,
 	WIN_STAGE
 };
 
 class Stage {
 
-	eStages type = MENU;
+	eStages type = MENU_STAGE;
 
 public:
 
@@ -78,15 +78,17 @@ public:
 	void onResize(int width, int height) { if (current) current->onResize(width, height); }
 };
 
+//MENU STAGE
 class MenuStage : public Stage {
 
-	eStages type = MENU;
+	eStages type = MENU_STAGE;
 
 public:
 	MenuStage();
 
 	//audio stuff
-
+	
+	//buttons UI
 
 
 	// Methods overwritten from base class
@@ -98,13 +100,83 @@ public:
 	void onResize(int width, int height);
 };
 
+//INTRO STAGE
+class IntroStage : public Stage {
 
+	eStages type = INTRO_STAGE;
+
+public:
+	IntroStage();
+
+	//audio stuff
+
+	//UI stuff
+
+
+	// Methods overwritten from base class
+	void render();
+	void update(float delta_time);
+
+	void onEnter(Stage* previousStage);
+	void onKeyDown(SDL_KeyboardEvent event);
+	void onResize(int width, int height);
+};
+
+//PLAY STAGE
 class PlayStage : public Stage {
 
-	//float win_countdown = 60.0f; // seconds
+	eStages type = PLAY_STAGE;
 
 public:
 	PlayStage();
+
+	//audio stuff
+
+	//ui stuff
+
+	// Methods overwritten from base class
+	void render();
+	void update(float delta_time);
+
+	void onEnter(Stage* previousStage);
+	void onKeyDown(SDL_KeyboardEvent event);
+	void onResize(int width, int height);
+};
+
+//WIN STAGE
+class WinStage : public Stage {
+
+	eStages type = WIN_STAGE;
+
+public:
+	WinStage();
+
+	//audio stuff
+
+	//UI stuff
+
+
+	// Methods overwritten from base class
+	void render();
+	void update(float delta_time);
+
+	void onEnter(Stage* previousStage);
+	void onKeyDown(SDL_KeyboardEvent event);
+	void onResize(int width, int height);
+};
+
+//LOSS_STAGE
+class LossStage : public Stage {
+
+	eStages type = LOSS_STAGE;
+
+public:
+	LossStage();
+
+	//audio stuff
+
+	//UI stuff
+
 
 	// Methods overwritten from base class
 	void render();
