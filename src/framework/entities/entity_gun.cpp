@@ -4,17 +4,13 @@
 #include "framework/input.h"
 
 
-EntityGun::EntityGun() {
-	
-	this->mesh = mesh;
-	this->name = name;
+EntityGun::EntityGun(Mesh* mesh, const Material& mat, const std::string& name) {
 
-	Material* blaster_mat;
-	blaster_mat->shader = Shader::Get("data/shaders/basic.vs", "data/shaders/flat.fs");
+	Material blaster_mat;
+	blaster_mat.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/flat.fs");
 	//blaster_mat.diffuse = new Texture();
 	//blaster_mat.diffuse->load("data/meshes/blaster/blasterG.mtl");
 
-	this->material = blaster_mat;
 	EntityMesh(mesh, blaster_mat, name);
 }
 

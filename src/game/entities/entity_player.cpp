@@ -34,7 +34,7 @@ void EntityPlayer::render(Camera* camera)
 		sphere_shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
 		sphere_shader->setUniform("u_model", sphere_m);
 
-		sphere_mesh->render(GL_LINES);
+		//sphere_mesh->render(GL_LINES);
 	}
 
 	//second Sphere
@@ -47,7 +47,7 @@ void EntityPlayer::render(Camera* camera)
 		sphere_shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
 		sphere_shader->setUniform("u_model", sphere_m);
 
-		sphere_mesh->render(GL_LINES);
+		//sphere_mesh->render(GL_LINES);
 	}
 
 	sphere_shader->disable();

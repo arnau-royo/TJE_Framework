@@ -14,7 +14,7 @@
 #include <memory>
 
 
-EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) //TODO com fer diferents tipus d'enemic
+EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name)
 {
 	Material enemy_material;
 

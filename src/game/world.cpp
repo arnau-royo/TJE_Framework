@@ -20,11 +20,12 @@ World::World()
 	player_material.diffuse = new Texture();
 	player_material.diffuse->load("data/textures/player.png");
 	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
+	player->setLayer(1 | 2);
 
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
 	//enemy->setLayer(eCollisionFilter::ENEMY);
 
-
+	
 	//Skybox
 	Material landscape_cubemap;
 	landscape_cubemap.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/cubemap.fs");
@@ -37,7 +38,7 @@ World::World()
 		"data/textures/skybox/py.png" ,
 		"data/textures/skybox/pz.png" });
 
-	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
+	skybox = new EntityMesh(Mesh::Get("data/meshes/box.ASE"), landscape_cubemap, "landscape");
 
 	parseScene("data/myscene_temp.scene", &root);
 }
@@ -190,14 +191,17 @@ bool World::parseScene(const char* filename, Entity* root)
 		Material mat = render_data.material;
 		EntityMesh* new_entity = nullptr;
 
-		size_t tag = data.first.find("@enemy");
+		size_t enemy_tag = data.first.find("@enemy");
+		size_t player_tag = data.first.find("@player");
 
-		if (tag != std::string::npos) {
+		if (enemy_tag != std::string::npos) {
 			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
-			// Create a different type of entity
 			new_entity = new EntityEnemy(mesh, "zombie_1");
 			assert(new_entity);
 			new_entity->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		if (player_tag != std::string::npos) {
+			player->model.setTranslation(render_data.models[0].getTranslation());
 		}
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());

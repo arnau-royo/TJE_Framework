@@ -20,7 +20,7 @@ class EntityPlayer : public EntityCollider {
 
 public:
 	EntityPlayer();
-	EntityPlayer(Mesh* mesh, Material* material, const std::string& name = "");
+	EntityPlayer(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityPlayer() {};
 
 	// Vel in move the player
