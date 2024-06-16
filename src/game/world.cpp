@@ -38,7 +38,7 @@ World::World()
 		"data/textures/skybox/py.png" ,
 		"data/textures/skybox/pz.png" });
 
-	skybox = new EntityMesh(Mesh::Get("data/meshes/box.ASE"), landscape_cubemap, "landscape");
+	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
 
 	parseScene("data/myscene_temp.scene", &root);
 }
