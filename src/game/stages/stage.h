@@ -4,7 +4,18 @@
 #include "framework/framework.h"
 #include <map>
 
+enum eStages {
+
+	MENU,
+	INTRO_STAGE,
+	PLAY_STAGE,
+	GAME_OVER,
+	WIN_STAGE
+};
+
 class Stage {
+
+	eStages type = MENU;
 
 public:
 
@@ -66,6 +77,27 @@ public:
 	void onMouseButtonUp(SDL_MouseButtonEvent event) { if (current) current->onMouseButtonUp(event); }
 	void onResize(int width, int height) { if (current) current->onResize(width, height); }
 };
+
+class MenuStage : public Stage {
+
+	eStages type = MENU;
+
+public:
+	MenuStage();
+
+	//audio stuff
+
+
+
+	// Methods overwritten from base class
+	void render();
+	void update(float delta_time);
+
+	void onEnter(Stage* previousStage);
+	void onKeyDown(SDL_KeyboardEvent event);
+	void onResize(int width, int height);
+};
+
 
 class PlayStage : public Stage {
 
