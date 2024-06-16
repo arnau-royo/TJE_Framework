@@ -18,9 +18,9 @@
 class EntityBullet : public EntityCollider {
 
 
-	EntityBullet(Mesh* mesh, const Material& mat, const std::string& name);
+	EntityBullet(Mesh* mesh, Material* mat, const std::string& name);
 
-	std::vector<EntityBullet> bullets[100];
+	std::vector<EntityBullet> bullets;
 
 	//overwriten methods
 	void render(Camera* camera);

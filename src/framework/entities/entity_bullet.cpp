@@ -3,9 +3,9 @@
 #include "entity_bullet.h"
 #include "graphics/material.h"
 
-EntityBullet::EntityBullet(Mesh* mesh, const Material& mat, const std::string& name) {
+EntityBullet::EntityBullet(Mesh* mesh, Material* mat, const std::string& name) {
 	
-	EntityMesh(mesh, mat, name);
+	EntityCollider(mesh, mat, name);
 
 }
 
