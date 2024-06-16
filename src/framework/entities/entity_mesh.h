@@ -31,11 +31,11 @@ public:
 	Mesh* mesh = nullptr;
 	Texture* texture = nullptr;
 	Shader* shader = nullptr;
-	Material* material = nullptr;
+	Material material;
 	Vector4 color;
 
 	EntityMesh();
-	EntityMesh(Mesh* mesh, Material* material, const std::string& name = "");
+	EntityMesh(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityMesh();
 
 	std::string last_drop = "heal";

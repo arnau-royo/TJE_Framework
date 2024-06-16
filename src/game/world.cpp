@@ -19,7 +19,7 @@ World::World()
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 	player_material.diffuse = new Texture();
 	player_material.diffuse->load("data/textures/player.png");
-	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), &player_material, "player");
+	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
 
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
 	//enemy->setLayer(eCollisionFilter::ENEMY);
@@ -37,9 +37,9 @@ World::World()
 		"data/textures/skybox/py.png" ,
 		"data/textures/skybox/pz.png" });
 
-	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), &landscape_cubemap, "landscape");
+	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
 
-	parseScene("data/myscene.scene", &root);
+	parseScene("data/myscene_temp.scene", &root);
 }
 
 void World::render() {
@@ -206,7 +206,7 @@ bool World::parseScene(const char* filename, Entity* root)
 
 			//mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
 
-			new_entity = new EntityMesh(mesh, &mat);
+			new_entity = new EntityMesh(mesh, mat);
 		}
 
 		if (!new_entity) {
@@ -251,7 +251,7 @@ void World::getCollisions(const Vector3& target_position, std::vector<sCollision
 		if (ec == nullptr) {
 			continue;
 		}
-		ec->getCollisions(target_position, collisions, ground_collisions, eCollisionFilter::ALL);
+		ec->getCollisions(target_position, collisions, ground_collisions, filter);
 	}
 }
 
@@ -285,5 +285,5 @@ sCollisionData World::raycast(const Vector3& origin, const Vector3& direction, i
 			//data.collider = ec;
 		}
 	}
-	return sCollisionData();
+	return data;
 }
