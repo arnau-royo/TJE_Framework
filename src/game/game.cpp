@@ -1,9 +1,12 @@
 #include "game.h"
 #include "framework/utils.h"
-#include "graphics/shader.h"
 #include "framework/input.h"
+#include "graphics/shader.h"
 
 #include "stages/stage.h"
+#include "stages/play_stage.h"
+
+#include "world.h"
 
 #include <fstream>
 #include <cmath>
@@ -12,8 +15,6 @@ float angle = 0;
 float mouse_speed = 100.0f;
 
 Game* Game::instance = NULL;
-
-
 
 Game::Game(int window_width, int window_height, SDL_Window* window)
 {
@@ -29,16 +30,16 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	elapsed_time = 0.0f;
 	mouse_locked = false;
 
+	// OpenGL flags
+	glEnable( GL_CULL_FACE ); //render both sides of every triangle
+	glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
+
 	PlayStage * playstage = new PlayStage();
 
 	StageManager::get_instance()->stages["playStage"] = playstage;
 
 	StageManager::get_instance()->goTo("playStage");
-
-	//TODO: no sé si això s'havia de treure (els enable)
-	// OpenGL flags
-	//glEnable( GL_CULL_FACE ); //render both sides of every triangle
-	//glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
+	
 }
 
 //what to do when the image has to be draw

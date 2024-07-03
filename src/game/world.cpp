@@ -1,6 +1,7 @@
 #include "world.h"
 #include "entities/entity_player.h"
 
+
 //Crating a world instance
 World* World::instance = nullptr;
 
@@ -17,8 +18,9 @@ World::World()
 	//Creating the player
 	Material player_material;
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
-	player_material.diffuse = new Texture();
-	player_material.diffuse->load("data/textures/player.png");
+	
+	//player_material.diffuse = new Texture();
+	//player_material.diffuse->load("data/textures/player.png");
 	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
 	player->setLayer(1 | 2);
 

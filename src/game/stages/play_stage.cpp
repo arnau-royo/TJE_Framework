@@ -1,28 +1,12 @@
-#include "stage.h"
-#include "game/game.h"
-#include "graphics/shader.h"
-#include "framework/input.h"
+#include "play_stage.h"
+
 #include "framework/camera.h"
-#include "graphics/texture.h"
-#include "framework/utils.h"
-#include "game/entities/entity_player.h"
+#include "framework/input.h"
+#include "framework/entities/entity_collider.h"
+
+#include "game/game.h"
 #include "game/world.h"
-#include "framework/entities/entity_enemy.h"
 
-#include <iomanip>
-#include <sstream>
-
-StageManager* StageManager::instance = nullptr;
-
-void StageManager::render() { 
-	if (current) 
-		current->render(); 
-}
-
-
-
-//TODO: Borrar això
-/*
 //PLAY STAGE
 PlayStage::PlayStage()
 {
@@ -41,6 +25,8 @@ void PlayStage::onEnter(Stage* previousStage)
 void PlayStage::render()
 {
 	World::get_instance()->render();
+
+	//ui
 }
 
 void PlayStage::update(float seconds_elapsed)
@@ -61,7 +47,21 @@ void PlayStage::update(float seconds_elapsed)
 	std::vector<Vector3> collisions;
 
 	for (Entity* e : World::get_instance()->root.children) {
-		
+
+		/*
+			EntityCollider* collider = dynamic_cast<EntityCollider*>(e);
+		if (!collider) {
+			continue;
+		}
+
+
+		Vector3 col_point;
+		Vector3 col_normal;
+
+		if (collider->mesh->testRayCollision(collider->model, ray_origin, ray_direction, col_point, col_normal)); {
+			collisions.push_back(col_point);
+		}
+		*/
 	}
 
 	//Get entities
@@ -72,7 +72,5 @@ void PlayStage::update(float seconds_elapsed)
 		new_entity->model.setTranslation(col_point);
 		World::get_instance()->addEntity(new_entity);
 	}
-		
-}
 
-*/
+}

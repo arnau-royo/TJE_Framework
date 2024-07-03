@@ -42,11 +42,13 @@ class World {
 
 		Entity root;
 
+		EntityMesh* skybox = nullptr;
+
 		EntityPlayer* player = nullptr;
 
 		EntityEnemy* enemy = nullptr;
 
-		EntityMesh* skybox = nullptr;
+		
 
 		Camera* camera = nullptr;
 
