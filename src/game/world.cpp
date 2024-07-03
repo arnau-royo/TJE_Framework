@@ -49,13 +49,13 @@ void World::render() {
 	//Set the camera as default
 	camera->enable();
 
-	// Draw the floor grid
-	drawGrid();
-
 	//Render skybox
 	glDisable(GL_DEPTH_TEST);
 	skybox->render(camera);
 	glEnable(GL_DEPTH_TEST);
+
+	// Draw the floor grid
+	drawGrid();
 
 	// Set flags
 	glDisable(GL_BLEND);
