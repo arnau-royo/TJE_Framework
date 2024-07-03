@@ -130,6 +130,7 @@ void EntityPlayer::update(float seconds_elapsed)
 		}
 	}
 
+	/*
 	//Gravity for falling
 	if (!is_grounded) {
 		velocity.y -= 0.9f * seconds_elapsed;
@@ -137,6 +138,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
 		velocity.y = 2.0f;
 	}
+	*/
 
 	//Update player's position
 	position += velocity * seconds_elapsed;
