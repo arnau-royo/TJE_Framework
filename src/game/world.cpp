@@ -131,6 +131,8 @@ void World::update(float seconds_elapsed)
 
 	}
 
+	// Move Skybox to camera position
+	skybox->model.setTranslation(camera->eye);
 
 	//Delete pending entities
 	for (auto e : entities_to_destroy) {

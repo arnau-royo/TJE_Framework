@@ -5,7 +5,6 @@
 
 class Camera;
 
-
 class Entity {
 
 public:

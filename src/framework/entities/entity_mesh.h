@@ -4,25 +4,6 @@
 #include "framework/animation.h"
 #include "graphics/material.h"
 
-
-struct sCollisionData {
-	Vector3 colPoint;
-	Vector3 colNormal;
-	float distance = 1e10f;
-	bool collided = false;
-	//EntityCollider* collider = nullptr;
-};
-
-enum eCollisionFilter {
-	NONE = 0,
-	FLOOR = 1 << 0,
-	WALL = 1 << 1,
-	PLAYER = 1 << 2,
-	ENEMY = 1 << 3,
-	SCENARIO = FLOOR | WALL,
-	ALL = 0xFF
-};
-
 class EntityMesh : public Entity {
 
 public:

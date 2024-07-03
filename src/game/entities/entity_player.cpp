@@ -1,8 +1,12 @@
 #pragma once
 #include "entity_player.h"
+//Els altres includes estan a entity_player.h
+
+
 
 EntityPlayer::EntityPlayer()
 {
+	
 }
 
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name)
@@ -15,6 +19,8 @@ void EntityPlayer::render(Camera* camera)
 {
 	//Render mesh
 	EntityMesh::render(camera);
+
+	//DEBUG SPHERES
 	float sphere_radius = World::get_instance()->sphere_radius;
 	float sphere_ground_radius = World::get_instance()->sphere_ground_radius;
 	float player_height = World::get_instance()->player_height;
@@ -25,7 +31,7 @@ void EntityPlayer::render(Camera* camera)
 
 	sphere_shader->enable();
 
-	//first sphere
+	// First sphere
 	{
 		sphere_m.translate(0.0f, sphere_ground_radius, 0.0f);
 		sphere_m.scale(sphere_ground_radius, sphere_ground_radius, sphere_ground_radius);
@@ -34,10 +40,10 @@ void EntityPlayer::render(Camera* camera)
 		sphere_shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
 		sphere_shader->setUniform("u_model", sphere_m);
 
-		//sphere_mesh->render(GL_LINES);
+		sphere_mesh->render(GL_LINES); //Comentar per tal que no apareixi
 	}
 
-	//second Sphere
+	// Second Sphere
 	{
 		Matrix44 sphere_m = model;
 		sphere_m.translate(0.0f, player_height, 0.0f);
@@ -47,7 +53,7 @@ void EntityPlayer::render(Camera* camera)
 		sphere_shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
 		sphere_shader->setUniform("u_model", sphere_m);
 
-		//sphere_mesh->render(GL_LINES);
+		sphere_mesh->render(GL_LINES);
 	}
 
 	sphere_shader->disable();
@@ -69,14 +75,12 @@ void EntityPlayer::update(float seconds_elapsed)
 	Vector3 move_dir;
 
 	//moviment endavant/enrere
-
 	if (Input::isKeyPressed(SDL_SCANCODE_W) || Input::isKeyPressed(SDL_SCANCODE_UP))
 		move_dir += front;
 	if (Input::isKeyPressed(SDL_SCANCODE_S) || Input::isKeyPressed(SDL_SCANCODE_DOWN))
 		move_dir -= front;
 
 	//moviement esquerra/dreta
-
 	if (Input::isKeyPressed(SDL_SCANCODE_D) || Input::isKeyPressed(SDL_SCANCODE_RIGHT))
 		move_dir -= left;
 	if (Input::isKeyPressed(SDL_SCANCODE_A) || Input::isKeyPressed(SDL_SCANCODE_LEFT))
@@ -127,12 +131,12 @@ void EntityPlayer::update(float seconds_elapsed)
 	}
 
 	//Gravity for falling
-	/*if (!is_grounded) {
+	if (!is_grounded) {
 		velocity.y -= 0.9f * seconds_elapsed;
 	}
 	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
 		velocity.y = 2.0f;
-	}*/
+	}
 
 	//Update player's position
 	position += velocity * seconds_elapsed;
@@ -142,7 +146,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	velocity.z *= 0.5f;
 
 	model.setTranslation(position);
-	model.rotate(camera_yaw, Vector3(0, 1, 0)); //S'ha de provar per veure que fa
+	model.rotate(camera_yaw, Vector3(0, 1, 0));
 
 	EntityMesh::update(seconds_elapsed);
 }
