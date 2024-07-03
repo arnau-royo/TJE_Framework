@@ -33,12 +33,12 @@ World::World()
 	landscape_cubemap.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/cubemap.fs");
 	landscape_cubemap.diffuse = new Texture();
 	landscape_cubemap.diffuse->loadCubemap("landscape", {
-		"data/textures/skybox/nx.png",
+		"data/textures/skybox/px.png",
+		"data/textures/skybox/nx.png" ,
 		"data/textures/skybox/ny.png" ,
-		"data/textures/skybox/nz.png" ,
-		"data/textures/skybox/px.png" ,
 		"data/textures/skybox/py.png" ,
-		"data/textures/skybox/pz.png" });
+		"data/textures/skybox/pz.png" ,
+		"data/textures/skybox/nz.png" });
 
 	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
 
