@@ -16,6 +16,7 @@
 #include "game/game.h"
 #include "game/world.h"
 
+
 class EntityPlayer : public EntityCollider {
 
 public:
@@ -31,4 +32,5 @@ public:
 	// Methods overwritten from base class
 	void render(Camera* camera) override;
 	void update(float seconds_elapsed) override;
+
 };

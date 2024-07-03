@@ -1,19 +1,20 @@
 #pragma once
 #include "entity_player.h"
+
+
 //Els altres includes estan a entity_player.h
 
+EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name)
+{
+	EntityMesh(mesh, material, name);
+}
 
 
 EntityPlayer::EntityPlayer()
 {
-	
+
 }
 
-EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name)
-{
-	
-	EntityMesh(mesh, material, name);
-}
 
 void EntityPlayer::render(Camera* camera)
 {
@@ -152,4 +153,3 @@ void EntityPlayer::update(float seconds_elapsed)
 
 	EntityMesh::update(seconds_elapsed);
 }
-

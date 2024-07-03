@@ -1,4 +1,5 @@
 #include "world.h"
+
 #include "entities/entity_player.h"
 
 
@@ -255,7 +256,7 @@ void World::getCollisions(const Vector3& target_position, std::vector<sCollision
 {
 	for (auto e : root.children)
 	{
-			EntityCollider* ec = dynamic_cast<EntityCollider*>(e);
+		EntityCollider* ec = dynamic_cast<EntityCollider*>(e);
 		if (ec == nullptr) {
 			continue;
 		}
@@ -290,8 +291,28 @@ sCollisionData World::raycast(const Vector3& origin, const Vector3& direction, i
 			data.colPoint = col_point;
 			data.colNormal = col_normal;
 			data.distance = non_distance;
-			//data.collider = ec;
+			data.collider = ec;
 		}
 	}
 	return data;
 }
+
+
+/*
+void World::addWayPointFromScreenPos(const Vector2& coord)
+{
+	Camera* camera = Camera::current;
+
+	//Get ray direction
+	Vector3 ray_origin = camera->eye;
+	Vector3 ray_direction = camera->getRayDirection(Input::mouse_position.x, Input::mouse_position.y, Game::instance->window_width, Game::instance->window_height);
+
+	//Collision data
+	sCollisionData data = World::get_instance()->raycast(ray_origin, ray_direction);
+
+	//Push new waypoint
+	if (data.collided) {
+		waypoints.push_back(data.colPoint);
+	}
+
+*/

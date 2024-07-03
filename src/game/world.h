@@ -82,4 +82,10 @@ class World {
 
 		sCollisionData raycast(const Vector3& origin, const Vector3& direction, int layer, float max_ray_dist);
 
+		/*
+		//AI
+		std::vector<Vector2> waypoints;
+		void addWayPointFromScreenPos(const Vector2& coord);
+		*/
+
 };

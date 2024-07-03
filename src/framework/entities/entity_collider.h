@@ -2,13 +2,7 @@
 
 #include "entity_mesh.h"
 
-struct sCollisionData {
-	Vector3 colPoint;
-	Vector3 colNormal;
-	float distance = 1e10f;
-	bool collided = false;
-	//EntityCollider* collider = nullptr;
-};
+class EntityCollider;
 
 enum eCollisionFilter {
 	NONE = 0,
@@ -19,6 +13,16 @@ enum eCollisionFilter {
 	SCENARIO = FLOOR | WALL,
 	ALL = 0xFF
 };
+
+
+struct sCollisionData {
+	Vector3 colPoint;
+	Vector3 colNormal;
+	float distance = 1e10f;
+	bool collided = false;
+	EntityCollider* collider = nullptr;
+};
+
 
 class EntityCollider : public EntityMesh {
 
