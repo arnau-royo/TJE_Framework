@@ -20,10 +20,10 @@ World::World()
 	Mesh* player_mesh = Mesh::Get("data/meshes/player/player.obj");
 	
 	Material player_material;
-	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
-	
-	player_material.diffuse = new Texture();
-	player_material.diffuse->load("data/textures/player/player.png");
+
+	player_material.diffuse = Texture::Get("data/textures/player/player.png");
+	player_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
+	//player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 	
 	player = new EntityPlayer(player_mesh, player_material, "player");
 	player->setLayer(1 | 2);
@@ -31,6 +31,7 @@ World::World()
 
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
 	enemy->setLayer(eCollisionFilter::ENEMY);
+	root.addChild(enemy);
 
 	
 	//Skybox
@@ -122,7 +123,8 @@ void World::update(float seconds_elapsed)
 		Vector3 eye;
 		Vector3 center;
 
-		eye = player->model.getTranslation() + Vector3(0.f, 0.2f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçaddda al eye del player
+		//A l'eye l'he tirat de moment endavant i a dalt, però estaria bé que no tingues cap el player
+		eye = player->model.getTranslation() + Vector3(-0.7f, 2.8f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçada al eye del player Alçada de la camara
 		center = eye + front;
 
 		//Ray-mesh intersection to move the camera up to the collision point

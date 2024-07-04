@@ -19,6 +19,8 @@ public:
 	EntityMesh(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityMesh();
 
+
+
 	std::string last_drop = "heal";
 
 	//Instancing
@@ -27,7 +29,6 @@ public:
 	std::vector<Matrix44> models;
 
 	//Methods overwritten from base class
-
 	void render(Camera* camera);
 	void update(float delta_time);
 

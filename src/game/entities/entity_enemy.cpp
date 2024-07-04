@@ -15,7 +15,7 @@
 
 #define RENDER_DEBUG
 
-EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name)
+EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(mesh, material, name)
 {
 	Material enemy_material;
 
