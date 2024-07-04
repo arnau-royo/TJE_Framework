@@ -1,7 +1,6 @@
 #pragma once
 #include "entity_player.h"
 
-
 //Els altres includes estan a entity_player.h
 
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
@@ -22,6 +21,7 @@ void EntityPlayer::render(Camera* camera)
 	EntityMesh::render(camera);
 
 	//DEBUG SPHERES
+	/*/
 	float sphere_radius = World::get_instance()->sphere_radius;
 	float sphere_ground_radius = World::get_instance()->sphere_ground_radius;
 	float player_height = World::get_instance()->player_height;
@@ -58,7 +58,7 @@ void EntityPlayer::render(Camera* camera)
 	}
 
 	sphere_shader->disable();
-	
+	*/
 }
 
 void EntityPlayer::update(float seconds_elapsed)
