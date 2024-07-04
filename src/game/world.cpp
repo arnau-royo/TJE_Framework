@@ -17,16 +17,20 @@ World::World()
 	camera->setPerspective(70.f, window_width / (float)window_height, 0.01f, 1000.f); //set the projection, we want to be perspective
 
 	//Creating the player
+	Mesh* player_mesh = Mesh::Get("data/meshes/player/player.obj");
+	
 	Material player_material;
 	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 	
-	//player_material.diffuse = new Texture();
-	//player_material.diffuse->load("data/textures/player.png");
-	player = new EntityPlayer(Mesh::Get("data/meshes/player/player.obj"), player_material, "player");
+	player_material.diffuse = new Texture();
+	player_material.diffuse->load("data/textures/player/player.png");
+	
+	player = new EntityPlayer(player_mesh, player_material, "player");
 	player->setLayer(1 | 2);
 
+
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
-	//enemy->setLayer(eCollisionFilter::ENEMY);
+	enemy->setLayer(eCollisionFilter::ENEMY);
 
 	
 	//Skybox
@@ -65,6 +69,9 @@ void World::render() {
 
 	//Render entity player
 	player->render(camera);
+
+	//Render entity enemy TODO
+	//enemy->render(camera);
 
 	//Render all scene tree
 	root.render(camera);
@@ -203,6 +210,7 @@ bool World::parseScene(const char* filename, Entity* root)
 		size_t enemy_waypoint_tag = data.first.find("@waypoint");
 
 		if (player_tag != std::string::npos) {
+			assert(player);
 			player->model.setTranslation(render_data.models[0].getTranslation());
 		}
 		else if (enemy_tag != std::string::npos) {
@@ -213,13 +221,14 @@ bool World::parseScene(const char* filename, Entity* root)
 		}
 		else if (enemy_waypoint_tag != std::string::npos){
 			waypoints.push_back(render_data.models[0].getTranslation());
+			continue;
 
 		}
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());
 
 			//new_entity = new EntityMesh(mesh, mat);
-			new_entity = new EntityCollider(mesh, mat);
+			new_entity = new EntityCollider(mesh, mat); //Ha de ser un entity collider per aplicar les collisions calculades a l'objecte Entity Collider
 		}
 
 		if (!new_entity) {
