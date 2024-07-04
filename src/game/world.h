@@ -66,7 +66,7 @@ class World {
 
 		float sphere_radius = 1.0f;
 		float sphere_ground_radius = 1.f;
-		float player_height = 2.0f;
+		float player_height = 2.75f;
 
 		//Scene
 

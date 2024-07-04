@@ -195,30 +195,31 @@ bool World::parseScene(const char* filename, Entity* root)
 
 		Material mat = render_data.material;
 		
-		EntityCollider* new_entity = nullptr;
-		//EntityMesh* new_entity = nullptr;
+		EntityMesh* new_entity = nullptr;
+		EntityMesh* new_entity2 = nullptr;
 
 		size_t enemy_tag = data.first.find("@enemy");
 		size_t player_tag = data.first.find("@player");
+		size_t enemy_waypoint_tag = data.first.find("@waypoint");
 
-		if (enemy_tag != std::string::npos) {
-			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
-			new_entity = new EntityEnemy(mesh, "zombie_1");
-			assert(new_entity);
-			new_entity->model.setTranslation(render_data.models[0].getTranslation());
-		}
 		if (player_tag != std::string::npos) {
 			player->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		else if (enemy_tag != std::string::npos) {
+			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
+			new_entity2 = new EntityEnemy(mesh, "zombie_1");
+			assert(new_entity2);
+			new_entity2->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		else if (enemy_waypoint_tag != std::string::npos){
+			waypoints.push_back(render_data.models[0].getTranslation());
+
 		}
 		else {
 			Mesh* mesh = Mesh::Get(mesh_name.c_str());
 
-			//mesh->isTextured(); //Crear el metode istextured i mirar si el material té Kd_texture
-
-			//mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
-
-			new_entity = new EntityCollider(mesh, mat);
 			//new_entity = new EntityMesh(mesh, mat);
+			new_entity = new EntityCollider(mesh, mat);
 		}
 
 		if (!new_entity) {
