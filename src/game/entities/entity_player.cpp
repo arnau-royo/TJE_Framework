@@ -4,9 +4,9 @@
 
 //Els altres includes estan a entity_player.h
 
-EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name)
+EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
 {
-	EntityMesh(mesh, material, name);
+
 }
 
 

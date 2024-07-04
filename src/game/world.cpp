@@ -194,7 +194,9 @@ bool World::parseScene(const char* filename, Entity* root)
 
 
 		Material mat = render_data.material;
-		EntityMesh* new_entity = nullptr;
+		
+		EntityCollider* new_entity = nullptr;
+		//EntityMesh* new_entity = nullptr;
 
 		size_t enemy_tag = data.first.find("@enemy");
 		size_t player_tag = data.first.find("@player");
@@ -215,7 +217,8 @@ bool World::parseScene(const char* filename, Entity* root)
 
 			//mat.shader = ...  //Si té textura, posar el material de textura i sinó el del color per vertex
 
-			new_entity = new EntityMesh(mesh, mat);
+			new_entity = new EntityCollider(mesh, mat);
+			//new_entity = new EntityMesh(mesh, mat);
 		}
 
 		if (!new_entity) {
