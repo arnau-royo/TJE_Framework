@@ -28,11 +28,14 @@ class EntityEnemy : public EntityCollider {
 	enum eActions { SPAWN, CHASE, ATTACK, DIE, DANCE };
 
 	float fov = 0.0f;
+	float max_sight_distance = 0.0f;
 
 	//Waypoints
 	bool walk_forwards = true;
 	int waypoint_index = 0;
 	std::vector<WayPoint> path;
+
+
 	float mod = 1.0;
 	float ar = 10.0;
 	float healthbar;

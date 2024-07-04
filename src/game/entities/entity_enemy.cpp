@@ -25,7 +25,10 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name)
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie1.png");
 
-		this->healthbar = 100;
+		this->fov = 100.0f; //Es pot jugar amb l'angle de visió
+		this->max_sight_distance = 10.0f; //La ditancia fins a on et detecta
+
+		this->healthbar = 90;
 
 	}
 	else {
@@ -33,6 +36,9 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name)
 		enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie2.png");
+
+		this->fov = 120.0f; //Es pot jugar amb l'angle de visió
+		this->max_sight_distance = 15.0f;
 
 		this->healthbar = 150;
 	}
@@ -69,8 +75,11 @@ void EntityEnemy::render(Camera* camera)
 	m.setRotation(-fov * 0.5f * DEG2RAD, Vector3::UP);
 
 	vertices.push_back(pos);
-	vertices.push_back(pos * m.rotateVector(front));
+	vertices.push_back(pos + m.rotateVector(front));
 
+	Vector3 to_target = target->model.getTranslation() - model.getTranslation();
+	vertices.push_back(pos);
+	vertices.push_back(pos + to_target);
 
 	Mesh mesh;
 	mesh.vertices = vertices;
@@ -125,22 +134,20 @@ bool EntityEnemy::inLineOfSight(const Vector3& position)
 	Vector3 target = position + offset;
 	Vector3 to_target = target - origin;
 
-
-	float max_distance = 10.f;
-
 	float distance = to_target.length();
 	to_target.normalize();
 	Vector3 front = model.frontVector();
 	front.normalize();
 
-	//1st step: Vision Code
+	// First step: Vision Code
 	float angle = model.getYawRotationToAimTo(target);
 	float half_fov_radians = fov * 0.5f * DEG2RAD;
 
-	if (fabsf(angle) < half_fov_radians && distance < max_distance)
+	if (fabsf(angle) < half_fov_radians && distance < max_sight_distance)
 	{
-		// 2nd staep: check obstacles
-		sCollisionData data = World::get_instance()->raycast(origin, to_target, eCollisionFilter::ALL ^ eCollisionFilter::ENEMY, distance);
+		// Second staep: check obstacles
+		sCollisionData data = World::get_instance()->raycast(origin, to_target, 
+			eCollisionFilter::ALL ^ eCollisionFilter::ENEMY, distance); //excloem l'ENEMY
 
 		return !data.collided;
 	}
