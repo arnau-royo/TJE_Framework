@@ -13,6 +13,7 @@
 #include "game/world.h"
 #include <memory>
 
+#define RENDER_DEBUG
 
 EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name)
 {
@@ -39,18 +40,29 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name)
 	EntityMesh(mesh, enemy_material, name);
 }
 
+EntityEnemy::~EntityEnemy()
+{
+}
+
 void EntityEnemy::render(Camera* camera)
 {
+#ifdef RENDER_DEBUG
+
 	//Render mesh
 	Entity* target = (Entity*)World::get_instance()->player;
+	bool in_sight = inLineOfSight(target->getGlobalMatrix().getTranslation());
 
 	std::vector<Vector3> vertices;
 
 	Vector3 pos = model.getTranslation();
 	Vector3 front = model.frontVector();
-	Matrix44 m;
+	
+	vertices.push_back(pos);
+	vertices.push_back(pos + front);
 
+	Matrix44 m;
 	m.setRotation(fov * 0.5f * DEG2RAD, Vector3::UP);
+
 	vertices.push_back(pos);
 	vertices.push_back(pos + m.rotateVector(front));
 
@@ -59,7 +71,28 @@ void EntityEnemy::render(Camera* camera)
 	vertices.push_back(pos);
 	vertices.push_back(pos * m.rotateVector(front));
 
+
+	Mesh mesh;
+	mesh.vertices = vertices;
+
+	Shader* shader = Shader::Get("data/shaders/basic.vs", "data/shaders/flat.fs");
+
+	shader->enable();
+
+	//Upload uniforms
+	shader->setUniform("u_color", in_sight ? Vector4(1.f, 0.f, 0.f, 1.f) : Vector4(0.f, 1.f, 0.f, 1.f));
+	shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+	shader->setUniform("u_model", Matrix44());
+
+	mesh.render(GL_LINE_STRIP);
+
+	//Disable shader
+	shader->disable();
+
+#endif RENDER_DEBUG
+
 	EntityMesh::render(camera);
+
 }
 
 void EntityEnemy::update(float seconds_elapsed) {
@@ -83,6 +116,36 @@ void EntityEnemy::update(float seconds_elapsed) {
 			dance();
 		}
 		*/
+}
+
+bool EntityEnemy::inLineOfSight(const Vector3& position)
+{
+	Vector3 offset = Vector3(0.f, 0.1f, 0.f);
+	Vector3 origin = model.getTranslation() + offset;
+	Vector3 target = position + offset;
+	Vector3 to_target = target - origin;
+
+
+	float max_distance = 10.f;
+
+	float distance = to_target.length();
+	to_target.normalize();
+	Vector3 front = model.frontVector();
+	front.normalize();
+
+	//1st step: Vision Code
+	float angle = model.getYawRotationToAimTo(target);
+	float half_fov_radians = fov * 0.5f * DEG2RAD;
+
+	if (fabsf(angle) < half_fov_radians && distance < max_distance)
+	{
+		// 2nd staep: check obstacles
+		sCollisionData data = World::get_instance()->raycast(origin, to_target, eCollisionFilter::ALL ^ eCollisionFilter::ENEMY, distance);
+
+		return !data.collided;
+	}
+
+	return false;
 }
 
 void EntityEnemy::dif_mod(int difficulty)
@@ -153,6 +216,7 @@ void EntityEnemy::spawn_drop()
 
 void EntityEnemy::lookAtTarget(Vector3 target, float seconds_elapsed)
 {
+	//Rotate model to look at position
 	float angle = model.getYawRotationToAimTo(target);
 	float rotation_speed = 4.0f * seconds_elapsed;
 	model.rotate(angle * rotation_speed, Vector3::UP);

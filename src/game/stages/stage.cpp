@@ -7,7 +7,7 @@
 #include "framework/utils.h"
 #include "game/entities/entity_player.h"
 #include "game/world.h"
-#include "framework/entities/entity_enemy.h"
+#include "game/entities/entity_enemy.h"
 
 #include <iomanip>
 #include <sstream>

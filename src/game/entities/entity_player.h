@@ -1,7 +1,7 @@
 #pragma once
 
 #include "framework/entities/entity_collider.h"
-#include "framework/entities/entity_enemy.h"
+#include "game/entities/entity_enemy.h"
 
 #include "graphics/mesh.h"
 #include "graphics/texture.h"

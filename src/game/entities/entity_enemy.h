@@ -1,6 +1,6 @@
 #pragma once
 
-#include "entity_collider.h"
+#include "framework/entities/entity_collider.h"
 #include "framework/animation.h"
 #include "framework/extra/pathfinder/PathFinder.h"
 #include "framework/extra/pathfinder/Dijkstra.h"
@@ -25,7 +25,7 @@ struct WayPoint : public DijkstraNode
 
 class EntityEnemy : public EntityCollider {
 
-	enum eActions {SPAWN, CHASE, ATTACK, DIE, DANCE};
+	enum eActions { SPAWN, CHASE, ATTACK, DIE, DANCE };
 
 	float fov = 0.0f;
 
@@ -44,7 +44,9 @@ class EntityEnemy : public EntityCollider {
 
 public:
 
+	EntityEnemy() {};
 	EntityEnemy(Mesh* mesh, const std::string& name = "");
+	~EntityEnemy();
 
 	// Vel in move the enemy
 	Vector3 velocity;
@@ -64,6 +66,8 @@ public:
 	void dance(EntityEnemy enemy);
 	void choosedrop();
 	void spawn_drop();
+
+	bool inLineOfSight(const Vector3& position);
 	void lookAtTarget(Vector3 target, float seconds_elapsed);
 	void followPath(float seconds_elpased);
 };

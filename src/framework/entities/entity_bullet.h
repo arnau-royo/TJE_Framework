@@ -1,6 +1,6 @@
 #pragma once
 
-#include "entity_enemy.h"
+#include "game/entities/entity_enemy.h"
 #include "graphics/mesh.h"
 #include "graphics/texture.h"
 #include "graphics/shader.h"
