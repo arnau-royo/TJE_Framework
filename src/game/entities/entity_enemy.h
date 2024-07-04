@@ -7,8 +7,6 @@
 #include "graphics/material.h"
 #include "framework/input.h"
 
-class EntityPlayer; //Forward declaration of EntityPlayer
-
 enum eFSMStates {
 	PATROL, // o IDLE
 	SEARCH_PLAYER,
@@ -45,9 +43,9 @@ class EntityEnemy : public EntityCollider {
 
 
 	float mod = 1.0;
-	float ar = 10.0;
+	float ar = 2.0; //Distancia a la que l'enemic fa mal (ataca)
 	float healthbar;
-	float damage = 15.0 * mod;
+	float damage = 15.0 * mod; //It increases with the diffculty mode
 
 	std::vector<EntityEnemy> enemies;
 
@@ -68,11 +66,6 @@ public:
 
 	//Methods from class
 	void dif_mod(int difficulty);
-	void chase(float seconds_elapsed);
-	void attack(EntityPlayer player);
-	void die(EntityEnemy enemy);
-	bool isdead(EntityEnemy enemy);
-	void dance(EntityEnemy enemy);
 	void choosedrop();
 	void spawn_drop();
 

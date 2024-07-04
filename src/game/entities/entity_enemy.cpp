@@ -109,15 +109,17 @@ void EntityEnemy::update(float seconds_elapsed) {
 	
 	Entity* target = (Entity*)World::get_instance()->player;
 	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
+	bool in_sight = inLineOfSight(player_pos);
 	
 	if (state == PATROL) {
 		
 		//walk animation
 		
 		followPath(seconds_elapsed);
-
-		bool in_sight = inLineOfSight(player_pos);
-
+		
+		if (this->healthbar == 0.0) {
+			state = DIE;  //Si no té vida, mor
+		}
 		if (in_sight) {
 			state = SEARCH_PLAYER;  //Mentre patrulla també va buscant el player (dins del seu angle de visió)
 		}
@@ -127,42 +129,56 @@ void EntityEnemy::update(float seconds_elapsed) {
 		Vector3 origin = model.getTranslation();
 		lookAtTarget(player_pos, seconds_elapsed);
 		model.translate(0.f, 0.f, seconds_elapsed);
+		
+		if (this->healthbar == 0.0) {
+			state = DIE;  //Si no té vida, mor
+		}
+		if (!in_sight) {
+			state = PATROL;  //Si ja no el detecta torna a patrullar
+		}
 
 		if (distance(World::get_instance()->player) < ar) {
 			state = ATTACK;  //Si està a prop ataca
 		}
 	}
-
-
-	void EntityEnemy::chase(float seconds_elapsed)
+	else if (state == ATTACK)
 	{
-		Entity* target = (Entity*)World::get_instance()->player;
-		Vector3 player_pos = target->getGlobalMatrix().getTranslation();
-		lookAtTarget(player_pos, seconds_elapsed);
-		//walk animation
-		followPath(seconds_elapsed);
-	}
+		//play.animation
+	
+		//TODO: Aplicar el mal a la salut del player (ho fa a un video del final) (jo he pensat que amb el metode per agafar player de world i una funció dins de player per modificar la vida)
+		//(World::get_instance()->player);
 
-	/*
-	switch (state) {
-		case SPAWN:
-			render(World::get_instance()->camera);
-			healthbar = 100.0;
-			state = CHASE;
-		case CHASE:
-			chase();
-			if (distance(World::get_instance()->player) < ar)
-				state = ATTACK;
-		case ATTACK:
-			attack(World::get_instance()->player);
-			if (distance(World::get_instance()->player) > ar)
-				state = CHASE;
-		case DIE:
-			die();
-		case DANCE:
-			dance();
+		if (this->healthbar == 0.0) {
+			state = DIE;  //Si no té vida, mor
+		}
+		else if (distance(World::get_instance()->player) > ar) {
+			state = SEARCH_PLAYER;  //Si ja no està a prop deixa d'atacar
+		}
+		else if (!in_sight) {
+			state = PATROL;  //Si ja no el detecta torna a patrullar
+		}
+	}
+	else if (state == DIE) {
+		
+		//play animació
+		World::get_instance()->removeEntity(World::get_instance()->enemy);
+		spawn_drop();
+	}
+	else if (state == DANCE) {
+		//play animació
+
+		if (this->healthbar == 0.0) {
+			state = DIE;  //Si no té vida, mor
+		}
+		else if (distance(World::get_instance()->player) > ar) {
+			state = SEARCH_PLAYER;  //Si ja no està a prop deixa d'atacar
+		}
+		/*
+		else if (!in_sight) {
+			state = PATROL;  //Si ja no el detecta torna a patrullar
 		}
 		*/
+	}
 
 	EntityCollider::update(seconds_elapsed);
 }
@@ -207,32 +223,6 @@ void EntityEnemy::dif_mod(int difficulty)
 		case 2:
 			mod = 1.5;
 	}
-}
-
-
-
-void EntityEnemy::attack(EntityPlayer player)
-{
-	//play.animation
-	player.healthbar -= this->damage;
-}
-
-void EntityEnemy::die(EntityEnemy enemy)
-{
-	//play animació
-	World::get_instance()->removeEntity(World::get_instance()->enemy);
-	spawn_drop();
-
-}
-
-bool EntityEnemy::isdead(EntityEnemy enemy) {
-	if (enemy.healthbar == 0.0)
-		return true;
-	else
-		return false;
-}
-void EntityEnemy::dance(EntityEnemy enemy)
-{
 }
 
 void EntityEnemy::choosedrop()
