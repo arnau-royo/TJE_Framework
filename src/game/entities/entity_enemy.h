@@ -9,6 +9,14 @@
 
 class EntityPlayer; //Forward declaration of EntityPlayer
 
+enum eFSMStates {
+	PATROL, // o IDLE
+	SEARCH_PLAYER,
+	ATTACK,
+	DIE,
+	DANCE
+};
+
 struct WayPoint : public DijkstraNode
 {
 	WayPoint() {}
@@ -25,10 +33,10 @@ struct WayPoint : public DijkstraNode
 
 class EntityEnemy : public EntityCollider {
 
-	enum eActions { SPAWN, CHASE, ATTACK, DIE, DANCE };
-
 	float fov = 0.0f;
 	float max_sight_distance = 0.0f;
+
+	eFSMStates state = PATROL;
 
 	//Waypoints
 	bool walk_forwards = true;
@@ -42,8 +50,6 @@ class EntityEnemy : public EntityCollider {
 	float damage = 15.0 * mod;
 
 	std::vector<EntityEnemy> enemies;
-
-	eActions state;
 
 public:
 

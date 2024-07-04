@@ -67,16 +67,17 @@ void EntityEnemy::render(Camera* camera)
 	vertices.push_back(pos + front);
 
 	Matrix44 m;
-	m.setRotation(fov * 0.5f * DEG2RAD, Vector3::UP);
+	m.setRotation(fov * 0.5f * DEG2RAD, Vector3::UP);  //La mitat del fov cap a un cantó
 
 	vertices.push_back(pos);
 	vertices.push_back(pos + m.rotateVector(front));
 
-	m.setRotation(-fov * 0.5f * DEG2RAD, Vector3::UP);
+	m.setRotation(-fov * 0.5f * DEG2RAD, Vector3::UP); //La mitat del fov cap l'altre cantó
 
 	vertices.push_back(pos);
 	vertices.push_back(pos + m.rotateVector(front));
 
+	//Add to_targeer line
 	Vector3 to_target = target->model.getTranslation() - model.getTranslation();
 	vertices.push_back(pos);
 	vertices.push_back(pos + to_target);
@@ -105,6 +106,43 @@ void EntityEnemy::render(Camera* camera)
 }
 
 void EntityEnemy::update(float seconds_elapsed) {
+	
+	Entity* target = (Entity*)World::get_instance()->player;
+	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
+	
+	if (state == PATROL) {
+		
+		//walk animation
+		
+		followPath(seconds_elapsed);
+
+		bool in_sight = inLineOfSight(player_pos);
+
+		if (in_sight) {
+			state = SEARCH_PLAYER;  //Mentre patrulla també va buscant el player (dins del seu angle de visió)
+		}
+	}
+	else if (state == SEARCH_PLAYER)
+	{
+		Vector3 origin = model.getTranslation();
+		lookAtTarget(player_pos, seconds_elapsed);
+		model.translate(0.f, 0.f, seconds_elapsed);
+
+		if (distance(World::get_instance()->player) < ar) {
+			state = ATTACK;  //Si està a prop ataca
+		}
+	}
+
+
+	void EntityEnemy::chase(float seconds_elapsed)
+	{
+		Entity* target = (Entity*)World::get_instance()->player;
+		Vector3 player_pos = target->getGlobalMatrix().getTranslation();
+		lookAtTarget(player_pos, seconds_elapsed);
+		//walk animation
+		followPath(seconds_elapsed);
+	}
+
 	/*
 	switch (state) {
 		case SPAWN:
@@ -125,7 +163,12 @@ void EntityEnemy::update(float seconds_elapsed) {
 			dance();
 		}
 		*/
+
+	EntityCollider::update(seconds_elapsed);
 }
+
+
+
 
 bool EntityEnemy::inLineOfSight(const Vector3& position)
 {
@@ -166,14 +209,7 @@ void EntityEnemy::dif_mod(int difficulty)
 	}
 }
 
-void EntityEnemy::chase(float seconds_elapsed)
-{
-	Entity* target = (Entity*)World::get_instance()->player;
-	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
-	lookAtTarget(player_pos, seconds_elapsed);
-	//walk animation
-	followPath(seconds_elapsed);
-}
+
 
 void EntityEnemy::attack(EntityPlayer player)
 {
@@ -221,11 +257,11 @@ void EntityEnemy::spawn_drop()
 	}*/
 }
 
-void EntityEnemy::lookAtTarget(Vector3 target, float seconds_elapsed)
+void EntityEnemy::lookAtTarget(const Vector3 position, float seconds_elapsed)
 {
 	//Rotate model to look at position
-	float angle = model.getYawRotationToAimTo(target);
-	float rotation_speed = 4.0f * seconds_elapsed;
+	float angle = model.getYawRotationToAimTo(position);
+	float rotation_speed = 4.0f * seconds_elapsed;		//Velocitat a la que rota l'enemic
 	model.rotate(angle * rotation_speed, Vector3::UP);
 	//float angle_in_rad = acos(clamp(front.dot(target), -1.0f, 1.0f));
 }
