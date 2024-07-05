@@ -140,6 +140,8 @@ public:
 	void displace(Image* heightmap, float altitude);
 	static Mesh* getQuad(); //get global quad
 
+	bool has_texture();
+
 	void updateBoundingBox();
 
 	//optimize meshes

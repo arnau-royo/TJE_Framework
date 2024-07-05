@@ -31,7 +31,27 @@ void EntityMesh::render(Camera* camera) {
 	glEnable(GL_DEPTH_TEST);
 
 	if (!material.shader) {
-		material.shader = Shader::Get(isInstanced ? "data/shaders/instanced.vs" : "data/shaders/basic.vs", "data/shaders/texture.fs");
+
+		std::string vs;
+		std::string fs;
+
+		if (isInstanced)
+		{
+			vs = "data/shaders/instanced.vs";
+		}
+		else
+		{
+			vs = "data/shaders/basic.vs";
+		}
+
+		if (material.diffuse || mesh->has_texture()) {
+			fs = "data/shaders/texture.fs";
+		}
+		else {
+			fs = "data/shaders/flat.fs";
+		}
+
+		material.shader = Shader::Get(vs.c_str(), fs.c_str());
 	}
 
 	//Enable shader

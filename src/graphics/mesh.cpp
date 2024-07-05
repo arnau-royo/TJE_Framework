@@ -251,10 +251,10 @@ void Mesh::render(unsigned int primitive, int submesh_id, int num_instances)
 					if (materials[dc.material].Kd_texture && materials[dc.material].Kd_texture->texture_id != 0) {
 						shader->setUniform("u_texture", materials[dc.material].Kd_texture, 0);
 					}
-					else {
+		/*			else {
 						glActiveTexture(GL_TEXTURE0);
 						glBindTexture(GL_TEXTURE_2D, 0);
-					}
+					}*/
 
 					shader->setUniform("u_maps", Vector2(!!materials[dc.material].Kd_texture, 0));
 				}
@@ -1721,6 +1721,24 @@ Mesh* Mesh::getQuad()
 		quad->uploadToVRAM();
 	}
 	return quad;
+}
+
+bool Mesh::has_texture()
+{
+	if (!materials.empty()) // if there's mesh mtl
+	{
+		for (int i = 0; i < submeshes.size(); ++i) {
+			sSubmeshInfo& submesh = submeshes[i];
+			for (uint32_t j = 0; j < submesh.num_draw_calls; ++j) {
+				const sSubmeshDrawCallInfo& dc = submesh.draw_calls[j];
+				if (materials.count(dc.material) > 0) {
+					return materials[dc.material].Kd_texture && materials[dc.material].Kd_texture->texture_id != 0;
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 Mesh* Mesh::Get(const char* filename)

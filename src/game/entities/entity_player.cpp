@@ -141,6 +141,8 @@ void EntityPlayer::update(float seconds_elapsed)
 	}
 	*/
 
+
+
 	//Update player's position
 	position += velocity * seconds_elapsed;
 

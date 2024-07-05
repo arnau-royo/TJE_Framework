@@ -22,11 +22,12 @@ World::World()
 	Material player_material;
 
 	player_material.diffuse = Texture::Get("data/textures/player/player.png");
-	player_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
-	//player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+	//player_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
+	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 	
 	player = new EntityPlayer(player_mesh, player_material, "player");
 	player->setLayer(1 | 2);
+	player->isAnimated = true;
 
 
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");

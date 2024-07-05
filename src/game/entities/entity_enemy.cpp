@@ -32,7 +32,6 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 
 	}
 	else {
-		Material enemy_material;
 		enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie2.png");
@@ -43,7 +42,9 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 		this->healthbar = 150;
 	}
 	
-	EntityMesh(mesh, enemy_material, name);
+	this->mesh = mesh;
+	this->material = enemy_material;
+	this->name = name;
 }
 
 EntityEnemy::~EntityEnemy()
@@ -110,7 +111,7 @@ void EntityEnemy::update(float seconds_elapsed) {
 	Entity* target = (Entity*)World::get_instance()->player;
 	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
 	bool in_sight = inLineOfSight(player_pos);
-	
+
 	if (state == PATROL) {
 		
 		//walk animation
@@ -127,8 +128,62 @@ void EntityEnemy::update(float seconds_elapsed) {
 	else if (state == SEARCH_PLAYER)
 	{
 		Vector3 origin = model.getTranslation();
-		lookAtTarget(player_pos, seconds_elapsed);
-		model.translate(0.f, 0.f, seconds_elapsed);
+		Matrix44 rotation = lookAtTarget(player_pos, seconds_elapsed);
+
+		Vector3 enemy_velocity = rotation.rotateVector(Vector3(0, 0, -1));
+
+		//pegar lo que tenia
+		
+		Vector3 position = model.getTranslation();
+		
+		//Check collisions with world entities
+
+		std::vector<sCollisionData> collisions;
+		std::vector<sCollisionData> ground_collisions;
+
+		for (auto entity : World::get_instance()->root.children) {
+
+			EntityCollider* ec = dynamic_cast<EntityCollider*>(entity);
+			if (ec != nullptr)
+				ec->getCollisions(position + velocity * seconds_elapsed, collisions, ground_collisions, static_cast<eCollisionFilter> (ec->getLayer()));
+		}
+
+		//Enviornment collisions
+		for (const sCollisionData& collision : collisions) {
+			//Move along wall when colliding
+			Vector3 newDir = velocity.dot(collision.colNormal) * collision.colNormal;
+			velocity.x -= newDir.x;
+			velocity.y -= newDir.y;
+			velocity.z -= newDir.z;
+		}
+
+		//Ground collisions
+		bool is_grounded = false;
+
+		for (const sCollisionData& collision : ground_collisions) {
+			//If normal is pointing upwards, it means it's a floor collision
+			float up_factor = fabsf(collision.colNormal.dot(Vector3::UP));
+			if (up_factor > 0.8) {
+				is_grounded = true;
+			}
+			if (collision.colPoint.y > (position.y * velocity.y * seconds_elapsed)) {
+				position.y = collision.colPoint.y;
+			}
+		}
+
+		/*
+		//Gravity for falling
+		if (!is_grounded) {
+			velocity.y -= 0.9f * seconds_elapsed;
+		}
+		else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
+			velocity.y = 2.0f;
+		}
+		*/
+
+
+		model.setTranslation(position);
+		model = model * rotation; // cambiar orden si no va
 		
 		if (this->healthbar == 0.0) {
 			state = DIE;  //Si no té vida, mor
@@ -247,12 +302,15 @@ void EntityEnemy::spawn_drop()
 	}*/
 }
 
-void EntityEnemy::lookAtTarget(const Vector3 position, float seconds_elapsed)
+Matrix44 EntityEnemy::lookAtTarget(const Vector3 position, float seconds_elapsed)
 {
 	//Rotate model to look at position
 	float angle = model.getYawRotationToAimTo(position);
 	float rotation_speed = 4.0f * seconds_elapsed;		//Velocitat a la que rota l'enemic
-	model.rotate(angle * rotation_speed, Vector3::UP);
+	Matrix44 rotation_mat;
+	rotation_mat.rotate(angle * rotation_speed, Vector3::UP);
+	return rotation_mat;
+	//model.rotate(angle * rotation_speed, Vector3::UP);
 	//float angle_in_rad = acos(clamp(front.dot(target), -1.0f, 1.0f));
 }
 

@@ -15,6 +15,10 @@ public:
 	Material material;
 	Vector4 color;
 
+	Animator animator;
+
+	bool isAnimated = false;
+
 	EntityMesh();
 	EntityMesh(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityMesh();
