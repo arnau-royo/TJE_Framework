@@ -131,10 +131,10 @@ void EntityEnemy::update(float seconds_elapsed) {
 		Matrix44 rotation = lookAtTarget(player_pos, seconds_elapsed);
 
 		Vector3 enemy_velocity = rotation.rotateVector(Vector3(0, 0, -1));
+				
 
 		//pegar lo que tenia
-		
-		Vector3 position = model.getTranslation();
+		Vector3 enemy_position = model.getTranslation();
 		
 		//Check collisions with world entities
 
@@ -145,7 +145,7 @@ void EntityEnemy::update(float seconds_elapsed) {
 
 			EntityCollider* ec = dynamic_cast<EntityCollider*>(entity);
 			if (ec != nullptr)
-				ec->getCollisions(position + velocity * seconds_elapsed, collisions, ground_collisions, static_cast<eCollisionFilter> (ec->getLayer()));
+				ec->getCollisions(enemy_position + enemy_velocity * seconds_elapsed, collisions, ground_collisions, static_cast<eCollisionFilter> (ec->getLayer() & ~eCollisionFilter::ENEMY)); //Exloc l'enemic ja que és ell mateix
 		}
 
 		//Enviornment collisions
@@ -166,25 +166,27 @@ void EntityEnemy::update(float seconds_elapsed) {
 			if (up_factor > 0.8) {
 				is_grounded = true;
 			}
-			if (collision.colPoint.y > (position.y * velocity.y * seconds_elapsed)) {
-				position.y = collision.colPoint.y;
+			if (collision.colPoint.y > (enemy_position.y * enemy_velocity.y * seconds_elapsed)) {
+				enemy_position.y = collision.colPoint.y;
 			}
 		}
 
-		/*
+		
 		//Gravity for falling
+		/*
 		if (!is_grounded) {
-			velocity.y -= 0.9f * seconds_elapsed;
+			enemy_velocity.y -= 0.9f * seconds_elapsed;
 		}
 		else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-			velocity.y = 2.0f;
+			enemy_velocity.y = 2.0f;
 		}
 		*/
 
-
-		model.setTranslation(position);
+		model.setTranslation(enemy_position);
 		model = model * rotation; // cambiar orden si no va
-		
+
+
+
 		if (this->healthbar == 0.0) {
 			state = DIE;  //Si no té vida, mor
 		}

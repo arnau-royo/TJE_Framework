@@ -17,7 +17,7 @@ World::World()
 	camera->setPerspective(70.f, window_width / (float)window_height, 0.01f, 1000.f); //set the projection, we want to be perspective
 
 	//Creating the player
-	Mesh* player_mesh = Mesh::Get("data/meshes/player/player.obj");
+	Mesh* player_mesh = Mesh::Get("data/meshes/player/player_no_head.obj");
 	
 	Material player_material;
 
@@ -32,6 +32,9 @@ World::World()
 
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
 	enemy->setLayer(eCollisionFilter::ENEMY);
+
+	enemy->model.setTranslation(5.5f, 0.01f, -6.0f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
+
 	root.addChild(enemy);
 
 	
@@ -125,7 +128,7 @@ void World::update(float seconds_elapsed)
 		Vector3 center;
 
 		//A l'eye l'he tirat de moment endavant i a dalt, però estaria bé que no tingues cap el player
-		eye = player->model.getTranslation() + Vector3(-0.7f, 2.8f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçada al eye del player Alçada de la camara
+		eye = player->model.getTranslation() + Vector3(0.0f, 2.8f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçada al eye del player Alçada de la camara
 		center = eye + front;
 
 		//Ray-mesh intersection to move the camera up to the collision point
