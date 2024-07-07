@@ -30,7 +30,7 @@ World::World()
 	player->isAnimated = true;
 
 
-	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/player.obj"), "zombie_2");
+	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/enemy.obj"), "zombie_1");
 	enemy->setLayer(eCollisionFilter::ENEMY);
 
 	enemy->model.setTranslation(5.5f, 0.01f, -6.0f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
@@ -128,7 +128,7 @@ void World::update(float seconds_elapsed)
 		Vector3 center;
 
 		//A l'eye l'he tirat de moment endavant i a dalt, però estaria bé que no tingues cap el player
-		eye = player->model.getTranslation() + Vector3(0.0f, 2.8f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçada al eye del player Alçada de la camara
+		eye = player->model.getTranslation() + Vector3(0.0f, 0.25f, 0.0f) + front * 0.1f; //0.2f enlloc de 0.1f per donar-li una mica més d'alçada al eye del player Alçada de la camara
 		center = eye + front;
 
 		//Ray-mesh intersection to move the camera up to the collision point
