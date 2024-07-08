@@ -64,9 +64,9 @@ class World {
 		void render();
 		void update(float seconds_elapsed);
 
-		float sphere_radius = 1.0f;
-		float sphere_ground_radius = 1.f;
-		float player_height = 2.75f;
+		float sphere_radius = .05f;
+		float sphere_ground_radius = .05f;
+		float player_height = 0.14f;
 
 		//Scene
 
