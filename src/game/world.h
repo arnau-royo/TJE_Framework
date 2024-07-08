@@ -59,7 +59,7 @@ class World {
 		float camera_speed = 2.0f;
 		float mouse_speed = 0.5f;
 
-		bool free_camera = true;
+		bool free_camera = false;
 
 		void render();
 		void update(float seconds_elapsed);

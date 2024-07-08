@@ -27,7 +27,7 @@ public:
 	// Vel in move the player
 	Vector3 velocity = Vector3(0.0f);
 	float healthbar = 100.0;
-	float walk_speed = 0.5f;
+	float walk_speed = 1.0f;
 
 	// Methods overwritten from base class
 	void render(Camera* camera) override;

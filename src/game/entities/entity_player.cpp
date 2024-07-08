@@ -21,7 +21,7 @@ void EntityPlayer::render(Camera* camera)
 	EntityCollider::render(camera);
 
 	//DEBUG SPHERES
-	
+	/*/
 	float sphere_radius = World::get_instance()->sphere_radius;
 	float sphere_ground_radius = World::get_instance()->sphere_ground_radius;
 	float player_height = World::get_instance()->player_height;
@@ -58,7 +58,7 @@ void EntityPlayer::render(Camera* camera)
 	}
 
 	sphere_shader->disable();
-	
+	*/
 }
 
 void EntityPlayer::update(float seconds_elapsed)

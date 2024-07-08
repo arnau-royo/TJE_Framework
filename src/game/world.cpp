@@ -33,7 +33,7 @@ World::World()
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/enemy.obj"), "zombie_1");
 	enemy->setLayer(eCollisionFilter::ENEMY);
 
-	enemy->model.setTranslation(1.5f, 0.01f, -6.0f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
+	enemy->model.setTranslation(1.f, 0.01f, -3.f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
 
 	root.addChild(enemy);
 
