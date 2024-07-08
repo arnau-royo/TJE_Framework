@@ -5,7 +5,15 @@
 
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
 {
+	/*
+	animator.playAnimation("data/animations/__");
 
+	animator.addCallback("data/animations/__", [&](float t) {
+
+		//play audio
+
+		}, 0.5f);
+	*/
 }
 
 
@@ -132,15 +140,15 @@ void EntityPlayer::update(float seconds_elapsed)
 		}
 	}
 
-	/*
+	
 	//Gravity for falling
 	if (!is_grounded) {
 		velocity.y -= 0.9f * seconds_elapsed;
 	}
 	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-		velocity.y = 2.0f;
+		velocity.y = .6f;
 	}
-	*/
+	
 
 
 

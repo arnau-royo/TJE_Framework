@@ -109,7 +109,7 @@ class Animator {
 	float time = 0.0f;
 
 	bool playing_loop = true;
-	Animation* current_animation = nullptr;
+	Animation* current_animation = nullptr; 
 
 	// Transitions
 	bool must_play_loop = true;

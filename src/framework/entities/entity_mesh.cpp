@@ -73,6 +73,14 @@ void EntityMesh::render(Camera* camera) {
 	if (isInstanced) {
 		mesh->renderInstanced(GL_TRIANGLES, models.data(), models.size());
 	} else{
+		/*
+		if (isAnimated){
+			mesh->renderAnimated(GL_TRIANGLES, &animator.getCurrentSkeleton());
+		}
+		else {
+			mesh->render(GL_TRIANGLES);
+		}
+		*/
 		mesh->render(GL_TRIANGLES);
 	}
 
@@ -86,6 +94,11 @@ void EntityMesh::render(Camera* camera) {
 };
 
 void EntityMesh::update(float seconds_elapsed) {
+	
+	if (isAnimated) {
+		animator.update(seconds_elapsed); //Si es animat afegim un animator
+	}
+
 	Entity::update(seconds_elapsed);
 }
 
