@@ -18,7 +18,7 @@ enum eFSMStates {
 struct WayPoint : public DijkstraNode
 {
 	WayPoint() {}
-	WayPoint(const Vector3& position) : position(position){ }
+	WayPoint(const Vector3& position) : position(position) { }
 
 	void addLink(WayPoint* waypoint, float distance) {
 		addChild(waypoint, distance);
@@ -26,7 +26,7 @@ struct WayPoint : public DijkstraNode
 	}
 
 	Vector3 position;
-	
+
 };
 
 class EntityEnemy : public EntityCollider {
@@ -43,7 +43,7 @@ class EntityEnemy : public EntityCollider {
 
 
 	float mod = 1.0;
-	float ar = 2.0; //Distancia a la que l'enemic fa mal (ataca)
+	float ar = 0.2; //Distancia a la que l'enemic fa mal (ataca)
 	float healthbar;
 	float damage = 15.0 * mod; //It increases with the diffculty mode
 
@@ -70,6 +70,6 @@ public:
 	void spawn_drop();
 
 	bool inLineOfSight(const Vector3& position);
-	Matrix44 lookAtTarget(Vector3 target, float seconds_elapsed);
+	void lookAtTarget(Vector3 target, float seconds_elapsed);
 	void followPath(float seconds_elpased);
 };

@@ -25,23 +25,24 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie1.png");
 
-		this->fov = 100.0f; //Es pot jugar amb l'angle de visió
+		this->fov = 100.0f; //Es pot jugar amb l'angle de visio
 		this->max_sight_distance = 10.0f; //La ditancia fins a on et detecta
 
 		this->healthbar = 90;
 
 	}
 	else {
+		//Material enemy_material;
 		enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie2.png");
 
-		this->fov = 120.0f; //Es pot jugar amb l'angle de visió
+		this->fov = 120.0f; //Es pot jugar amb l'angle de visio
 		this->max_sight_distance = 15.0f;
 
 		this->healthbar = 150;
 	}
-	
+
 	this->mesh = mesh;
 	this->material = enemy_material;
 	this->name = name;
@@ -63,17 +64,17 @@ void EntityEnemy::render(Camera* camera)
 
 	Vector3 pos = model.getTranslation();
 	Vector3 front = model.frontVector();
-	
+
 	vertices.push_back(pos);
 	vertices.push_back(pos + front);
 
 	Matrix44 m;
-	m.setRotation(fov * 0.5f * DEG2RAD, Vector3::UP);  //La mitat del fov cap a un cantó
+	m.setRotation(fov * 0.5f * DEG2RAD, Vector3::UP);  //La mitat del fov cap a un canto
 
 	vertices.push_back(pos);
 	vertices.push_back(pos + m.rotateVector(front));
 
-	m.setRotation(-fov * 0.5f * DEG2RAD, Vector3::UP); //La mitat del fov cap l'altre cantó
+	m.setRotation(-fov * 0.5f * DEG2RAD, Vector3::UP); //La mitat del fov cap l'altre canto
 
 	vertices.push_back(pos);
 	vertices.push_back(pos + m.rotateVector(front));
@@ -107,128 +108,72 @@ void EntityEnemy::render(Camera* camera)
 }
 
 void EntityEnemy::update(float seconds_elapsed) {
-	
+
 	Entity* target = (Entity*)World::get_instance()->player;
 	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
 	bool in_sight = inLineOfSight(player_pos);
 
 	if (state == PATROL) {
-		
+
 		//walk animation
-		
+
 		followPath(seconds_elapsed);
-		
+
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no té vida, mor
+			state = DIE;  //Si no t? vida, mor
 		}
 		if (in_sight) {
-			state = SEARCH_PLAYER;  //Mentre patrulla també va buscant el player (dins del seu angle de visió)
+			state = SEARCH_PLAYER;  //Mentre patrulla tamb? va buscant el player (dins del seu angle de visio)
 		}
 	}
 	else if (state == SEARCH_PLAYER)
 	{
 		Vector3 origin = model.getTranslation();
-		Matrix44 rotation = lookAtTarget(player_pos, seconds_elapsed);
-
-		Vector3 enemy_velocity = rotation.rotateVector(Vector3(0, 0, -1));
-				
-
-		//pegar lo que tenia
-		Vector3 enemy_position = model.getTranslation();
-		
-		//Check collisions with world entities
-
-		std::vector<sCollisionData> collisions;
-		std::vector<sCollisionData> ground_collisions;
-
-		for (auto entity : World::get_instance()->root.children) {
-
-			EntityCollider* ec = dynamic_cast<EntityCollider*>(entity);
-			if (ec != nullptr)
-				ec->getCollisions(enemy_position + enemy_velocity * seconds_elapsed, collisions, ground_collisions, static_cast<eCollisionFilter> (ec->getLayer() & ~eCollisionFilter::ENEMY)); //Exloc l'enemic ja que és ell mateix
-		}
-
-		//Enviornment collisions
-		for (const sCollisionData& collision : collisions) {
-			//Move along wall when colliding
-			Vector3 newDir = velocity.dot(collision.colNormal) * collision.colNormal;
-			velocity.x -= newDir.x;
-			velocity.y -= newDir.y;
-			velocity.z -= newDir.z;
-		}
-
-		//Ground collisions
-		bool is_grounded = false;
-
-		for (const sCollisionData& collision : ground_collisions) {
-			//If normal is pointing upwards, it means it's a floor collision
-			float up_factor = fabsf(collision.colNormal.dot(Vector3::UP));
-			if (up_factor > 0.8) {
-				is_grounded = true;
-			}
-			if (collision.colPoint.y > (enemy_position.y * enemy_velocity.y * seconds_elapsed)) {
-				enemy_position.y = collision.colPoint.y;
-			}
-		}
-
-		
-		//Gravity for falling
-		/*
-		if (!is_grounded) {
-			enemy_velocity.y -= 0.9f * seconds_elapsed;
-		}
-		else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-			enemy_velocity.y = 2.0f;
-		}
-		*/
-
-		model.setTranslation(enemy_position);
-		model = model * rotation; // cambiar orden si no va
-
-
+		lookAtTarget(player_pos, seconds_elapsed);
+		model.translate(0.f, 0.f, seconds_elapsed);
 
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no té vida, mor
+			state = DIE;  //Si no t? vida, mor
 		}
 		if (!in_sight) {
 			state = PATROL;  //Si ja no el detecta torna a patrullar
 		}
 
 		if (distance(World::get_instance()->player) < ar) {
-			state = ATTACK;  //Si està a prop ataca
+			state = ATTACK;  //Si est? a prop ataca
 		}
 	}
 	else if (state == ATTACK)
 	{
 		//play.animation
-	
-		//TODO: Aplicar el mal a la salut del player (ho fa a un video del final) (jo he pensat que amb el metode per agafar player de world i una funció dins de player per modificar la vida)
+
+		//TODO: Aplicar el mal a la salut del player (ho fa a un video del final) (jo he pensat que amb el metode per agafar player de world i una funci? dins de player per modificar la vida)
 		//(World::get_instance()->player);
 
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no té vida, mor
+			state = DIE;  //Si no t? vida, mor
 		}
 		else if (distance(World::get_instance()->player) > ar) {
-			state = SEARCH_PLAYER;  //Si ja no està a prop deixa d'atacar
+			state = SEARCH_PLAYER;  //Si ja no est? a prop deixa d'atacar
 		}
 		else if (!in_sight) {
 			state = PATROL;  //Si ja no el detecta torna a patrullar
 		}
 	}
 	else if (state == DIE) {
-		
-		//play animació
+
+		//play animaci?
 		World::get_instance()->removeEntity(World::get_instance()->enemy);
 		spawn_drop();
 	}
 	else if (state == DANCE) {
-		//play animació
+		//play animaci?
 
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no té vida, mor
+			state = DIE;  //Si no t? vida, mor
 		}
 		else if (distance(World::get_instance()->player) > ar) {
-			state = SEARCH_PLAYER;  //Si ja no està a prop deixa d'atacar
+			state = SEARCH_PLAYER;  //Si ja no est? a prop deixa d'atacar
 		}
 		/*
 		else if (!in_sight) {
@@ -262,7 +207,7 @@ bool EntityEnemy::inLineOfSight(const Vector3& position)
 	if (fabsf(angle) < half_fov_radians && distance < max_sight_distance)
 	{
 		// Second staep: check obstacles
-		sCollisionData data = World::get_instance()->raycast(origin, to_target, 
+		sCollisionData data = World::get_instance()->raycast(origin, to_target,
 			eCollisionFilter::ALL ^ eCollisionFilter::ENEMY, distance); //excloem l'ENEMY
 
 		return !data.collided;
@@ -274,11 +219,11 @@ bool EntityEnemy::inLineOfSight(const Vector3& position)
 void EntityEnemy::dif_mod(int difficulty)
 {
 	switch (difficulty) {
-		case 0: //easy mode, no change
-		case 1:	//normal mode
-			mod = 1.25;
-		case 2:
-			mod = 1.5;
+	case 0: //easy mode, no change
+	case 1:	//normal mode
+		mod = 1.25;
+	case 2:
+		mod = 1.5;
 	}
 }
 
@@ -304,15 +249,12 @@ void EntityEnemy::spawn_drop()
 	}*/
 }
 
-Matrix44 EntityEnemy::lookAtTarget(const Vector3 position, float seconds_elapsed)
+void EntityEnemy::lookAtTarget(const Vector3 position, float seconds_elapsed)
 {
 	//Rotate model to look at position
 	float angle = model.getYawRotationToAimTo(position);
 	float rotation_speed = 4.0f * seconds_elapsed;		//Velocitat a la que rota l'enemic
-	Matrix44 rotation_mat;
-	rotation_mat.rotate(angle * rotation_speed, Vector3::UP);
-	return rotation_mat;
-	//model.rotate(angle * rotation_speed, Vector3::UP);
+	model.rotate(angle * rotation_speed, Vector3::UP);
 	//float angle_in_rad = acos(clamp(front.dot(target), -1.0f, 1.0f));
 }
 
@@ -348,7 +290,7 @@ void EntityEnemy::followPath(float seconds_elapsed)
 
 		const std::vector<Vector3>& points = World::get_instance()->waypoints;
 
-		// “points” is a vector3 array storing our waypoints
+		// ?points? is a vector3 array storing our waypoints
 
 		std::vector<WayPoint> wp_nodes;
 		wp_nodes.resize(points.size());
@@ -370,7 +312,7 @@ void EntityEnemy::followPath(float seconds_elapsed)
 		bool r = p.findPath<Dijkstra>(solution);
 
 		if (r) {
-			// Path found! Iterate through “solution” and
+			// Path found! Iterate through ?solution? and
 		// store the path in your AI data structure
 			for (const auto& waypoint : solution) {
 				path.push_back(waypoint->position);
@@ -379,4 +321,3 @@ void EntityEnemy::followPath(float seconds_elapsed)
 
 	}
 }
-
