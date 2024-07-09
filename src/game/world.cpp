@@ -17,13 +17,13 @@ World::World()
 	camera->setPerspective(70.f, window_width / (float)window_height, 0.01f, 1000.f); //set the projection, we want to be perspective
 
 	//Creating the player
-	Mesh* player_mesh = Mesh::Get("data/meshes/player/player_no_head.obj");
+	Mesh* player_mesh = Mesh::Get("data/meshes/player/player_no_head_anim.MESH");
 	
 	Material player_material;
 
 	player_material.diffuse = Texture::Get("data/textures/player/player.png");
-	//player_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
-	player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+	player_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
+	//player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
 	
 	player = new EntityPlayer(player_mesh, player_material, "player");
 	player->setLayer(1 | 2);

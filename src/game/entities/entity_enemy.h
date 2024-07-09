@@ -58,7 +58,7 @@ public:
 	// Vel in move the enemy
 	Vector3 velocity;
 
-	float walk_speed = 0.2f;
+	float walk_speed = 0.1f;
 
 	// Methods overwritten from base class
 	void render(Camera* camera);

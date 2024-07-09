@@ -5,15 +5,7 @@
 
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
 {
-	/*
-	animator.playAnimation("data/animations/__");
-
-	animator.addCallback("data/animations/__", [&](float t) {
-
-		//play audio
-
-		}, 0.5f);
-	*/
+	animator.playAnimation("data/animations/idle.skanim");
 }
 
 

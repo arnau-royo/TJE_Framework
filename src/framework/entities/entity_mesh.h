@@ -17,18 +17,16 @@ public:
 
 	Animator animator;
 
-	bool isAnimated = false;
-
 	EntityMesh();
 	EntityMesh(Mesh* mesh, const Material& material, const std::string& name = "");
 	~EntityMesh();
 
 
-
 	std::string last_drop = "heal";
 
-	//Instancing
+	bool isAnimated = false;
 
+	//Instancing
 	bool isInstanced = false;
 	std::vector<Matrix44> models;
 
