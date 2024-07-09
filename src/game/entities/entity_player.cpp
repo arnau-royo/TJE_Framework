@@ -5,7 +5,7 @@
 
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
 {
-	animator.playAnimation("data/animations/idle.skanim");
+	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animació d'IDLE
 }
 
 
@@ -131,7 +131,6 @@ void EntityPlayer::update(float seconds_elapsed)
 			position.y = collision.colPoint.y;
 		}
 	}
-
 	
 	//Gravity for falling
 	if (!is_grounded) {
@@ -141,7 +140,19 @@ void EntityPlayer::update(float seconds_elapsed)
 		velocity.y = .6f;
 	}
 	
+	//Change animation depending on the player velocity
+	if (animation_state == eAnimationState::IDLE && velocity.length() > .5f) {
+		animator.playAnimation("data/animations/run.skanim");
+		animation_state = eAnimationState::RUNNING;
+	}
+	else if (animation_state == eAnimationState::RUNNING && velocity.length() < 0.1f) {
+		animator.playAnimation("data/animations/idle.skanim");
+		animation_state = eAnimationState::IDLE;
+	}
 
+	if (Input::wasKeyPressed(SDL_SCANCODE_V)) {
+		animator.playAnimation("data/animations/punch.skanim", false, 0.05f);
+	}
 
 
 	//Update player's position

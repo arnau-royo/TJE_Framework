@@ -34,7 +34,7 @@ World::World()
 	enemy->setLayer(eCollisionFilter::ENEMY);
 	//enemy->isAnimated = true;
 
-	enemy->model.setTranslation(-2.f, 0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
+	enemy->model.setTranslation(-2.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
 
 
 	root.addChild(enemy);
@@ -86,7 +86,7 @@ void World::render() {
 
 void World::update(float seconds_elapsed)
 {
-	if (free_camera)
+	if (free_camera || Input::isKeyPressed(SDL_SCANCODE_F))
 	{
 		float speed = seconds_elapsed * camera_speed;
 

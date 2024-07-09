@@ -16,8 +16,14 @@
 #include "game/game.h"
 #include "game/world.h"
 
+enum eAnimationState {
+	IDLE,
+	RUNNING
+};
 
 class EntityPlayer : public EntityCollider {
+
+	eAnimationState animation_state = eAnimationState::IDLE;
 
 public:
 	EntityPlayer();
@@ -27,7 +33,7 @@ public:
 	// Vel in move the player
 	Vector3 velocity = Vector3(0.0f);
 	float healthbar = 100.0;
-	float walk_speed = 1.0f;
+	float walk_speed = .5f;
 
 	// Methods overwritten from base class
 	void render(Camera* camera) override;
