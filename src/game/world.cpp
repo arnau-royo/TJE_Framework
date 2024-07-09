@@ -36,6 +36,8 @@ World::World()
 
 	enemy->model.setTranslation(-2.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
 
+	enemy->model.scale(0.5, 0.5, 0.5); //Escalo l'enemic per fer-lo més petit
+
 
 	root.addChild(enemy);
 
