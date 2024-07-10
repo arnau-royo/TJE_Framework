@@ -30,14 +30,11 @@ World::World()
 	player->isAnimated = true;
 
 
-	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/enemy.obj"), "zombie_1");
+	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_1");
 	enemy->setLayer(eCollisionFilter::ENEMY);
-	//enemy->isAnimated = true;
+	enemy->isAnimated = true;
 
 	enemy->model.setTranslation(-2.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
-
-	enemy->model.scale(0.5, 0.5, 0.5); //Escalo l'enemic per fer-lo més petit
-
 
 	root.addChild(enemy);
 

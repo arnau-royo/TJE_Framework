@@ -13,6 +13,8 @@
 #include "game/world.h"
 #include <memory>
 
+#include <random>
+
 #define RENDER_DEBUG
 
 EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(mesh, material, name)
@@ -21,7 +23,8 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 
 	if (name == "zombie_1") {
 
-		enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+		//enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+		enemy_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie1.png");
 
@@ -33,7 +36,8 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 	}
 	else {
 		//Material enemy_material;
-		enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+		//enemy_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+		enemy_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
 		enemy_material.diffuse = new Texture();
 		enemy_material.diffuse->load("data/textures/zombie/zombie2.png");
 
@@ -46,6 +50,10 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 	this->mesh = mesh;
 	this->material = enemy_material;
 	this->name = name;
+
+	//animation stuff
+	animator.playAnimation("data/animations/zombie_idle.skanim"); //Quan crea el enemy posa l'animació d'IDLE
+
 }
 
 EntityEnemy::~EntityEnemy()
@@ -113,74 +121,130 @@ void EntityEnemy::update(float seconds_elapsed) {
 	Vector3 player_pos = target->getGlobalMatrix().getTranslation();
 	bool in_sight = inLineOfSight(player_pos);
 
-	if (state == PATROL) {
-
-		//walk animation
+	if (state == eFSMStates::PATROL) {
 
 		followPath(seconds_elapsed);
 
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no t? vida, mor
+			state = eFSMStates::DIE;  //Si no t? vida, mor
+
+			//die animation
+			animator.playAnimation("data/animations/zombie_die.skanim");
 		}
-		if (in_sight) {
-			state = SEARCH_PLAYER;  //Mentre patrulla tamb? va buscant el player (dins del seu angle de visio)
+		else if (in_sight) {
+			state = eFSMStates::SEARCH_PLAYER;  //Mentre patrulla tamb? va buscant el player (dins del seu angle de visio)
+
+			//run animation
+			animator.playAnimation("data/animations/zombie_run.skanim");
 		}
+
+		//Rarely it starts dancing
+		std::random_device rd;   // Obtain a random number from hardware
+		std::mt19937 gen(rd());  // Seed the generator
+		std::uniform_int_distribution<> distr(0, 10000000);  // Define the range
+
+		if (distr(gen) == 0) {
+			state = eFSMStates::DANCE;
+			
+			//dance animation
+			animator.playAnimation("data/animations/zombie_dance.skanim", false, 0.05f);
+		}
+
 	}
-	else if (state == SEARCH_PLAYER)
+	else if (state == eFSMStates::SEARCH_PLAYER)
 	{
+		
 		Vector3 origin = model.getTranslation();
 		lookAtTarget(player_pos, seconds_elapsed);
 		model.translate(0.f, 0.f, seconds_elapsed);
 
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no t? vida, mor
+			state = eFSMStates::DIE;  //Si no t? vida, mor
+
+			//die animation
+			animator.playAnimation("data/animations/zombie_die.skanim");
 		}
 		if (!in_sight) {
-			state = PATROL;  //Si ja no el detecta torna a patrullar
+			state = eFSMStates::PATROL;  //Si ja no el detecta torna a patrullar o idle
+
+			//animation idle
+			animator.playAnimation("data/animations/zombie_idle.skanim");
 		}
 
 		if (distance(World::get_instance()->player) < ar) {
-			state = ATTACK;  //Si est? a prop ataca
+			state = eFSMStates::ATTACK;  //Si est? a prop ataca
+
+			// Randomly select one attack animation
+			std::random_device rd;   // Obtain a random number from hardware
+			std::mt19937 gen(rd());  // Seed the generator
+			std::uniform_int_distribution<> distr(0, 1);  // Define the range
+
+			if (distr(gen) == 0) {
+				animator.playAnimation("data/animations/zombie_attack1.skanim");
+			}
+			else {
+				animator.playAnimation("data/animations/zombie_attack2.skanim");
+			}
 		}
 	}
-	else if (state == ATTACK)
+	else if (state == eFSMStates::ATTACK)
 	{
-		//play.animation
-
 		//TODO: Aplicar el mal a la salut del player (ho fa a un video del final) (jo he pensat que amb el metode per agafar player de world i una funci? dins de player per modificar la vida)
 		//(World::get_instance()->player);
 
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no t? vida, mor
-		}
-		else if (distance(World::get_instance()->player) > ar) {
-			state = SEARCH_PLAYER;  //Si ja no est? a prop deixa d'atacar
+			state = eFSMStates::DIE;  //Si no t? vida, mor
+
+			//die animation
+			animator.playAnimation("data/animations/zombie_die.skanim");
 		}
 		else if (!in_sight) {
-			state = PATROL;  //Si ja no el detecta torna a patrullar
+			state = eFSMStates::PATROL;  //Si ja no el detecta torna a patrullar
+
+			//animation idle
+			animator.playAnimation("data/animations/zombie_idle.skanim");
+		}
+		else if (distance(World::get_instance()->player) > ar) {
+			state = eFSMStates::SEARCH_PLAYER;  //Si ja no est? a prop deixa d'atacar
+
+			//walk animation
+			animator.playAnimation("data/animations/zombie_run.skanim");
 		}
 	}
-	else if (state == DIE) {
+	else if (state == eFSMStates::DIE) {
 
-		//play animaci?
 		World::get_instance()->removeEntity(World::get_instance()->enemy);
 		spawn_drop();
 	}
-	else if (state == DANCE) {
-		//play animaci?
-
+	else if (state == eFSMStates::DANCE) {
+		
 		if (this->healthbar == 0.0) {
-			state = DIE;  //Si no t? vida, mor
+			state = eFSMStates::DIE;  //Si no t? vida, mor
+
+			//die animation
+			animator.playAnimation("data/animations/zombie_die.skanim");
 		}
-		else if (distance(World::get_instance()->player) > ar) {
-			state = SEARCH_PLAYER;  //Si ja no est? a prop deixa d'atacar
+		else if (in_sight) {
+			state = eFSMStates::SEARCH_PLAYER;  //Si detecta al player deixa de ballar i el segueix
+
+			//run animation
+			animator.playAnimation("data/animations/zombie_run.skanim");
 		}
-		/*
-		else if (!in_sight) {
-			state = PATROL;  //Si ja no el detecta torna a patrullar
-		}
-		*/
 	}
+
+	//Si es prem la lletra K el zombies comencen a ballar
+	if (Input::wasKeyPressed(SDL_SCANCODE_K)) {
+		state = eFSMStates::DANCE;
+
+		animator.playAnimation("data/animations/zombie_dance.skanim", false, 0.05f);
+	}
+
+	//Si té velocitat i està al patrol, canvio la animació per WALK
+	if (eFSMStates::PATROL && velocity.length() > .5f) {
+		animator.playAnimation("data/animations/zombie_walk_patrol.skanim"); //in case of some velocity = patrol, walk
+	}
+
+
 
 	EntityCollider::update(seconds_elapsed);
 }

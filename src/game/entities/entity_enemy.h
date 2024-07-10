@@ -43,7 +43,7 @@ class EntityEnemy : public EntityCollider {
 
 
 	float mod = 1.0;
-	float ar = 0.2; //Distancia a la que l'enemic fa mal (ataca)
+	float ar = 0.1; //Distancia a la que l'enemic fa mal (ataca)
 	float healthbar;
 	float damage = 15.0 * mod; //It increases with the diffculty mode
 
