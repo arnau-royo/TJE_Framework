@@ -34,7 +34,7 @@ public:
 	//Methods overwritten from base class
 	void render(Camera* camera);
 	void update(float seconds_elapsed);
-
+	void update3D(Vector3 position3d);
 
 
 };

@@ -20,6 +20,13 @@
 EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(mesh, material, name)
 {
 	Material enemy_material;
+	Material health_bar_mat;
+
+	health_bar_mat.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/health_bar.fs");
+	//int bar_width = 240;
+	
+	health_bar = new EntityUI(Vector2(50, 8), health_bar_mat);
+	health_bar->is3D = true;
 
 	if (name == "zombie_1") {
 
@@ -31,7 +38,7 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 		this->fov = 100.0f; //Es pot jugar amb l'angle de visio
 		this->max_sight_distance = 10.0f; //La ditancia fins a on et detecta
 
-		this->healthbar = 90;
+		this->healthbar = 100;
 
 	}
 	else {
@@ -58,6 +65,7 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 
 EntityEnemy::~EntityEnemy()
 {
+
 }
 
 void EntityEnemy::render(Camera* camera)
@@ -110,6 +118,8 @@ void EntityEnemy::render(Camera* camera)
 	shader->disable();
 
 #endif RENDER_DEBUG
+
+	health_bar->render(World::get_instance()->camera2D);
 
 	EntityMesh::render(camera);
 
@@ -254,6 +264,7 @@ void EntityEnemy::update(float seconds_elapsed) {
 	}
 
 
+	health_bar->update3D(model.getTranslation() + Vector3(0, 0.2, 0)); //li passo la posició de l'enemic (una mica més a dalt)
 
 	EntityCollider::update(seconds_elapsed);
 }

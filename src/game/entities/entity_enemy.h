@@ -7,6 +7,9 @@
 #include "graphics/material.h"
 #include "framework/input.h"
 
+#include "framework/entities/entity_ui.h"
+
+
 enum eFSMStates {
 	PATROL, // o IDLE
 	SEARCH_PLAYER,
@@ -44,8 +47,10 @@ class EntityEnemy : public EntityCollider {
 
 	float mod = 1.0;
 	float ar = 0.1; //Distancia a la que l'enemic fa mal (ataca)
-	float healthbar;
+	float healthbar = 100.0f;
 	float damage = 15.0 * mod; //It increases with the diffculty mode
+
+	EntityUI* health_bar = nullptr;
 
 	std::vector<EntityEnemy> enemies;
 

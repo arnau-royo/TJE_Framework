@@ -88,10 +88,11 @@ void EntityUI::render(Camera* camera2d)
 
 	if (is3D)
 	{
+		//Reduir el tamany passad una distancia
 		Vector2 _size = size;
-		//float max_dist = 5.0f;
-		//float dist = clamp(world->camera->eye.distance(pos3d), 0.01f, max_dist);
-		//_size *= 1.f - dist / max_dist;
+		float max_dist = 5.0f;
+		float dist = clamp(world->camera->eye.distance(pos3d), 0.01f, max_dist);
+		_size *= 1.f - dist / max_dist;
 
 		Mesh quad;
 		quad.createQuad(position.x, position.y, _size.x, _size.y, true);
@@ -110,9 +111,24 @@ void EntityUI::render(Camera* camera2d)
 	Entity::render(camera2d);
 }
 
-/*
-void EntityUI::update3D(Vector3 position3d) {
+void EntityUI::update3D(Vector3 position3d)
+{
 	pos3d = position3d;
+
+	//Update 3D HUD
+	int width = Game::instance->window_width;
+	int height = Game::instance->window_height;
+	World* world = World::get_instance();
+
+	visible = true;
+
+	Vector3 pos = world->camera->project(position3d, width, height);
+	if (pos.z < 0.0f || pos.z > 1.f) { //Si esta fora d'aquest rang no es veu
+		visible = false;
+	}
+	else {
+		pos.y = height - pos.y;
+		position = Vector2(pos.x, pos.y);
+	}
 }
-*/
 
