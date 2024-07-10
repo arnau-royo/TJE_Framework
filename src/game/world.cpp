@@ -16,6 +16,11 @@ World::World()
 	camera->lookAt(Vector3(0.f, 20.f, -20.f), Vector3(0.f, 0.f, 0.f), Vector3::UP); //position the camera and point to 0,0,0
 	camera->setPerspective(70.f, window_width / (float)window_height, 0.01f, 1000.f); //set the projection, we want to be perspective
 
+	//camera for UI
+	camera2D = new Camera();
+	camera2D->view_matrix.setIdentity();
+	camera2D->setOrthographic(0, window_width, window_height, 0, -1.f, 1.f); //El 0 està a dalt
+
 	//Creating the player
 	Mesh* player_mesh = Mesh::Get("data/meshes/player/player_no_head_anim.MESH");
 	

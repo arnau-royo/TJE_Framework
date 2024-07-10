@@ -5,6 +5,7 @@
 
 #include "stages/stage.h"
 #include "stages/play_stage.h"
+#include "stages/menu_stage.h"
 
 #include "world.h"
 
@@ -34,11 +35,24 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	glEnable( GL_CULL_FACE ); //render both sides of every triangle
 	glEnable( GL_DEPTH_TEST ); //check the occlusions using the Z buffer
 
+	/*
 	PlayStage * playstage = new PlayStage();
 
 	StageManager::get_instance()->stages["playStage"] = playstage;
 
 	StageManager::get_instance()->goTo("playStage");
+	*/
+
+	//Create the stafes and enter the playstage
+	PlayStage* playstage = new PlayStage();
+
+	StageManager::get_instance()->stages["playStage"] = playstage;
+
+	MenuStage* menustage = new MenuStage();
+
+	StageManager::get_instance()->stages["menuStage"] = menustage;
+
+	StageManager::get_instance()->goTo("menuStage");
 	
 }
 
@@ -120,6 +134,13 @@ void Game::onResize(int width, int height)
 	camera->aspect =  width / (float)height;
 	window_width = width;
 	window_height = height;
+}
+
+void Game::setMouseLocked(bool locked)
+{
+	mouse_locked = locked;
+	SDL_ShowCursor(!mouse_locked);
+	SDL_SetRelativeMouseMode((SDL_bool)(mouse_locked));
 }
 
 

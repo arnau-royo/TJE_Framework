@@ -51,6 +51,8 @@ class World {
 		
 
 		Camera* camera = nullptr;
+		Camera* camera2D = nullptr;
+
 
 		std::vector<Vector3> waypoints;
 

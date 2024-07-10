@@ -4,6 +4,8 @@
 #include "framework/framework.h"
 #include <map>
 
+#include "framework/entities/entity_ui.h"
+
 
 
 enum eStages {
@@ -20,11 +22,23 @@ class Stage {
 
 public:
 
-	virtual void render() {};
-	virtual void update(float seconds_elapsed) {};
+	Stage() {};
+
 
 	virtual void onEnter(Stage* previousStage) {};
 	virtual void onLeave(Stage* nextStage) {};
+
+	virtual void onButtonPressed(eButtonId buttonId) {}
+
+	virtual void onKeyDown(SDL_KeyboardEvent event) {};
+	virtual void onMouseWheel(SDL_MouseWheelEvent event) {};
+	virtual void onResize(int width, int height) {};
+	virtual void onMouseButtonDown(SDL_MouseButtonEvent event) {};
+	virtual void onMouseButtonUp(SDL_MouseButtonEvent event) {};
+
+	virtual void render() {};
+	virtual void update(float seconds_elapsed) {};
+
 };
 
 class StageManager : public Stage {
