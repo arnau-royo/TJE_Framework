@@ -158,11 +158,12 @@ void EntityEnemy::update(float seconds_elapsed) {
 		lookAtTarget(player_pos, seconds_elapsed);
 		model.translate(0.f, 0.f, seconds_elapsed);
 
-		if (this->healthbar == 0.0) {
+		if (this->healthbar == 0.0) {	
 			state = eFSMStates::DIE;  //Si no t? vida, mor
 
 			//die animation
 			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
+
 		}
 		if (!in_sight) {
 			state = eFSMStates::PATROL;  //Si ja no el detecta torna a patrullar o idle
@@ -181,9 +182,11 @@ void EntityEnemy::update(float seconds_elapsed) {
 
 			if (distr(gen) == 0) {
 				animator.playAnimation("data/animations/zombie_attack1.skanim", true, 0.5f);
+				//aplicar el mal amb els callbacks
 			}
 			else {
 				animator.playAnimation("data/animations/zombie_attack2.skanim", true, 0.5f);
+				//aplicar el mal amb els callbacks
 			}
 		}
 	}
@@ -192,11 +195,12 @@ void EntityEnemy::update(float seconds_elapsed) {
 		//TODO: Aplicar el mal a la salut del player (ho fa a un video del final) (jo he pensat que amb el metode per agafar player de world i una funci? dins de player per modificar la vida)
 		//(World::get_instance()->player);
 
-		if (this->healthbar == 0.0) {
-			state = eFSMStates::DIE;  //Si no t? vida, mor
+		if (this->healthbar == 0.0) {	
+			state = eFSMStates::DIE;  //Si no te vida, mor
 
 			//die animation
 			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
+
 		}
 		else if (!in_sight) {
 			state = eFSMStates::PATROL;  //Si ja no el detecta torna a patrullar
@@ -212,9 +216,11 @@ void EntityEnemy::update(float seconds_elapsed) {
 		}
 	}
 	else if (state == eFSMStates::DIE) {
+		World::get_instance()->removeEntity(World::get_instance()->enemy); //Destroy the entity
 
-		World::get_instance()->removeEntity(World::get_instance()->enemy);
+		//Give some drop
 		spawn_drop();
+
 	}
 	else if (state == eFSMStates::DANCE) {
 		
@@ -223,6 +229,9 @@ void EntityEnemy::update(float seconds_elapsed) {
 
 			//die animation
 			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
+
+			
+
 		}
 		else if (in_sight) {
 			state = eFSMStates::SEARCH_PLAYER;  //Si detecta al player deixa de ballar i el segueix
