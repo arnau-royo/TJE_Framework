@@ -129,13 +129,13 @@ void EntityEnemy::update(float seconds_elapsed) {
 			state = eFSMStates::DIE;  //Si no t? vida, mor
 
 			//die animation
-			animator.playAnimation("data/animations/zombie_die.skanim");
+			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
 		}
 		else if (in_sight) {
 			state = eFSMStates::SEARCH_PLAYER;  //Mentre patrulla tamb? va buscant el player (dins del seu angle de visio)
 
 			//run animation
-			animator.playAnimation("data/animations/zombie_run.skanim");
+			animator.playAnimation("data/animations/zombie_run.skanim", true, 0.5f);
 		}
 
 		//Rarely it starts dancing
@@ -162,13 +162,13 @@ void EntityEnemy::update(float seconds_elapsed) {
 			state = eFSMStates::DIE;  //Si no t? vida, mor
 
 			//die animation
-			animator.playAnimation("data/animations/zombie_die.skanim");
+			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
 		}
 		if (!in_sight) {
 			state = eFSMStates::PATROL;  //Si ja no el detecta torna a patrullar o idle
 
 			//animation idle
-			animator.playAnimation("data/animations/zombie_idle.skanim");
+			animator.playAnimation("data/animations/zombie_idle.skanim", true, 0.5f);
 		}
 
 		if (distance(World::get_instance()->player) < ar) {
@@ -180,10 +180,10 @@ void EntityEnemy::update(float seconds_elapsed) {
 			std::uniform_int_distribution<> distr(0, 1);  // Define the range
 
 			if (distr(gen) == 0) {
-				animator.playAnimation("data/animations/zombie_attack1.skanim");
+				animator.playAnimation("data/animations/zombie_attack1.skanim", true, 0.5f);
 			}
 			else {
-				animator.playAnimation("data/animations/zombie_attack2.skanim");
+				animator.playAnimation("data/animations/zombie_attack2.skanim", true, 0.5f);
 			}
 		}
 	}
@@ -196,19 +196,19 @@ void EntityEnemy::update(float seconds_elapsed) {
 			state = eFSMStates::DIE;  //Si no t? vida, mor
 
 			//die animation
-			animator.playAnimation("data/animations/zombie_die.skanim");
+			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
 		}
 		else if (!in_sight) {
 			state = eFSMStates::PATROL;  //Si ja no el detecta torna a patrullar
 
 			//animation idle
-			animator.playAnimation("data/animations/zombie_idle.skanim");
+			animator.playAnimation("data/animations/zombie_idle.skanim", true, 0.5f);
 		}
 		else if (distance(World::get_instance()->player) > ar) {
 			state = eFSMStates::SEARCH_PLAYER;  //Si ja no est? a prop deixa d'atacar
 
 			//walk animation
-			animator.playAnimation("data/animations/zombie_run.skanim");
+			animator.playAnimation("data/animations/zombie_run.skanim", true, 0.5f);
 		}
 	}
 	else if (state == eFSMStates::DIE) {
@@ -222,13 +222,13 @@ void EntityEnemy::update(float seconds_elapsed) {
 			state = eFSMStates::DIE;  //Si no t? vida, mor
 
 			//die animation
-			animator.playAnimation("data/animations/zombie_die.skanim");
+			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
 		}
 		else if (in_sight) {
 			state = eFSMStates::SEARCH_PLAYER;  //Si detecta al player deixa de ballar i el segueix
 
 			//run animation
-			animator.playAnimation("data/animations/zombie_run.skanim");
+			animator.playAnimation("data/animations/zombie_run.skanim", true, 0.5f);
 		}
 	}
 
@@ -236,12 +236,12 @@ void EntityEnemy::update(float seconds_elapsed) {
 	if (Input::wasKeyPressed(SDL_SCANCODE_K)) {
 		state = eFSMStates::DANCE;
 
-		animator.playAnimation("data/animations/zombie_dance.skanim", false, 0.05f);
+		animator.playAnimation("data/animations/zombie_dance.skanim", false, 0.5f);
 	}
 
 	//Si té velocitat i està al patrol, canvio la animació per WALK
 	if (eFSMStates::PATROL && velocity.length() > .5f) {
-		animator.playAnimation("data/animations/zombie_walk_patrol.skanim"); //in case of some velocity = patrol, walk
+		animator.playAnimation("data/animations/zombie_walk_patrol.skanim", true, 0.5f); //in case of some velocity = patrol, walk
 	}
 
 

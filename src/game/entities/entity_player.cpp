@@ -142,11 +142,11 @@ void EntityPlayer::update(float seconds_elapsed)
 	
 	//Change animation depending on the player velocity
 	if (animation_state == eAnimationState::IDLE && velocity.length() > .5f) {
-		animator.playAnimation("data/animations/run.skanim");
+		animator.playAnimation("data/animations/run.skanim", true, 0.5f);
 		animation_state = eAnimationState::RUNNING;
 	}
 	else if (animation_state == eAnimationState::RUNNING && velocity.length() < 0.1f) {
-		animator.playAnimation("data/animations/idle.skanim");
+		animator.playAnimation("data/animations/idle.skanim", true, 0.5f);
 		animation_state = eAnimationState::IDLE;
 	}
 
