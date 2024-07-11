@@ -277,7 +277,15 @@ void EntityEnemy::apply_damage(float damage)
 		healthbar = 0.0f;
 	}
 
-	health_bar->mask = healthbar * 0.01f;
+	if (name == "zombie_1") {
+		health_bar->mask = healthbar / 100.0f;  //Divide for the total health
+	}
+	else {
+		health_bar->mask = healthbar / 150.0f;
+	}
+
+	
+
 
 }
 

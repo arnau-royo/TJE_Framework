@@ -43,4 +43,7 @@ public:
 	void render(Camera* camera) override;
 	void update(float seconds_elapsed) override;
 
+
+	void apply_damage(float damage);
+
 };

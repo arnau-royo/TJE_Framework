@@ -181,7 +181,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	}
 
 	if (Input::wasKeyPressed(SDL_SCANCODE_L)) {
-		healthbar = healthbar - 10;
+		apply_damage(10.0f);
 	}
 
 
@@ -198,4 +198,16 @@ void EntityPlayer::update(float seconds_elapsed)
 	health_bar_p->update(seconds_elapsed);
 
 	EntityCollider::update(seconds_elapsed);
+}
+
+void EntityPlayer::apply_damage(float damage)
+{
+	healthbar -= damage;
+
+	if (healthbar < 0.0f) {
+		healthbar = 0.0f;
+	}
+
+	health_bar_p->mask = healthbar / 200.0f;
+
 }
