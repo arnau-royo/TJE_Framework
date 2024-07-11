@@ -150,7 +150,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	for (const sCollisionData& collision : ground_collisions) {
 		//If normal is pointing upwards, it means it's a floor collision
 		float up_factor = fabsf(collision.colNormal.dot(Vector3::UP));
-		if (up_factor > 0.8) {
+		if (up_factor > 0.2) {
 			is_grounded = true;
 		}
 		if (collision.colPoint.y > (position.y * velocity.y * seconds_elapsed)) {
@@ -163,7 +163,7 @@ void EntityPlayer::update(float seconds_elapsed)
 		velocity.y -= 0.9f * seconds_elapsed;
 	}
 	else if (Input::wasKeyPressed(SDL_SCANCODE_SPACE)) {
-		velocity.y = .6f;
+		velocity.y = .4f;
 	}
 	
 	//Change animation depending on the player velocity
