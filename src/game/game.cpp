@@ -6,6 +6,7 @@
 #include "stages/stage.h"
 #include "stages/play_stage.h"
 #include "stages/menu_stage.h"
+#include "stages/defeat_stage.h"
 
 #include "world.h"
 
@@ -51,6 +52,11 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	MenuStage* menustage = new MenuStage();
 
 	StageManager::get_instance()->stages["menuStage"] = menustage;
+
+	DefeatStage* defeatstage = new DefeatStage();
+
+	StageManager::get_instance()->stages["defeatStage"] = defeatstage;
+
 
 	StageManager::get_instance()->goTo("menuStage");
 	

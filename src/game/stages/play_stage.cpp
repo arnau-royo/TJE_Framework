@@ -4,6 +4,8 @@
 #include "framework/input.h"
 #include "framework/entities/entity_collider.h"
 
+#include "game/entities/entity_player.h"
+
 #include "game/game.h"
 #include "game/world.h"
 
@@ -31,6 +33,11 @@ void PlayStage::render()
 
 void PlayStage::update(float seconds_elapsed)
 {
+	
+	if ((World::get_instance()->player)->healthbar == 0.0) {
+		StageManager::get_instance()->goTo("defeatStage");
+	}
+	
 	World::get_instance()->update(seconds_elapsed);
 
 	Camera* camera = World::get_instance()->camera;
