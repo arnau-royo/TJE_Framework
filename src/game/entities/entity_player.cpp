@@ -12,7 +12,7 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 	health_bar_p = new EntityUI(Vector2(40 + bar_width *0.5, 40), Vector2(240, 20), health_bar_mat);
 
 
-	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animació d'IDLE
+	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animaciï¿½ d'IDLE
 
 	animator.addCallback("data/animations/punch.skanim", [&](float t) { //aplico el mal amb els callbacks
 
@@ -121,7 +121,7 @@ void EntityPlayer::update(float seconds_elapsed)
 
 	float speed_mult = walk_speed;
 	if (Input::isKeyPressed(SDL_SCANCODE_LSHIFT))
-		speed_mult *= 3.0f;
+		speed_mult *= 2.0f;
 
 	move_dir.normalize();
 	move_dir *= speed_mult;
@@ -155,7 +155,7 @@ void EntityPlayer::update(float seconds_elapsed)
 	for (const sCollisionData& collision : ground_collisions) {
 		//If normal is pointing upwards, it means it's a floor collision
 		float up_factor = fabsf(collision.colNormal.dot(Vector3::UP));
-		if (up_factor > 0.2) {
+		if (up_factor > 0.05) {
 			is_grounded = true;
 		}
 		if (collision.colPoint.y > (position.y * velocity.y * seconds_elapsed)) {

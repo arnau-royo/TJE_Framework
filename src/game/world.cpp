@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include "entities/entity_player.h"
+#include <math.h>
 
 
 //Crating a world instance
@@ -222,6 +223,10 @@ bool World::parseScene(const char* filename, Entity* root)
 		EntityMesh* new_entity2 = nullptr;
 
 		size_t enemy_tag = data.first.find("@enemy");
+		size_t enemy_tag1 = data.first.find("@enemy1");
+		size_t enemy_tag2 = data.first.find("@enemy2");
+		size_t enemy_tag3 = data.first.find("@enemy3");
+
 		size_t player_tag = data.first.find("@player");
 		size_t enemy_waypoint_tag = data.first.find("@waypoint");
 
@@ -232,6 +237,30 @@ bool World::parseScene(const char* filename, Entity* root)
 		else if (enemy_tag != std::string::npos) {
 			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
 			new_entity2 = new EntityEnemy(mesh, "zombie_1");
+			assert(new_entity2);
+			new_entity2->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		else if (enemy_tag != std::string::npos) {
+			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
+			new_entity2 = new EntityEnemy(mesh, "zombie_1");
+			assert(new_entity2);
+			new_entity2->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		else if (enemy_tag1 != std::string::npos) {
+			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
+			new_entity2 = new EntityEnemy(mesh, "zombie_2");
+			assert(new_entity2);
+			new_entity2->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		else if (enemy_tag2 != std::string::npos) {
+			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
+			new_entity2 = new EntityEnemy(mesh, "zombie_1");
+			assert(new_entity2);
+			new_entity2->model.setTranslation(render_data.models[0].getTranslation());
+		}
+		else if (enemy_tag3 != std::string::npos) {
+			Mesh* mesh = Mesh::Get("data/meshes/player/player.obj");
+			new_entity2 = new EntityEnemy(mesh, "zombie_3");
 			assert(new_entity2);
 			new_entity2->model.setTranslation(render_data.models[0].getTranslation());
 		}

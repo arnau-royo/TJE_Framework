@@ -24,7 +24,7 @@ with open(filepath, 'w') as f:
         
         if object.type == 'MESH':
                         
-            folderpath = "scene/" + object.data.name + "/"
+            folderpath = "scene2/" + object.data.name + "/"
             abs_folderpath = bpy.path.abspath("//") + folderpath
             
             name = object.data.name + ".obj"
