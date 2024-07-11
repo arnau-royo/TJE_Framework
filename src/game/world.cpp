@@ -289,6 +289,26 @@ void World::getCollisions(const Vector3& target_position, std::vector<sCollision
 	}
 }
 
+void World::get_enemy_collisions(const Vector3& position, std::vector<sCollisionData>& collisions)
+{
+	for (auto e : root.children)
+	{
+		EntityEnemy* ec = dynamic_cast<EntityEnemy*>(e);
+		if (ec == nullptr) {
+			continue;
+		}
+
+		Vector3 collision_point;
+		Vector3 collision_normal;
+
+		if (ec->mesh->testSphereCollision(ec->model, position, 0.1, collision_point, collision_normal)) {
+			collisions.push_back({ collision_point, collision_normal.normalize(), position.distance(collision_point), true, ec });
+		}
+	}
+}
+
+
+
 sCollisionData World::raycast(const Vector3& origin, const Vector3& direction, int layer, float max_ray_dist) {
 	sCollisionData data;
 

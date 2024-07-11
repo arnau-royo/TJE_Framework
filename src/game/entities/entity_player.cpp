@@ -5,17 +5,31 @@
 
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
 {
-	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animació d'IDLE
-	
 	//Healthbar stuff
-	int width = Game::instance->window_width;
-	int height = Game::instance->window_height;
-
 	Material health_bar_mat;
 	health_bar_mat.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/health_bar.fs");
-	//health_bar_p = new EntityUI(Vector2(50, 8), health_bar_mat);
-	health_bar_p = new EntityUI(Vector2(width * 0.15, height * 0.1), Vector2(150, 24), health_bar_mat);
-	health_bar_p->is3D = false;
+	int bar_width = 240;
+	health_bar_p = new EntityUI(Vector2(40 + bar_width *0.5, 40), Vector2(240, 20), health_bar_mat);
+
+
+	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animació d'IDLE
+
+	animator.addCallback("data/animations/punch.skanim", [&](float t) {
+
+		//PlayAudio
+
+		std::vector<sCollisionData> collisions;
+		World::get_instance()->get_enemy_collisions(model.getTranslation() + model.frontVector() * 0.1f, collisions);
+
+		for (auto collision : collisions) {
+			EntityEnemy* enemy = dynamic_cast<EntityEnemy*>(collision.collider);
+
+			enemy->apply_damage(10.0f);
+		}
+
+
+		}, 0.5f);
+
 }
 
 

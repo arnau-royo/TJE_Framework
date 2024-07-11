@@ -84,6 +84,9 @@ class World {
 
 		sCollisionData raycast(const Vector3& origin, const Vector3& direction, int layer, float max_ray_dist);
 
+		void get_enemy_collisions(const Vector3& position, std::vector<sCollisionData>& collisions);
+
+
 		/*
 		//AI
 		std::vector<Vector2> waypoints;

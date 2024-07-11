@@ -269,7 +269,17 @@ void EntityEnemy::update(float seconds_elapsed) {
 	EntityCollider::update(seconds_elapsed);
 }
 
+void EntityEnemy::apply_damage(float damage)
+{
+	healthbar -= damage;
 
+	if (healthbar < 0.0f) {
+		healthbar = 0.0f;
+	}
+
+	health_bar->mask = healthbar * 0.01f;
+
+}
 
 
 bool EntityEnemy::inLineOfSight(const Vector3& position)

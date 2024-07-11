@@ -74,6 +74,8 @@ public:
 	void choosedrop();
 	void spawn_drop();
 
+	void apply_damage(float damage);
+
 	bool inLineOfSight(const Vector3& position);
 	void lookAtTarget(Vector3 target, float seconds_elapsed);
 	void followPath(float seconds_elpased);

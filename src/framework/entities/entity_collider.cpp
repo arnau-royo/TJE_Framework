@@ -20,19 +20,19 @@ void EntityCollider::getCollisionsWithModel(const Matrix44 model, const Vector3&
 	Vector3 floor_sphere_center = center + Vector3(0.f, sphere_ground_radius, 0.f);
 	
 	if (mesh->testSphereCollision(model, floor_sphere_center, sphere_radius, collision_point, collision_normal)) {
-		collisions.push_back({ collision_point, collision_normal.normalize(), floor_sphere_center.distance(collision_point) });
+		collisions.push_back({ collision_point, collision_normal.normalize(), floor_sphere_center.distance(collision_point), true });
 	}
 
 	//Check wall collisions
 	Vector3 character_center = center + Vector3(0.f, player_height, 0.f);
 	if (mesh->testSphereCollision(model, character_center, sphere_radius, collision_point, collision_normal)) {
-		collisions.push_back({ collision_point, collision_normal.normalize(), character_center.distance(collision_point) });
+		collisions.push_back({ collision_point, collision_normal.normalize(), character_center.distance(collision_point), true });
 	}
 
 
 	//Check if grounded
 	if (mesh->testRayCollision(model, character_center, Vector3(0, -1, 0), collision_point, collision_normal, player_height + 0.005f)) {
-		ground_collisions.push_back({ collision_point, collision_normal.normalize(), character_center.distance(collision_point) });
+		ground_collisions.push_back({ collision_point, collision_normal.normalize(), character_center.distance(collision_point), true });
 	}
 	
 }
