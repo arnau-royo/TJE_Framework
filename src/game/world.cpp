@@ -21,6 +21,7 @@ World::World()
 	camera2D->view_matrix.setIdentity();
 	camera2D->setOrthographic(0, window_width, window_height, 0, -1.f, 1.f); //El 0 està a dalt
 
+	/*
 	//Creating the player
 	Mesh* player_mesh = Mesh::Get("data/meshes/player/player_no_head_anim.MESH");
 	
@@ -33,6 +34,7 @@ World::World()
 	player = new EntityPlayer(player_mesh, player_material, "player");
 	player->setLayer(1 | 2);
 	player->isAnimated = true;
+	*/
 
 	/*
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_1");

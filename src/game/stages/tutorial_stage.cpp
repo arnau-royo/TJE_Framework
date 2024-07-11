@@ -14,7 +14,20 @@
 //TUTORIAL STAGE
 TutorialStage::TutorialStage()
 {
+	//Creating the player
+	Mesh* player_mesh = Mesh::Get("data/meshes/player/player_no_head_anim.MESH");
 
+	Material player_material;
+
+	player_material.diffuse = Texture::Get("data/textures/player/player.png");
+	player_material.shader = Shader::Get("data/shaders/skinning.vs", "data/shaders/texture.fs");
+	//player_material.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+
+	(World::get_instance()->player) = new EntityPlayer(player_mesh, player_material, "player");
+	(World::get_instance()->player)->setLayer(1 | 2);
+	(World::get_instance()->player)->isAnimated = true;
+
+	//Create enemy1
 	(World::get_instance()->enemy) = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_1");
 	(World::get_instance()->enemy)->setLayer(eCollisionFilter::ENEMY);
 	(World::get_instance()->enemy)->isAnimated = true;
@@ -23,9 +36,8 @@ TutorialStage::TutorialStage()
 
 	(World::get_instance()->root).addChild((World::get_instance()->enemy));
 
+	//Parse scene tutorial
 	(World::get_instance()->parseScene("data/myscene_temp.scene", &(World::get_instance()->root)));
-
-	//(World::get_instance()->parseScene("data/myscene2.scene", &(World::get_instance()->root)));
 }
 
 void TutorialStage::onEnter(Stage* previousStage)
@@ -48,6 +60,8 @@ void TutorialStage::update(float seconds_elapsed)
 
 	if ((World::get_instance()->enemy)->healthbar == 0.0) {
 		(World::get_instance()->clearScene()); //Delete the actual scene
+
+		World::get_instance()->removeEntity(World::get_instance()->player);
 
 		PlayStage* playstage = new PlayStage(); //When I have to change the stage I create the playstage
 		StageManager::get_instance()->stages["playStage"] = playstage;
