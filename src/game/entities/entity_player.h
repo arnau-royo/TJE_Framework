@@ -16,6 +16,8 @@
 #include "game/game.h"
 #include "game/world.h"
 
+#include "framework/entities/entity_ui.h"
+
 enum eAnimationState {
 	IDLE,
 	RUNNING
@@ -25,6 +27,8 @@ class EntityPlayer : public EntityCollider {
 
 	eAnimationState animation_state = eAnimationState::IDLE;
 
+	EntityUI* health_bar_p = nullptr;
+
 public:
 	EntityPlayer();
 	EntityPlayer(Mesh* mesh, const Material& material, const std::string& name = "");
@@ -32,7 +36,7 @@ public:
 
 	// Vel in move the player
 	Vector3 velocity = Vector3(0.0f);
-	float healthbar = 100.0;
+	float healthbar = 200.0;
 	float walk_speed = .5f;
 
 	// Methods overwritten from base class

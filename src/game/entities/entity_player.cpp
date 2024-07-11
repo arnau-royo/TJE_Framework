@@ -6,6 +6,16 @@
 EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::string& name) : EntityCollider(mesh, material, name)
 {
 	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animació d'IDLE
+	
+	//Healthbar stuff
+	int width = Game::instance->window_width;
+	int height = Game::instance->window_height;
+
+	Material health_bar_mat;
+	health_bar_mat.shader = Shader::Get("data/shaders/basic.vs", "data/shaders/health_bar.fs");
+	//health_bar_p = new EntityUI(Vector2(50, 8), health_bar_mat);
+	health_bar_p = new EntityUI(Vector2(width * 0.15, height * 0.1), Vector2(150, 24), health_bar_mat);
+	health_bar_p->is3D = false;
 }
 
 
@@ -17,6 +27,8 @@ EntityPlayer::EntityPlayer()
 
 void EntityPlayer::render(Camera* camera)
 {
+	health_bar_p->render(World::get_instance()->camera2D);
+
 	//Render mesh
 	EntityCollider::render(camera);
 
@@ -154,6 +166,10 @@ void EntityPlayer::update(float seconds_elapsed)
 		animator.playAnimation("data/animations/punch.skanim", false, 0.05f);
 	}
 
+	if (Input::wasKeyPressed(SDL_SCANCODE_L)) {
+		healthbar = healthbar - 10;
+	}
+
 
 	//Update player's position
 	position += velocity * seconds_elapsed;
@@ -164,6 +180,8 @@ void EntityPlayer::update(float seconds_elapsed)
 
 	model.setTranslation(position);
 	model.rotate(camera_yaw, Vector3(0, 1, 0));
+
+	health_bar_p->update(seconds_elapsed);
 
 	EntityCollider::update(seconds_elapsed);
 }
