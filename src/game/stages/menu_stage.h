@@ -4,7 +4,7 @@
 #include "framework/entities/entity_ui.h"
 
 class MenuStage : public Stage {
-
+	eStages type = MENU_STAGE;
 public: 
 	MenuStage();
 

@@ -7,6 +7,7 @@
 #include "stages/play_stage.h"
 #include "stages/menu_stage.h"
 #include "stages/defeat_stage.h"
+#include "stages/tutorial_stage.h"
 
 #include "world.h"
 
@@ -44,26 +45,20 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	StageManager::get_instance()->goTo("playStage");
 	*/
 
-	//Create the stafes and enter the playstage
-	PlayStage* playstage = new PlayStage();
-
-	StageManager::get_instance()->stages["playStage"] = playstage;
+	//Create the stages and enter the menu_stage
 
 	MenuStage* menustage = new MenuStage();
-
 	StageManager::get_instance()->stages["menuStage"] = menustage;
 
-	DefeatStage* defeatstage = new DefeatStage();
+	TutorialStage* tutorialstage = new TutorialStage();
+	StageManager::get_instance()->stages["tutorialStage"] = tutorialstage;
 
+	DefeatStage* defeatstage = new DefeatStage();
 	StageManager::get_instance()->stages["defeatStage"] = defeatstage;
 
 
 	StageManager::get_instance()->goTo("menuStage");
 	
-
-	Audio* music_mm = new Audio();
-	music_mm->Get("data/audio/generalmusic.mp3", BASS_SAMPLE_LOOP);
-	music_mm->Play("data/audio/generalmusic.mp3", 0.3, BASS_SAMPLE_LOOP);
 }
 
 //what to do when the image has to be draw

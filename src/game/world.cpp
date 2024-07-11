@@ -34,7 +34,7 @@ World::World()
 	player->setLayer(1 | 2);
 	player->isAnimated = true;
 
-
+	/*
 	enemy = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_1");
 	enemy->setLayer(eCollisionFilter::ENEMY);
 	enemy->isAnimated = true;
@@ -42,7 +42,7 @@ World::World()
 	enemy->model.setTranslation(-2.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
 
 	root.addChild(enemy);
-
+	*/
 	
 	//Skybox
 	Material landscape_cubemap;
@@ -59,7 +59,8 @@ World::World()
 	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
 
 	//parseScene("data/myscene_temp.scene", &root);
-	parseScene("data/myscene2.scene", &root);
+
+	//parseScene("data/myscene2.scene", &root);
 }
 
 void World::render() {
@@ -276,6 +277,20 @@ void World::addEntity(Entity* entity)
 void World::removeEntity(Entity* entity)
 {
 	entities_to_destroy.push_back(entity);
+}
+
+void World::clearScene() {
+	// Remove all children from the root entity
+	while (!root.children.empty()) {
+		Entity* child = root.children.back();
+		root.removeChild(child);
+		delete child; // Ensure memory is freed
+	}
+
+	// Clear the entities_to_destroy list
+	entities_to_destroy.clear();
+
+	std::cout << "Scene cleared." << std::endl;
 }
 
 void World::getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter)

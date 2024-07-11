@@ -47,7 +47,6 @@ class EntityEnemy : public EntityCollider {
 
 	float mod = 1.0;
 	float ar = 0.1; //Distancia a la que l'enemic fa mal (ataca)
-	float healthbar = 100.0f;
 	float damage = 15.0 * mod; //It increases with the diffculty mode
 
 	EntityUI* health_bar = nullptr;
@@ -64,6 +63,9 @@ public:
 	Vector3 velocity;
 
 	float walk_speed = 0.1f;
+
+	float healthbar = 100.0f;
+
 
 	// Methods overwritten from base class
 	void render(Camera* camera);

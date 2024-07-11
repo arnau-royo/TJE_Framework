@@ -1,4 +1,4 @@
-#include "play_stage.h"
+#include "tutorial_stage.h"
 
 #include "framework/camera.h"
 #include "framework/input.h"
@@ -6,14 +6,15 @@
 
 #include "game/entities/entity_player.h"
 
+#include "play_stage.h"
+
 #include "game/game.h"
 #include "game/world.h"
 
-//PLAY STAGE
-PlayStage::PlayStage()
+//TUTORIAL STAGE
+TutorialStage::TutorialStage()
 {
 
-	/*
 	(World::get_instance()->enemy) = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_1");
 	(World::get_instance()->enemy)->setLayer(eCollisionFilter::ENEMY);
 	(World::get_instance()->enemy)->isAnimated = true;
@@ -22,14 +23,12 @@ PlayStage::PlayStage()
 
 	(World::get_instance()->root).addChild((World::get_instance()->enemy));
 
-	//(World::get_instance()->parseScene("data/myscene_temp.scene", &(World::get_instance()->root)));
+	(World::get_instance()->parseScene("data/myscene_temp.scene", &(World::get_instance()->root)));
 
-*/
-	(World::get_instance()->parseScene("data/myscene2.scene", &(World::get_instance()->root)));
-	
+	//(World::get_instance()->parseScene("data/myscene2.scene", &(World::get_instance()->root)));
 }
 
-void PlayStage::onEnter(Stage* previousStage)
+void TutorialStage::onEnter(Stage* previousStage)
 {
 	// lock mouse
 	SDL_ShowCursor(false);
@@ -37,20 +36,28 @@ void PlayStage::onEnter(Stage* previousStage)
 	Game::instance->mouse_locked = true;
 }
 
-void PlayStage::render()
+void TutorialStage::render()
 {
 	World::get_instance()->render();
 
 	//ui
 }
 
-void PlayStage::update(float seconds_elapsed)
+void TutorialStage::update(float seconds_elapsed)
 {
-	
+
+	if ((World::get_instance()->enemy)->healthbar == 0.0) {
+		(World::get_instance()->clearScene()); //Delete the actual scene
+
+		PlayStage* playstage = new PlayStage(); //When I have to change the stage I create the playstage
+		StageManager::get_instance()->stages["playStage"] = playstage;
+		StageManager::get_instance()->goTo("playStage");
+	}
+
 	if ((World::get_instance()->player)->healthbar == 0.0) {
 		StageManager::get_instance()->goTo("defeatStage");
 	}
-	
+
 	World::get_instance()->update(seconds_elapsed);
 
 	Camera* camera = World::get_instance()->camera;

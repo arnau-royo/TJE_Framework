@@ -78,6 +78,7 @@ class World {
 		void addEntity(Entity* entity);
 		void removeEntity(Entity* entity);
 
+		void clearScene();
 
 		//collisions 
 		void getCollisions(const Vector3& target_position, std::vector<sCollisionData>& collisions, std::vector<sCollisionData>& ground_collisions, eCollisionFilter filter);
