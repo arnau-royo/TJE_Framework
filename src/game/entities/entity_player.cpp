@@ -25,7 +25,7 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 		for (auto collision : collisions) {
 			EntityEnemy* enemy = dynamic_cast<EntityEnemy*>(collision.collider);
 
-			enemy->apply_damage(50.0f);
+			enemy->apply_damage(10.0f);
 		}
 
 
@@ -204,6 +204,8 @@ void EntityPlayer::apply_damage(float damage)
 	if (healthbar < 0.0f) {
 		healthbar = 0.0f;
 	}
+
+	healthbar = healthbar + 4;
 
 	health_bar_p->mask = healthbar / 100.0f;
 

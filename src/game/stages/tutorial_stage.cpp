@@ -53,6 +53,14 @@ void TutorialStage::render()
 	World::get_instance()->render();
 
 	//ui
+	drawText(50, 80, "THIS IS THE TUTORIAL STAGE", Vector3(0, 128, 0), 3);
+	drawText(50, 110, "TO PASS THE STAGE KILL ALL ZOMBIES", Vector3(139, 0, 0), 3);
+	drawText(50, 140, "TO MOVE, USE THE AWSD KEYS AND THE MOUSE", Vector3(1, 1, 1), 2);
+	drawText(50, 165, "TO ATTACK (PUNCH) USE THE V KEY", Vector3(1, 1, 1), 2);
+	drawText(50, 190, "WHEN YOU PUNCH AN ENMEY YOUR HELATH INCREASE", Vector3(1, 1, 1), 2);
+	drawText(50, 215, "TO JUMP USE THE SPACE KEY", Vector3(1, 1, 1), 2);
+	drawText(50, 240, "TO SPRINT USE THE SHIFT KEY", Vector3(1, 1, 1), 2);
+
 }
 
 void TutorialStage::update(float seconds_elapsed)
