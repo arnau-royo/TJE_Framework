@@ -20,7 +20,7 @@ public:
     void render();
     void update(float delta_time);
 
-    void onKeyDown(SDL_KeyboardEvent event);
+   // void onKeyDown(SDL_KeyboardEvent event);
 
     void onEnter(Stage* previousStage);
     void onLeave(Stage* nextStage) {};

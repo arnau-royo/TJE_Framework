@@ -2,6 +2,7 @@
 
 #include "stage.h"
 #include "framework/entities/entity_ui.h"
+#include "framework/audio.h"
 
 class DefeatStage : public Stage {
 	eStages type = DEFEAT_STAGE;

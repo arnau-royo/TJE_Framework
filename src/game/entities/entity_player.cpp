@@ -17,6 +17,7 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 	animator.addCallback("data/animations/punch.skanim", [&](float t) { //aplico el mal amb els callbacks
 
 		//PlayAudio
+		HCHANNEL channel = Audio::Play("data/audio/punch.wav", 0.5);
 
 		std::vector<sCollisionData> collisions;
 		World::get_instance()->get_enemy_collisions(model.getTranslation() + model.frontVector() * 0.1f, collisions);
@@ -204,6 +205,6 @@ void EntityPlayer::apply_damage(float damage)
 		healthbar = 0.0f;
 	}
 
-	health_bar_p->mask = healthbar / 200.0f;
+	health_bar_p->mask = healthbar / 100.0f;
 
 }
