@@ -26,6 +26,10 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 			EntityEnemy* enemy = dynamic_cast<EntityEnemy*>(collision.collider);
 
 			enemy->apply_damage(10.0f);
+
+			//Healthbar, when punch into an enemy + 4 of health
+			healthbar += 4.0f;
+			health_bar_p->mask = healthbar / 100.0f; //actualitzar la barra de vida
 		}
 
 
@@ -204,8 +208,6 @@ void EntityPlayer::apply_damage(float damage)
 	if (healthbar < 0.0f) {
 		healthbar = 0.0f;
 	}
-
-	healthbar = healthbar + 4;
 
 	health_bar_p->mask = healthbar / 100.0f;
 
