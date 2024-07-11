@@ -61,6 +61,23 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 	//animation stuff
 	animator.playAnimation("data/animations/zombie_idle.skanim"); //Quan crea el enemy posa l'animació d'IDLE
 
+
+	animator.addCallback("data/animations/zombie_attack1.skanim", [&](float t) { //Aplicar el mal quan fa un atac
+
+		//PlayAudio
+
+		(World::get_instance()->player)->apply_damage(10.0f);
+
+		}, 1.3f);
+
+	animator.addCallback("data/animations/zombie_attack2.skanim", [&](float t) {
+
+		//PlayAudio
+
+		(World::get_instance()->player)->apply_damage(10.0f);
+
+		}, 1.3f);
+
 }
 
 EntityEnemy::~EntityEnemy()
@@ -202,9 +219,6 @@ void EntityEnemy::update(float seconds_elapsed) {
 	}
 	else if (state == eFSMStates::ATTACK)
 	{
-		//TODO: Aplicar el mal a la salut del player (ho fa a un video del final) (jo he pensat que amb el metode per agafar player de world i una funci? dins de player per modificar la vida)
-		//(World::get_instance()->player);
-
 		if (this->healthbar == 0.0) {	
 			state = eFSMStates::DIE;  //Si no te vida, mor
 
@@ -239,8 +253,6 @@ void EntityEnemy::update(float seconds_elapsed) {
 
 			//die animation
 			animator.playAnimation("data/animations/zombie_die.skanim", false, 0.5f);
-
-			
 
 		}
 		else if (in_sight) {

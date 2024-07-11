@@ -14,7 +14,7 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 
 	animator.playAnimation("data/animations/idle.skanim"); //Quan crea el player posa l'animació d'IDLE
 
-	animator.addCallback("data/animations/punch.skanim", [&](float t) {
+	animator.addCallback("data/animations/punch.skanim", [&](float t) { //aplico el mal amb els callbacks
 
 		//PlayAudio
 
@@ -178,10 +178,6 @@ void EntityPlayer::update(float seconds_elapsed)
 
 	if (Input::wasKeyPressed(SDL_SCANCODE_V)) {
 		animator.playAnimation("data/animations/punch.skanim", false, 0.05f);
-	}
-
-	if (Input::wasKeyPressed(SDL_SCANCODE_L)) {
-		apply_damage(10.0f);
 	}
 
 
