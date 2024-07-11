@@ -12,7 +12,6 @@
 //PLAY STAGE
 PlayStage::PlayStage()
 {
-	/*
 	//Create enemy1
 	(World::get_instance()->enemy) = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_1");
 	(World::get_instance()->enemy)->setLayer(eCollisionFilter::ENEMY);
@@ -22,9 +21,6 @@ PlayStage::PlayStage()
 
 	(World::get_instance()->root).addChild((World::get_instance()->enemy));
 
-	//(World::get_instance()->parseScene("data/myscene_temp.scene", &(World::get_instance()->root)));
-
-*/
 
 	//Parse scene tutorial
 	(World::get_instance()->parseScene("data/myscene2.scene", &(World::get_instance()->root)));
@@ -62,6 +58,14 @@ void PlayStage::render()
 void PlayStage::update(float seconds_elapsed)
 {
 	
+	if ((World::get_instance()->enemy)->healthbar == 0.0) {
+		(World::get_instance()->clearScene()); //Delete the actual scene
+
+		World::get_instance()->removeEntity(World::get_instance()->player);
+
+		StageManager::get_instance()->goTo("winStage");
+	}
+
 	if ((World::get_instance()->player)->healthbar == 0.0) {
 		StageManager::get_instance()->goTo("defeatStage");
 	}
