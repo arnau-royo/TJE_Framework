@@ -65,6 +65,7 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 	animator.addCallback("data/animations/zombie_attack1.skanim", [&](float t) { //Aplicar el mal quan fa un atac
 
 		//PlayAudio
+		HCHANNEL channel = Audio::Play("data/audio/damaged.mp3", 0.5);
 
 		(World::get_instance()->player)->apply_damage(10.0f);
 
@@ -73,6 +74,8 @@ EntityEnemy::EntityEnemy(Mesh* mesh, const std::string& name) : EntityCollider(m
 	animator.addCallback("data/animations/zombie_attack2.skanim", [&](float t) {
 
 		//PlayAudio
+
+		HCHANNEL channel = Audio::Play("data/audio/damaged.mp3", 0.5);
 
 		(World::get_instance()->player)->apply_damage(10.0f);
 

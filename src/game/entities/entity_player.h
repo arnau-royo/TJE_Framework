@@ -37,9 +37,8 @@ public:
 
 	// Vel in move the player
 	Vector3 velocity = Vector3(0.0f);
-	float healthbar = 200.0;
+	float healthbar = 100.0;
 	float walk_speed = .5f;
-	Audio* punch_sound = nullptr;
 
 	// Methods overwritten from base class
 	void render(Camera* camera) override;
