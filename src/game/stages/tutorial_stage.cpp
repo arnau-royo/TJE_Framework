@@ -32,7 +32,7 @@ TutorialStage::TutorialStage()
 	(World::get_instance()->enemy)->setLayer(eCollisionFilter::ENEMY);
 	(World::get_instance()->enemy)->isAnimated = true;
 
-	(World::get_instance()->enemy)->model.setTranslation(0.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
+	(World::get_instance()->enemy)->model.setTranslation(-2.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
 
 	(World::get_instance()->root).addChild((World::get_instance()->enemy));
 
@@ -41,7 +41,7 @@ TutorialStage::TutorialStage()
 	(World::get_instance()->enemy2)->setLayer(eCollisionFilter::ENEMY);
 	(World::get_instance()->enemy2)->isAnimated = true;
 
-	(World::get_instance()->enemy2)->model.setTranslation(-2.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
+	(World::get_instance()->enemy2)->model.setTranslation(3.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
 
 	(World::get_instance()->root).addChild((World::get_instance()->enemy2));
 
