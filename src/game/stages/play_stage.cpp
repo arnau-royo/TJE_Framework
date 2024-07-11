@@ -81,3 +81,12 @@ void PlayStage::update(float seconds_elapsed)
 	}
 
 }
+
+void PlayStage::onKeyDown(SDL_KeyboardEvent event)
+{
+	switch (event.keysym.sym)
+	{
+	case SDLK_0: StageManager::get_instance()->goTo("defeatStage");
+	case SDLK_1: StageManager::get_instance()->goTo("wintStage");
+	}
+}

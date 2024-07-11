@@ -58,7 +58,8 @@ World::World()
 
 	skybox = new EntityMesh(Mesh::Get("data/meshes/cubemap.ASE"), landscape_cubemap, "landscape");
 
-	parseScene("data/myscene_temp.scene", &root);
+	//parseScene("data/myscene_temp.scene", &root);
+	parseScene("data/myscene2.scene", &root);
 }
 
 void World::render() {

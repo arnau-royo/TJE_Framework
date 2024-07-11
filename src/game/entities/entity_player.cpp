@@ -17,6 +17,9 @@ EntityPlayer::EntityPlayer(Mesh* mesh, const Material& material, const std::stri
 	animator.addCallback("data/animations/punch.skanim", [&](float t) { //aplico el mal amb els callbacks
 
 		//PlayAudio
+		punch_sound->Get("punch.wav");
+		punch_sound->Play("punch.wav", 0.6);
+
 
 		std::vector<sCollisionData> collisions;
 		World::get_instance()->get_enemy_collisions(model.getTranslation() + model.frontVector() * 0.1f, collisions);

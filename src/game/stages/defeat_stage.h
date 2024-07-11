@@ -2,6 +2,7 @@
 
 #include "stage.h"
 #include "framework/entities/entity_ui.h"
+#include "framework/audio.h"
 
 class DefeatStage : public Stage {
 
@@ -11,6 +12,8 @@ public:
 	EntityUI* background = nullptr;
 
 	EntityUI* exit_button = nullptr;
+
+	HCHANNEL channel;
 
 	//Methods overwritten from base class
 	void render();

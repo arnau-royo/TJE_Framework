@@ -79,23 +79,3 @@ public:
 	void update(float seconds_elapsed) { if (current) current->update(seconds_elapsed); }
 };
 
-
-
-//TODO: Borrar això:
-/*
-class PlayStage : public Stage {
-
-	//float win_countdown = 60.0f; // seconds
-
-public:
-	PlayStage();
-
-	// Methods overwritten from base class
-	void render();
-	void update(float delta_time);
-
-	void onEnter(Stage* previousStage);
-	void onKeyDown(SDL_KeyboardEvent event);
-	void onResize(int width, int height);
-};
-*/

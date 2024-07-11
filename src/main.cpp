@@ -14,6 +14,7 @@
 #include "framework/camera.h"
 #include "framework/utils.h"
 #include "framework/input.h"
+#include "framework/audio.h"
 #include "game/game.h"
 #include "game/world.h"
 
@@ -197,6 +198,7 @@ int main(int argc, char **argv)
 	SDL_GetWindowSize(window, &window_width, &window_height);
 
 	Input::init(window);
+	Audio::Init();
 
 	//launch the game (game is a global variable)
 	game = new Game(window_width, window_height, window);
@@ -205,6 +207,7 @@ int main(int argc, char **argv)
 	mainLoop();
 
 	//save state and free memory
+	Audio::Destroy();
 
 	return 0;
 }

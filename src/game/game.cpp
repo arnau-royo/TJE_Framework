@@ -60,6 +60,10 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 
 	StageManager::get_instance()->goTo("menuStage");
 	
+
+	Audio* music_mm = new Audio();
+	music_mm->Get("data/audio/generalmusic.mp3", BASS_SAMPLE_LOOP);
+	music_mm->Play("data/audio/generalmusic.mp3", 0.3, BASS_SAMPLE_LOOP);
 }
 
 //what to do when the image has to be draw

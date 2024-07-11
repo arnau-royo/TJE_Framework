@@ -11,6 +11,7 @@
 #include "framework/input.h"
 #include "framework/camera.h"
 #include "framework/input.h"
+#include "framework/audio.h"
 #include "framework/animation.h"
 
 #include "game/game.h"
@@ -38,6 +39,7 @@ public:
 	Vector3 velocity = Vector3(0.0f);
 	float healthbar = 200.0;
 	float walk_speed = .5f;
+	Audio* punch_sound = nullptr;
 
 	// Methods overwritten from base class
 	void render(Camera* camera) override;

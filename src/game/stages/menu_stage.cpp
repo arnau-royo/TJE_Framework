@@ -3,6 +3,7 @@
 #include "framework/camera.h"
 #include "framework/input.h"
 #include "framework/entities/entity_ui.h"
+#include "framework/audio.h"
 
 #include "graphics/texture.h"
 
@@ -33,6 +34,7 @@ MenuStage::MenuStage()
 void MenuStage::onEnter(Stage* previousStage)
 {
     Game::instance->setMouseLocked(false);
+
 }
 
 void MenuStage::render()

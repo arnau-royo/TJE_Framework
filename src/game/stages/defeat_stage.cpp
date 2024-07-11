@@ -28,6 +28,7 @@ DefeatStage::DefeatStage()
 void DefeatStage::onEnter(Stage* previousStage)
 {
     Game::instance->setMouseLocked(false);
+    channel = Audio::Play("data/audio/defeat.wav", 0.5);
 }
 
 void DefeatStage::render()
