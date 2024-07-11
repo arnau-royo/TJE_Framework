@@ -47,6 +47,11 @@ class World {
 		EntityPlayer* player = nullptr;
 
 		EntityEnemy* enemy = nullptr;
+		EntityEnemy* enemy2 = nullptr;
+		EntityEnemy* enemy3 = nullptr;
+		EntityEnemy* enemy4 = nullptr;
+		EntityEnemy* enemy5 = nullptr;
+		EntityEnemy* enemy6 = nullptr;
 
 		
 

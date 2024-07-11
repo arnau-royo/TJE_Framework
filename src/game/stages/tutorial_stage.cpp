@@ -36,6 +36,15 @@ TutorialStage::TutorialStage()
 
 	(World::get_instance()->root).addChild((World::get_instance()->enemy));
 
+	//Create enemy2
+	(World::get_instance()->enemy2) = new EntityEnemy(Mesh::Get("data/meshes/player/zombie_anim.MESH"), "zombie_2");
+	(World::get_instance()->enemy2)->setLayer(eCollisionFilter::ENEMY);
+	(World::get_instance()->enemy2)->isAnimated = true;
+
+	(World::get_instance()->enemy2)->model.setTranslation(3.f, -0.01f, -2.2f); //TODO borrar o modificar a on es vol que spawnwgi l'enemic
+
+	(World::get_instance()->root).addChild((World::get_instance()->enemy2));
+
 	//Parse scene tutorial
 	(World::get_instance()->parseScene("data/myscene_temp.scene", &(World::get_instance()->root)));
 }
@@ -66,7 +75,7 @@ void TutorialStage::render()
 void TutorialStage::update(float seconds_elapsed)
 {
 
-	if ((World::get_instance()->enemy)->healthbar == 0.0) {
+	if (((World::get_instance()->enemy)->healthbar == 0.0) && ((World::get_instance()->enemy2)->healthbar == 0.0)) {
 		(World::get_instance()->clearScene()); //Delete the actual scene
 
 		World::get_instance()->removeEntity(World::get_instance()->player);
